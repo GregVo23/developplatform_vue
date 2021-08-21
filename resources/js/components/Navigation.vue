@@ -541,7 +541,7 @@ const solutions = [
     color: true,
     blade: true,
     description: "Vous publiez une demande de devis.",
-    href: "/projet/nouveau",
+    href: "/nouveau",
     icon: CursorClickIcon,
   },
   {

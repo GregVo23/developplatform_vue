@@ -22,7 +22,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
 
     /*  PROJECTS  */
     Route::get('/projets', [App\Http\Controllers\Api\ProjectApiController::class, 'index'])->name('projects.index');
-    Route::get('/projet/nouveau', [App\Http\Controllers\Api\ProjectApiController::class, 'create'])->name('project.create');
+    Route::get('/nouveau', [App\Http\Controllers\Api\ProjectApiController::class, 'create'])->name('project.create');
 
     /*  FAVORITES  */
     Route::get('/favoris', [App\Http\Controllers\Api\FavoriteApiController::class, 'index'])->name('favorite.index');
@@ -30,7 +30,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::post('/favoris/supprimer/{id}', [App\Http\Controllers\Api\FavoriteApiController::class, 'delete'])->name('favorite.delete');
 
     /*  FAVORITE  */
-    Route::get('/subcategories', [App\Http\Controllers\Api\SubCategoryApiController::class, 'index'])->name('subcategories.index');
+    Route::get('/subcategories/{id}', [App\Http\Controllers\Api\SubCategoryApiController::class, 'subcategories'])->name('subcategories');
 
     /*  OTHERS  */
     Route::get('/home');

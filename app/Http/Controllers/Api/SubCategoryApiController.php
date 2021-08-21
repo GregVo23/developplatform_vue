@@ -13,9 +13,9 @@ class SubCategoryApiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function subcategories($id)
     {
-        $categories = SubCategory::all();
-        return $categories;
+        $subCategories = SubCategory::where('category_id', '=' , $id)->get();
+        return $subCategories;
     }
 }

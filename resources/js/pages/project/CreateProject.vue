@@ -1,6 +1,6 @@
 <template>
-<form name="frmProjet" id="frmProjet" class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-8" method="POST" enctype="multipart/form-data" action="#">
 
+<form name="frmProjet" id="frmProjet" class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-8" method="POST" enctype="multipart/form-data" action="#">
 
       <div>
         <div>
@@ -14,30 +14,30 @@
           </div>
           <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
 
+
+
           <div class="sm:col-span-6">
             <label for="category" class="block text-sm font-medium text-gray-700">Catégorie</label>
-            <select id="category" name="category" autocomplete="category" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    <option>Sélectionner une catégorie</option>
 
+            <select v-model="categoryselected" @change="subCategoryChange()" id="category" name="category" autocomplete="category" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
 
-                    <option data-id="" value="">1111</option>
-
-
+                    <option disabled value="">Sélectionner une catégorie</option>
+                    <option v-for="category in categories" :key="category.id" :data-id="category.id" :value="category.id">{{ category.name }}</option>
 
             </select>
         </div>
 
         <div class="sm:col-span-6">
             <label for="subCategory" class="block text-sm font-medium text-gray-700">Sous catégorie</label>
-            <select id="subCategory" name="subCategory" autocomplete="subCategory" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    <option>Sélectionner une catégorie</option>
+            <select v-model="subcategoryselected" id="subCategory" name="subCategory" autocomplete="subCategory" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
 
-
-                    <option value="">222</option>
+                    <option disabled value="">Sélectionner une catégorie</option>
+                    <option v-for="subcategory in subcategories" :key="subcategory.id" :data-id="subcategory.id" :value="subcategory.id">{{ subcategory.name }}</option>
 
 
 
             </select>
+
         </div>
 
             <div class="col-span-6 sm:col-span-6">
@@ -278,21 +278,32 @@ import axios from 'axios'
 
 export default {
 
-  data(){
-      return {
-          categories: {},
-          subcategories: {},
-          user: {},
-      }
-  },
-  methods:{
-      loadData(){
-          axios.get("api/projet/nouveau", { 'headers': { 'Authorization': 'Bearer 13|TiL3iGtihIVQ2pSGTmfL8QoIKhEwrJvupu7pHa6c' }
+    data(){
+        return {
+            categories: {},
+            subcategories: {},
+            user: {},
+            categoryselected: '',
+            subcategoryselected: '',
+        }
+    },
+    methods:{
+        loadFormData(){
+            axios.get("api/nouveau", { 'headers': { 'Authorization': 'Bearer 13|TiL3iGtihIVQ2pSGTmfL8QoIKhEwrJvupu7pHa6c' }
 
-          }).then(({data}) => (this.categories = data[0], this.subcategories = data[1], this.user = data[2] ));
-          console.log(this.data);
-      },
-  },
+            }).then(({data}) => (this.categories = data[0], this.subcategories = data[1], this.user = data[2] ));
+            console.log(this.data);
+        },
+        subCategoryChange(){
+            axios.get("api/subcategories/"+this.categoryselected, { 'headers': { 'Authorization': 'Bearer 13|TiL3iGtihIVQ2pSGTmfL8QoIKhEwrJvupu7pHa6c' }
 
+            }).then(({data}) => (this.subcategories = data));
+            console.log(this.data);
+        },
+    },
+    created(){
+        //console.log('created');
+        this.loadFormData();
+    }
 }
 </script>

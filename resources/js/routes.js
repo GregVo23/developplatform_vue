@@ -2,11 +2,11 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 import HomePage from './pages/HomePage.vue';
 import Message from './pages/Message.vue';
-import Projects from './pages/Projects.vue';
-import CreateProject from './pages/CreateProject.vue';
+import Projects from './pages/project/Projects.vue';
+import CreateProject from './pages/project/CreateProject.vue';
 import Favorite from './pages/Favorite.vue';
-import Offer from './pages/Offer.vue';
-import Search from './pages/Search.vue';
+import Offer from './pages/project/Offer.vue';
+import Search from './pages/project/Search.vue';
 import Profil from './pages/Profil.vue';
 
 
@@ -17,13 +17,11 @@ const router = createRouter({
         { path: '/home', component: HomePage },
         { path: '/message', component: Message },
         { path: '/projets', component: Projects },
-        { path: '/projet/nouveau', component: CreateProject },
+        { path: '/nouveau', component: CreateProject },
         { path: '/favoris', component: Favorite },
         { path: '/offres', component: Offer },
         { path: '/rechercher', component: Search },
         { path: '/profil', component: Profil },
-
-
     ]
   });
 

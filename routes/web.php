@@ -30,7 +30,7 @@ Route::post('/logout', [App\Http\Controllers\UserController::class, 'logout'])->
 
 //Pages liées aux projects
 //Route::get('/choose/projets', [App\Http\Controllers\ProjectController::class, 'choose'])->middleware(['auth','verified'])->name('projects.choose');
-Route::get('/projets', [App\Http\Controllers\ProjectController::class, 'index'])->middleware(['auth','verified'])->name('projects.index');
+//Route::get('/projets', [App\Http\Controllers\ProjectController::class, 'index'])->middleware(['auth','verified'])->name('projects.index');
 //Route::get('/{id}/projets', [App\Http\Controllers\ProjectController::class, 'mine'])->middleware(['auth','verified'])->name('projects.mine');
 //Route::get('/offres', [App\Http\Controllers\ProjectController::class, 'maked'])->middleware(['auth','verified'])->name('projects.maked.mine');
 Route::get('/{id}/projet', [App\Http\Controllers\ProjectController::class, 'show'])->middleware(['auth','verified'])->name('project.show');

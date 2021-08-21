@@ -358,6 +358,7 @@ export default {
           listOfAllCategories: [],
           listOfAllProjects: [],
           listOfAllSubCategories: [],
+          categoryId: '',
       }
   },
   methods:{
@@ -408,6 +409,8 @@ export default {
                     if(element.category_id == event.target.value){
                         this.filter.push(element);
                         JSON.stringify(this.filter);
+                        this.categoryId = element.category_id;
+                        this.subCategoryChange();
                     }else{
                         this.projects = this.listOfAllProjects;
                     }
@@ -426,6 +429,11 @@ export default {
                     }
                 });
                 this.projects = this.filter;
+            },
+      subCategoryChange(){
+                axios.get("api/subcategories/"+this.categoryId, { 'headers': { 'Authorization': 'Bearer 13|TiL3iGtihIVQ2pSGTmfL8QoIKhEwrJvupu7pHa6c' }
+
+                }).then(({data}) => (this.subcategories = data));
             },
 
   },
