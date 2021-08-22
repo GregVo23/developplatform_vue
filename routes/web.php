@@ -12,11 +12,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-/*
-Route::get('/', function () {
-    return view('welcome');
-});
-*/
+
 Route::get('/', [App\Http\Controllers\ProjectController::class, 'welcome'])->name('welcome');
 
 Route::get('/dashboard', function () {
@@ -33,7 +29,7 @@ Route::post('/logout', [App\Http\Controllers\UserController::class, 'logout'])->
 //Route::get('/projets', [App\Http\Controllers\ProjectController::class, 'index'])->middleware(['auth','verified'])->name('projects.index');
 //Route::get('/{id}/projets', [App\Http\Controllers\ProjectController::class, 'mine'])->middleware(['auth','verified'])->name('projects.mine');
 //Route::get('/offres', [App\Http\Controllers\ProjectController::class, 'maked'])->middleware(['auth','verified'])->name('projects.maked.mine');
-Route::get('/{id}/projet', [App\Http\Controllers\ProjectController::class, 'show'])->middleware(['auth','verified'])->name('project.show');
+//Route::get('/{id}/projet', [App\Http\Controllers\ProjectController::class, 'show'])->middleware(['auth','verified'])->name('project.show');
 Route::get('/{id}/suppression', [App\Http\Controllers\ProjectController::class, 'destroy'])->middleware(['auth','verified'])->name('project.destroy');
 Route::post('/{id}/projets', [App\Http\Controllers\ProjectController::class, 'store'])->middleware(['auth','verified'])->name('project.store');
 //Route::get('/projet/nouveau', [App\Http\Controllers\ProjectController::class, 'create'])->middleware(['auth','verified'])->name('project.create');

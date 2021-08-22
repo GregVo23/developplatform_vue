@@ -82,7 +82,7 @@
                                 <li class="menu-item"><a class="menu-link" href="#" data-scrollto="#footer" data-easing="easeInOutExpo" data-speed="1250" data-offset="70"><div>Contact</div></a></li>
                             <li class="menu-item">
                                 @auth
-                                <a href="{{ url('/projets') }}" class="button button-border rounded-full py-2 px-4">Mes projets</a>
+                                <a href="{{ url('/dashboard') }}" class="button button-border rounded-full py-2 px-4">Mon compte</a>
                                 @else
                                 <a href="{{ route('login') }}" class="button button-border rounded-full py-2 px-4">Connexion</a></li>
                                     @if (Route::has('register'))
@@ -240,7 +240,7 @@
                                     <p class="text-sm font-medium text-indigo-600">
                                         {{ $project->sub_category->name }}
                                     </p>
-                                <a href="{{ route('project.show', $project->id) }}" class="block mt-2">
+                                <a href="{{ '/projet/'.$project->id }}" class="block mt-2">
                                     <p class="text-xl font-semibold text-gray-900">
                                         {{ $project->name }}
                                     </p>

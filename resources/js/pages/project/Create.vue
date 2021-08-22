@@ -1,6 +1,6 @@
 <template>
 
-<form name="frmProjet" id="frmProjet" class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-8" method="POST" enctype="multipart/form-data" action="#">
+<form @submit.prevent="upload()" name="frmProjet" id="frmProjet" class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-8" method="POST" enctype="multipart/form-data" action="./api/nouveau">
 
       <div>
         <div>
@@ -45,7 +45,7 @@
                 Nom du projet
               </label>
               <div class="mt-1 flex rounded-md shadow-sm">
-                <input type="text" name="name" id="name" value="" class="flex-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300">
+                <input v-model="project.titleName" type="text" name="name" id="name" class="flex-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300">
               </div>
             </div>
 
@@ -54,7 +54,7 @@
                 Description de la demande
               </label>
               <div class="mt-1">
-                <textarea id="about" name="about" rows="3" value="" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md"></textarea>
+                <textarea v-model="project.about" id="about" name="about" rows="3" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md"></textarea>
               </div>
               <p class="mt-2 text-sm text-gray-500">Expliquez ce que vous attendez comme résultat, donnez des exemples.</p>
             </div>
@@ -67,13 +67,13 @@
                     €
                   </span>
                 </div>
-                <input type="number" name="price" id="price" value="" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" aria-describedby="price-currency">
+                <input v-model="project.price" type="number" name="price" id="price" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" aria-describedby="price-currency">
               </div>
             </div>
 
             <div class="col-span-6 sm:col-span-6 lg:col-span-3">
               <label for="deadline" class="block text-sm font-medium text-gray-700">Délais</label>
-              <input type="date" name="deadline" id="deadline" value="" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+              <input v-model="project.deadline" type="date" name="deadline" id="deadline" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
             </div>
 
 
@@ -95,7 +95,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
                             </svg>
-                            <span class="mt-2 text-base leading-normal">Choisir une photo</span>
+                            <span class="mt-2 text-base leading-normal select-none">Choisir une photo</span>
                             <input type='file' class="hidden" name="picture"/>
                         </label>
                     </div>
@@ -116,7 +116,7 @@
                     <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                         <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                     </svg>
-                    <span class="mt-2 text-base leading-normal">Vos fichiers</span>
+                    <span class="mt-2 text-base leading-normal select-none">Vos fichiers</span>
                     <input type='file' class="hidden" name="document[]" multiple/>
                 </label>
               </div>
@@ -141,53 +141,53 @@
             <div class="flex justify-center">
                 <div class="flex bg-grey-lighter" @click.prevent ="open = !open">
                   <label class="w-64 flex flex-col items-center px-4 py-6 bg-white text-gray-700 rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue hover:text-gray-900">
-                      <svg xmlns="http://www.w3.org/2000/svg" x-show="!open" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+                      <svg xmlns="http://www.w3.org/2000/svg" v-show="open" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clip-rule="evenodd" />
                       </svg>
-                      <svg xmlns="http://www.w3.org/2000/svg" x-show="open" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+                      <svg xmlns="http://www.w3.org/2000/svg" v-show="!open" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clip-rule="evenodd" />
                       </svg>
-                      <span class="mt-2 text-base leading-normal text-center">Informations complémentaires</span>
+                      <span class="mt-2 text-base leading-normal text-center select-none">Informations complémentaires</span>
                       <a href="#" ></a>
                   </label>
                 </div>
             </div>
 
 
-          <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+          <div v-show="open" class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
 
 
                     <label for="phone" class="block text-sm font-medium text-gray-700">Téléphone</label>
-                    <input type="text" name="phone" id="phone" autocomplete="phone" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    <input v-model="project.phone" type="text" name="phone" id="phone" autocomplete="phone" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                 </div>
 
-                <div class="col-span-6 sm:col-span-6">
+                <div v-show="open" class="col-span-6 sm:col-span-6">
                     <label for="country" class="block text-sm font-medium text-gray-700">Pays</label>
-                    <select id="country" name="country" autocomplete="country" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <select v-model="project.country" id="country" name="country" autocomplete="country" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                         <option>Belgique</option>
                         <option>France</option>
                         <option>Luxembourg</option>
                     </select>
                 </div>
 
-            <div class="col-span-6">
+            <div v-show="open" class="col-span-6">
                 <label for="street" class="block text-sm font-medium text-gray-700">Rue</label>
-                <input type="text" name="street" id="street" autocomplete="street-address" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                <input v-model="project.street" type="text" name="street" id="street" autocomplete="street-address" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
             </div>
 
-            <div class="col-span-6 sm:col-span-3 lg:col-span-2">
+            <div v-show="open" class="col-span-6 sm:col-span-3 lg:col-span-2">
                 <label for="number" class="block text-sm font-medium text-gray-700">Numéro</label>
-                <input type="number" name="number" id="number" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                <input v-model="project.number" type="number" name="number" id="number" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
             </div>
 
-            <div class="col-span-6 sm:col-span-6 lg:col-span-2">
+            <div v-show="open" class="col-span-6 sm:col-span-6 lg:col-span-2">
                 <label for="city" class="block text-sm font-medium text-gray-700">Ville</label>
-                <input type="text" name="city" id="city" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                <input v-model="project.city" type="text" name="city" id="city" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
             </div>
 
-            <div class="col-span-6 sm:col-span-3 lg:col-span-2">
+            <div v-show="open" class="col-span-6 sm:col-span-3 lg:col-span-2">
                 <label for="postalCode" class="block text-sm font-medium text-gray-700">Code postal</label>
-                <input type="text" name="postalCode" id="postalCode" autocomplete="postalCode" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                <input v-model="project.zipcode" type="text" name="postalCode" id="postalCode" autocomplete="postalCode" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
             </div>
 
             </section>
@@ -209,7 +209,7 @@
               <div class="mt-4 space-y-4">
                 <div class="relative flex items-start">
                   <div class="flex items-center h-5">
-                    <input id="notifications" name="notifications" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                    <input v-model="project.notifications" id="notifications" name="notifications" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
                   </div>
                   <div class="ml-3 text-sm">
                     <label for="notifications" class="font-medium text-gray-700">Offres de prix</label>
@@ -226,7 +226,7 @@
               Les notifications seront envoyées sur votre adresse email
             </label>
             <div class="mt-1">
-              <input id="email" name="email" type="email" class="shadow-sm w-full sm:text-sm border-gray-300 rounded-md " value="{{ auth()->user()->email }}" readonly>
+              <input id="email" name="email" type="email" class="shadow-sm w-full sm:text-sm border-gray-300 rounded-md " :value="user.email" readonly>
             </div>
           </div>
 
@@ -244,7 +244,7 @@
           <div class="mt-4 space-y-4">
             <div class="relative flex items-start">
               <div class="flex items-center h-5">
-                <input id="rules" name="rules" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" required>
+                <input v-model="project.rules" id="rules" name="rules" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" required>
               </div>
               <div class="ml-3 text-sm">
                 <p class="text-gray-700">J'accepte les Conditions <a href="#">générales d’utilisation</a></p>
@@ -279,27 +279,79 @@ import axios from 'axios'
 export default {
 
     data(){
+            const project = {
+                user_id: '',
+                category_id: '',
+                sub_category_id: '',
+                titleName: '',
+                about: '',
+                price: '',
+                document: '',
+                picture: '',
+                phone: '',
+                deadline: '',
+                email: '',
+                country: '',
+                city: '',
+                zipcode: '',
+                number: '',
+                street: '',
+                notifications: '',
+                rules: ''
+            }
+
+            let projectFormData = new FormData()
+
         return {
             categories: {},
             subcategories: {},
             user: {},
             categoryselected: '',
             subcategoryselected: '',
+            open: false,
+            project,
+            projectFormData
         }
     },
     methods:{
         loadFormData(){
             axios.get("api/nouveau", { 'headers': { 'Authorization': 'Bearer 13|TiL3iGtihIVQ2pSGTmfL8QoIKhEwrJvupu7pHa6c' }
-
-            }).then(({data}) => (this.categories = data[0], this.subcategories = data[1], this.user = data[2] ));
-            console.log(this.data);
+            }).then(({data}) => (this.categories = data[0], this.subcategories = data[1], this.user = data[2] )).catch(error => console.log('error', error));
         },
         subCategoryChange(){
             axios.get("api/subcategories/"+this.categoryselected, { 'headers': { 'Authorization': 'Bearer 13|TiL3iGtihIVQ2pSGTmfL8QoIKhEwrJvupu7pHa6c' }
-
-            }).then(({data}) => (this.subcategories = data));
-            console.log(this.data);
+            }).then(({data}) => (this.subcategories = data)).catch(error => console.log('error', error));
         },
+        upload(){
+            this.project.user_id = this.user.id;
+            this.project.category_id = this.categoryselected;
+            this.project.sub_category_id = this.subcategoryselected;
+            this.project.email = this.user.email;
+/*
+            this.projectFormData.append('name', this.project.titleName);
+            this.projectFormData.append('user_id', this.project.user_id);
+            this.projectFormData.append('category_id', this.project.category_id);
+            this.projectFormData.append('sub_category_id', this.project.sub_category_id);
+            this.projectFormData.append('about', this.project.about);
+            this.projectFormData.append('price', this.project.price);
+            this.projectFormData.append('phone', this.project.phone);
+            this.projectFormData.append('deadline', this.project.deadline);
+            this.projectFormData.append('email', this.project.email);
+            this.projectFormData.append('country', this.project.country);
+            this.projectFormData.append('city', this.project.city);
+            this.projectFormData.append('zipcode', this.project.zipcode);
+            this.projectFormData.append('number', this.project.number);
+            this.projectFormData.append('street', this.project.street);
+            this.projectFormData.append('notifications', this.project.notifications);
+            this.projectFormData.append('rules', this.project.rules);
+
+                document: '',
+                picture: '',
+*/
+            axios.post("api/store", {project:this.project}).then(response => {
+                console.log(response);
+            }).catch(error => console.log('error', error));
+        }
     },
     created(){
         //console.log('created');

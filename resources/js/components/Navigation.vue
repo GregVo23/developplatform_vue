@@ -44,7 +44,7 @@
       </div>
 
       <router-link
-        to="/home"
+        to="/accueil"
         class="text-base font-medium text-gray-500 hover:text-gray-900"
         >Accueil
       </router-link>
@@ -606,8 +606,7 @@ export default {
       fetchApi(){
         axios.get("api/user", { 'headers': { 'Authorization': 'Bearer 13|TiL3iGtihIVQ2pSGTmfL8QoIKhEwrJvupu7pHa6c' }
 
-        }).then(({data}) => (this.user = data));
-        console.log("mounted");
+        }).then(({data}) => (this.user = data)).catch(error => console.log('error', error));
       }
   },
   mounted(){

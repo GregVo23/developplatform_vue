@@ -191,29 +191,30 @@
 
 
 
-                                        <a
-                                            :href="'/'+project.id+'/projet'"
-                                            class="flex items-center ml-4
-                                            focus:outline-none group border rounded-full
-                                            py-2 px-6 leading-none border-yellow
-                                            dark:border-yellow select-none
-                                            hover:bg-yellow text-yellow hover:text-white
-                                            dark-hover:text-gray-200 transition ease-in-out duration-200 transform hover:-translate-y-1 hover:translate-x-0.5">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                            </svg>
-                                            <span
-                                            v-if="project.user_id != user.user_id"
-                                            class="text-gray-700 group-hover:text-white">
-                                                Voir le projet
-                                            </span>
-                                            <span
-                                            v-else
-                                            class="text-gray-700 group-hover:text-white">
-                                                Voir mon projet
-                                            </span>
-                                        </a>
+        <router-link
+          :to="'/projet/'+project.id"
+          class="flex items-center ml-4
+                focus:outline-none group border rounded-full
+                py-2 px-6 leading-none border-yellow
+                dark:border-yellow select-none
+                hover:bg-yellow text-yellow hover:text-white
+                dark-hover:text-gray-200 transition ease-in-out duration-200 transform hover:-translate-y-1 hover:translate-x-0.5"
+        >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+            <span
+            v-if="project.user_id != user.user_id"
+            class="text-gray-700 group-hover:text-white">
+                Voir le projet
+            </span>
+            <span
+            v-else
+            class="text-gray-700 group-hover:text-white">
+                Voir mon projet
+            </span>
+        </router-link>
 
                                     </div>
                                     </div>
@@ -358,20 +359,20 @@ export default {
   methods:{
       loadData(){
           axios.get("api/favoris", { 'headers': { 'Authorization': 'Bearer 13|TiL3iGtihIVQ2pSGTmfL8QoIKhEwrJvupu7pHa6c' }
-
-          }).then(({data}) => (this.projects = data[0], this.listOfAllProjects = data[0], this.categories = data[1], this.subcategories = data[2], this.user = data[3]));
-          console.log(this.data);
+          })
+          .then(({data}) => (this.projects = data[0], this.listOfAllProjects = data[0], this.categories = data[1], this.subcategories = data[2], this.user = data[3]))
+          .catch(error => console.log('error', error));
       },
       addFavorite(project){
             axios.post("api/favoris/"+project.id, { 'headers': { 'Authorization': 'Bearer 13|TiL3iGtihIVQ2pSGTmfL8QoIKhEwrJvupu7pHa6c' }
 
-          }).then(({data}) => (this.data = data));
+          }).then(({data}) => (this.data = data)).catch(error => console.log('error', error));
           project.like = !project.like;
       },
       removeFavorite(project){
             axios.post("api/favoris/supprimer/"+project.id, { 'headers': { 'Authorization': 'Bearer 13|TiL3iGtihIVQ2pSGTmfL8QoIKhEwrJvupu7pHa6c' }
 
-          }).then(({data}) => (this.data = data));
+          }).then(({data}) => (this.data = data)).catch(error => console.log('error', error));
           if(confirm("Etes vous sur ?")){
             project.like = !project.like;
 
@@ -427,8 +428,7 @@ export default {
       },
       subCategoryChange(){
             axios.get("api/subcategories/"+this.categoryId, { 'headers': { 'Authorization': 'Bearer 13|TiL3iGtihIVQ2pSGTmfL8QoIKhEwrJvupu7pHa6c' }
-
-            }).then(({data}) => (this.subcategories = data));
+            }).then(({data}) => (this.subcategories = data)).catch(error => console.log('error', error));
       },
 
   },
