@@ -43,3 +43,7 @@ Route::post('/', [App\Http\Controllers\ContactController::class, 'contact'])->na
 //Offre
 Route::post('/{id}/accept', [App\Http\Controllers\ProjectUserController::class, 'accept'])->middleware(['auth','verified'])->name('project.accept');
 Route::post('/{id}/offre', [App\Http\Controllers\ProjectUserController::class, 'offer'])->middleware(['auth','verified'])->name('project.offer');
+
+Route::get('/{any}', function () {
+    return view('dashboard');
+})->where('any', '.*');

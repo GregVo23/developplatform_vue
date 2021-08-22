@@ -163,6 +163,7 @@
                       <component
                         :is="item.icon"
                         :to="item.href"
+                         @click="open = !open"
                         class="h-6 w-6"
                         aria-hidden="true"
                       />

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
-use App\Http\Controllers\Auth;
 use App\Models\Project;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Auth;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class UserController extends Controller

@@ -1,5 +1,6 @@
 <template>
-
+<p v-if="validationErrors" >ERREUR</p>
+<p>{{ validationErrors ? "erreur" : "rien" }}</p>
 <form @submit.prevent="upload()" name="frmProjet" id="frmProjet" class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-8" method="POST" enctype="multipart/form-data" action="./api/nouveau">
 
       <div>
@@ -300,8 +301,6 @@ export default {
                 rules: ''
             }
 
-            let projectFormData = new FormData()
-
         return {
             categories: {},
             subcategories: {},
@@ -310,7 +309,8 @@ export default {
             subcategoryselected: '',
             open: false,
             project,
-            projectFormData
+            validationErrors: '',
+            errors: []
         }
     },
     methods:{
@@ -328,29 +328,22 @@ export default {
             this.project.sub_category_id = this.subcategoryselected;
             this.project.email = this.user.email;
 /*
-            this.projectFormData.append('name', this.project.titleName);
-            this.projectFormData.append('user_id', this.project.user_id);
-            this.projectFormData.append('category_id', this.project.category_id);
-            this.projectFormData.append('sub_category_id', this.project.sub_category_id);
-            this.projectFormData.append('about', this.project.about);
-            this.projectFormData.append('price', this.project.price);
-            this.projectFormData.append('phone', this.project.phone);
-            this.projectFormData.append('deadline', this.project.deadline);
-            this.projectFormData.append('email', this.project.email);
-            this.projectFormData.append('country', this.project.country);
-            this.projectFormData.append('city', this.project.city);
-            this.projectFormData.append('zipcode', this.project.zipcode);
-            this.projectFormData.append('number', this.project.number);
-            this.projectFormData.append('street', this.project.street);
-            this.projectFormData.append('notifications', this.project.notifications);
-            this.projectFormData.append('rules', this.project.rules);
-
                 document: '',
                 picture: '',
 */
             axios.post("api/store", {project:this.project}).then(response => {
                 console.log(response);
-            }).catch(error => console.log('error', error));
+            }).catch(error => {
+              if (error.response.status == 422){
+              this.validationErrors = error.response.data.errors;
+              console.log(this.validationErrors);
+
+                for (const [key, value] of Object.entries(this.validationErrors)) {
+                  console.log(`${key}: ${value}`);
+                }
+
+              }
+            })
         }
     },
     created(){

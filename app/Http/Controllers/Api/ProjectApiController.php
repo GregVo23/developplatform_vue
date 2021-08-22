@@ -116,18 +116,72 @@ class ProjectApiController extends Controller
      */
     public function store(Request $request)
     {
-
         $datas = $request;
 
+        // $user_id = auth()->user()->id;
+        // validate
+        
+        $rules = array(
+
+            '*.titleName' => 'required|string|min:3',
+            '*.about' => 'required|min:20|max:2000',
+            '*.price' => 'numeric|nullable',
+            '*.phone' => 'numeric|nullable',
+            '*.email' => 'required|string|email',
+            //'*.picture' => 'nullable|image|mimes:jpeg,jpg,png',
+            //'*.document' => 'nullable|max:20000',
+            '*.deadline' => 'nullable|date|after:tomorrow',
+            '*.category_id' => 'required|numeric',
+            '*.sub_category_id' => 'nullable|numeric',
+            '*.country' => 'nullable|string',
+            '*.city' => 'nullable|string',
+            '*.street' => 'nullable|string',
+            '*.number' => 'nullable|numeric',
+            '*.zipcode' => 'nullable|numeric',
+            '*.rules' => 'nullable',
+            '*.notifications' => 'nullable',
+        );
+        $validator = Validator::make($request->all(), $rules);
+
+        // process
+
+            if($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()], 422);
+            } else {
+                
+
+                $project = new Project;
+                $project->user_id = $datas['project']['user_id'];
+                $project->category_id = $datas['project']['category_id'];
+                $project->sub_category_id = $datas['project']['sub_category_id'];
+                $project->name = ucfirst($datas['project']['titleName']);
+                $project->about = ucfirst($datas['project']['about']);
+                $project->price = $datas['project']['price'];
+                //$project->document = $datas['project']['document'];
+                //$project->picture = $datas['project']['picture'];
+                $project->phone = $datas['project']['phone'];
+                $project->deadline = $datas['project']['deadline'];
+                $project->email = $datas['project']['email'];
+                $project->country = ucfirst($datas['project']['country']);
+                $project->city = ucfirst($datas['project']['city']);
+                $project->zipcode = $datas['project']['zipcode'];
+                $project->number = $datas['project']['number'];
+                $project->street = $datas['project']['street'];
+                $project->notifications = $datas['project']['notifications'] ? true : false;
+                $project->rules = $datas['project']['rules'] ? true : false;
+
+                $result = $project->save();
 
 
 
-        //$tab = json_decode($datas, true);
-        //dd($request->all());
-        //dd($datas['about']);
-        return response()->json($datas);
+                //dd($request->all());
+                //dd($datas['about']);
+                return response()->json($datas['project']);
+
+        }
 
         //return $request->all();
 
-    }
+
+}
 }
