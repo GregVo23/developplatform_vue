@@ -7,14 +7,15 @@ use App\Models\Project;
 use App\Models\Category;
 use App\Models\ProjectUser;
 use App\Models\SubCategory;
+use Hamcrest\Arrays\IsArray;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Hamcrest\Arrays\IsArray;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class ProjectApiController extends Controller
 {
@@ -127,7 +128,7 @@ class ProjectApiController extends Controller
             'phone' => 'numeric|nullable',
             'email' => 'required|string|email',
             'picture' => 'nullable|image|mimes:jpeg,jpg,png',
-            //'*.document' => 'nullable|max:20000',
+            'document' => 'nullable|max:20000',
             'deadline' => 'nullable|date|after:tomorrow',
             'category_id' => 'required|numeric',
             'sub_category_id' => 'nullable|numeric',
@@ -155,8 +156,6 @@ class ProjectApiController extends Controller
                 $project->name = ucfirst($request->name);
                 $project->about = ucfirst($request->about);
                 $project->price = $request->price;
-                //$project->document = $datas['project']['document'];
-                $project->picture = $request->pictureName;
                 $project->phone = $request->phone;
                 $project->deadline = $request->deadline;
                 $project->email = $request->email;
@@ -181,15 +180,17 @@ class ProjectApiController extends Controller
                     $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
                     // Get just ext
                     $extension = $file->extension();
+                    // here is the current date time timestamp
+		            $time = date("d-m-Y")."-".time();
                     // Filename to store
-                    $fileNameToStore = $filename.'_'.$user_id.'.'.$extension;
+                    $fileNameToStore = $filename.'_'.$time.'.'.$extension;
                     // Upload Image
 
                     // Save XL Project image
-                    $path = 'public/project/cover/'.$user_id.'/'.$project->id;
+                    $path = 'public/project/cover/'.$project->id;
                     $file->storeAs($path ,$fileNameToStore);
 
-                    $cover = Image::make($file);
+                     $cover = Image::make($file);
                     // resize image to fixed size
                     $cover->resize(null, 300, function ($constraint) {
                         $constraint->aspectRatio();
@@ -198,6 +199,33 @@ class ProjectApiController extends Controller
                     $cover->save(public_path('/project/cover/'.$fileNameToStore));
 
                     $project->picture = $fileNameToStore;
+                    $project->save();
+                }
+
+                //return response()->json($request->file('document'));
+                
+                if(!empty($request->file('document'))){
+                    
+                    $documents = [];
+                    foreach ($request->file('document') as $file){
+                        if(is_object($file) && $file->isValid()){
+                            
+
+                            $filenameWithExt = $file->getClientOriginalName();
+                            // Get just filename
+                            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                            // Get just ext
+                            $extension = $file->extension();
+                            // Filename to store
+                            $fileNameToStore = $filename.'_'.$user_id.'.'.$extension;
+                            // Save link
+                            $path = $file->storeAs('public/project/doc/'.$user_id.'/'.$project->id,$fileNameToStore);
+
+                            array_push($documents, $fileNameToStore);
+                        }
+                    }
+                    $project->document = json_encode($documents);
+                    $project->save();
                 }
 
                 if ($result){

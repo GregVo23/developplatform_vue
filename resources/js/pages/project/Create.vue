@@ -117,7 +117,8 @@
                         <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                     </svg>
                     <span class="mt-2 text-base leading-normal select-none">Vos fichiers</span>
-                    <input type='file' class="hidden" name="document[]" multiple/>
+                    <input v-on:change="getFiles" type='file' class="hidden" name="document" multiple/>
+                    <!--document[]-->
                 </label>
               </div>
             </div>
@@ -357,13 +358,19 @@ export default {
                 this.picture = e.target.files[0];
                 this.pictureName = e.target.files[0].name;
         },
+        getFiles(e){
+                this.document = e.target.files;
+                //console.log(this.document);
+        },
         formSubmit(e) {
                 e.preventDefault();
 
+                // Take all id and email
                 this.project.user_id = this.user.id;
                 this.project.category_id = this.categoryselected;
                 this.project.sub_category_id = this.subcategoryselected;
                 this.project.email = this.user.email;
+
 
                 const config = {
                     headers: {
@@ -373,16 +380,17 @@ export default {
                 }
 
                 let data = new FormData();
-                data.append('project', this.project);
+                for (let i = 0; i < this.document.length; i++) {
+                    data.append('document[]', this.document[i], this.document[i].name);
+                }
+                //data.append('project', this.project);
                 data.append('picture', this.picture);
-                data.append('pictureName', this.pictureName);
                 data.append('user_id', this.project.user_id);
                 data.append('category_id', this.project.category_id);
                 data.append('sub_category_id', this.project.sub_category_id);
                 data.append('name', this.project.titleName);
                 data.append('about', this.project.about);
                 data.append('price', this.project.price);
-                data.append('document', this.project.document);
                 data.append('phone', this.project.phone);
                 data.append('deadline', this.project.deadline);
                 data.append('email', this.project.email);
@@ -393,6 +401,8 @@ export default {
                 data.append('street', this.project.street);
                 data.append('notifications', this.project.notifications);
                 data.append('rules', this.project.rules);
+
+                
 
                 axios.post('api/store', data, config)
                     .then(function (res) {
