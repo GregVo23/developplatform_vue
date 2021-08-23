@@ -1,7 +1,6 @@
 <template>
-<p v-if="validationErrors" >ERREUR</p>
-<p>{{ validationErrors ? "erreur" : "rien" }}</p>
-<form @submit.prevent="upload()" name="frmProjet" id="frmProjet" class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-8" method="POST" enctype="multipart/form-data" action="./api/nouveau">
+
+<form @submit="formSubmit" name="frmProjet" id="frmProjet" class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-8" method="POST" enctype="multipart/form-data" action="./api/nouveau">
 
       <div>
         <div>
@@ -97,7 +96,7 @@
                                 <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
                             </svg>
                             <span class="mt-2 text-base leading-normal select-none">Choisir une photo</span>
-                            <input type='file' class="hidden" name="picture"/>
+                            <input v-on:change="onChange" type='file' class="hidden" name="picture"/>
                         </label>
                     </div>
             </div>
@@ -269,15 +268,37 @@
       </div>
     </form>
 
+        <div v-show="alert" id="alert" class="rounded-md bg-red-50 p-4 transition-opacity duration-500 ease-in-out">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <XCircleIcon class="h-5 w-5 text-red-400" aria-hidden="true" />
+          </div>
+          <div class="ml-3">
+            <h3 class="text-sm font-medium text-red-800">
+              Il y a {{ nbErrors }} erreur{{ (nbErrors > 0) ? 's' : ''}} à corriger dans le formulaire
+            </h3>
+            <div class="mt-2 text-sm text-red-700">
+              <ul role="list" class="list-disc pl-5 space-y-1">
+
+                  <li v-for="er in this.errors" :key=er>{{ er }}</li>
+
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
 
 </template>
 
 
 <script>
-
+import { XCircleIcon } from '@heroicons/vue/solid'
 import axios from 'axios'
 
 export default {
+  components: {
+    XCircleIcon,
+  },
 
     data(){
             const project = {
@@ -310,41 +331,93 @@ export default {
             open: false,
             project,
             validationErrors: '',
-            errors: []
+            errors: [],
+            alert: false,
+            nbErrors: 0,
         }
     },
+      computed: {
+    refresh() {
+        this.alert = false;
+        this.validationErrors = '';
+        this.errors = [];
+        this.nbErrors = 0;
+    },
+  },
     methods:{
-        loadFormData(){
+        loadFormData() {
             axios.get("api/nouveau", { 'headers': { 'Authorization': 'Bearer 13|TiL3iGtihIVQ2pSGTmfL8QoIKhEwrJvupu7pHa6c' }
             }).then(({data}) => (this.categories = data[0], this.subcategories = data[1], this.user = data[2] )).catch(error => console.log('error', error));
         },
-        subCategoryChange(){
+        subCategoryChange() {
             axios.get("api/subcategories/"+this.categoryselected, { 'headers': { 'Authorization': 'Bearer 13|TiL3iGtihIVQ2pSGTmfL8QoIKhEwrJvupu7pHa6c' }
             }).then(({data}) => (this.subcategories = data)).catch(error => console.log('error', error));
         },
-        upload(){
-            this.project.user_id = this.user.id;
-            this.project.category_id = this.categoryselected;
-            this.project.sub_category_id = this.subcategoryselected;
-            this.project.email = this.user.email;
-/*
-                document: '',
-                picture: '',
-*/
-            axios.post("api/store", {project:this.project}).then(response => {
-                console.log(response);
-            }).catch(error => {
-              if (error.response.status == 422){
-              this.validationErrors = error.response.data.errors;
-              console.log(this.validationErrors);
+        onChange(e) {
+                this.picture = e.target.files[0];
+                this.pictureName = e.target.files[0].name;
+        },
+        formSubmit(e) {
+                e.preventDefault();
 
-                for (const [key, value] of Object.entries(this.validationErrors)) {
-                  console.log(`${key}: ${value}`);
+                this.project.user_id = this.user.id;
+                this.project.category_id = this.categoryselected;
+                this.project.sub_category_id = this.subcategoryselected;
+                this.project.email = this.user.email;
+
+                const config = {
+                    headers: {
+                        'content-type': 'multipart/form-data',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    }
                 }
 
+                let data = new FormData();
+                data.append('project', this.project);
+                data.append('picture', this.picture);
+                data.append('pictureName', this.pictureName);
+                data.append('user_id', this.project.user_id);
+                data.append('category_id', this.project.category_id);
+                data.append('sub_category_id', this.project.sub_category_id);
+                data.append('name', this.project.titleName);
+                data.append('about', this.project.about);
+                data.append('price', this.project.price);
+                data.append('document', this.project.document);
+                data.append('phone', this.project.phone);
+                data.append('deadline', this.project.deadline);
+                data.append('email', this.project.email);
+                data.append('country', this.project.country);
+                data.append('city', this.project.city);
+                data.append('zipcode', this.project.zipcode);
+                data.append('number', this.project.number);
+                data.append('street', this.project.street);
+                data.append('notifications', this.project.notifications);
+                data.append('rules', this.project.rules);
+
+                axios.post('api/store', data, config)
+                    .then(function (res) {
+                        console.log(res);
+                    })
+                    .catch(error => {
+              if (error.response.status == 422){
+              this.validationErrors = error.response.data.errors;
+              //console.log(this.validationErrors);
+              this.alert = true;
+
+                for (const [key, value] of Object.entries(this.validationErrors)) {
+                  this.errors.push(value);
+                }
+                  this.nbErrors = this.errors.length;
+                  document.getElementById('alert').style.opacity = 100;
+                  setTimeout(() => { 
+                    //document.getElementById('alert').style.display = "flex";
+                    document.getElementById('alert').style.opacity = 0;
+                  }, 5000);
+
               }
+                  setTimeout(() => {this.refresh();}, 5550);
             })
-        }
+        },
     },
     created(){
         //console.log('created');

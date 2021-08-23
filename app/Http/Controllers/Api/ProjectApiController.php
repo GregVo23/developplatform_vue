@@ -116,30 +116,28 @@ class ProjectApiController extends Controller
      */
     public function store(Request $request)
     {
-        $datas = $request;
-
-        // $user_id = auth()->user()->id;
         // validate
         
         $rules = array(
 
-            '*.titleName' => 'required|string|min:3',
-            '*.about' => 'required|min:20|max:2000',
-            '*.price' => 'numeric|nullable',
-            '*.phone' => 'numeric|nullable',
-            '*.email' => 'required|string|email',
-            //'*.picture' => 'nullable|image|mimes:jpeg,jpg,png',
+            'name' => 'required|string|min:3',
+            'about' => 'required|min:20|max:2000',
+            'user_id' => 'required|numeric',
+            'price' => 'numeric|nullable',
+            'phone' => 'numeric|nullable',
+            'email' => 'required|string|email',
+            'picture' => 'nullable|image|mimes:jpeg,jpg,png',
             //'*.document' => 'nullable|max:20000',
-            '*.deadline' => 'nullable|date|after:tomorrow',
-            '*.category_id' => 'required|numeric',
-            '*.sub_category_id' => 'nullable|numeric',
-            '*.country' => 'nullable|string',
-            '*.city' => 'nullable|string',
-            '*.street' => 'nullable|string',
-            '*.number' => 'nullable|numeric',
-            '*.zipcode' => 'nullable|numeric',
-            '*.rules' => 'nullable',
-            '*.notifications' => 'nullable',
+            'deadline' => 'nullable|date|after:tomorrow',
+            'category_id' => 'required|numeric',
+            'sub_category_id' => 'nullable|numeric',
+            'country' => 'nullable|string',
+            'city' => 'nullable|string',
+            'street' => 'nullable|string',
+            'number' => 'nullable|numeric',
+            'zipcode' => 'nullable|numeric',
+            'rules' => 'nullable',
+            'notifications' => 'nullable',
         );
         $validator = Validator::make($request->all(), $rules);
 
@@ -148,40 +146,66 @@ class ProjectApiController extends Controller
             if($validator->fails()) {
                 return response()->json(['errors' => $validator->errors()], 422);
             } else {
-                
+                $user_id = $request->user_id;               
 
                 $project = new Project;
-                $project->user_id = $datas['project']['user_id'];
-                $project->category_id = $datas['project']['category_id'];
-                $project->sub_category_id = $datas['project']['sub_category_id'];
-                $project->name = ucfirst($datas['project']['titleName']);
-                $project->about = ucfirst($datas['project']['about']);
-                $project->price = $datas['project']['price'];
+                $project->user_id = $request->user_id;
+                $project->category_id = $request->category_id;
+                $project->sub_category_id = $request->sub_category_id;
+                $project->name = ucfirst($request->name);
+                $project->about = ucfirst($request->about);
+                $project->price = $request->price;
                 //$project->document = $datas['project']['document'];
-                //$project->picture = $datas['project']['picture'];
-                $project->phone = $datas['project']['phone'];
-                $project->deadline = $datas['project']['deadline'];
-                $project->email = $datas['project']['email'];
-                $project->country = ucfirst($datas['project']['country']);
-                $project->city = ucfirst($datas['project']['city']);
-                $project->zipcode = $datas['project']['zipcode'];
-                $project->number = $datas['project']['number'];
-                $project->street = $datas['project']['street'];
-                $project->notifications = $datas['project']['notifications'] ? true : false;
-                $project->rules = $datas['project']['rules'] ? true : false;
+                $project->picture = $request->pictureName;
+                $project->phone = $request->phone;
+                $project->deadline = $request->deadline;
+                $project->email = $request->email;
+                $project->country = ucfirst($request->country);
+                $project->city = ucfirst($request->city);
+                $project->zipcode = $request->zipcode;
+                $project->number = $request->number;
+                $project->street = $request->street;
+                $project->notifications = $request->notifications ? true : false;
+                $project->rules = $request->rules ? true : false;
 
                 $result = $project->save();
 
+                $project = Project::find($project->id);
 
+                if($request->hasFile('picture')){
 
-                //dd($request->all());
-                //dd($datas['about']);
-                return response()->json($datas['project']);
+                    $file = $request->file('picture');
+                    // Get filename with the extension
+                    $filenameWithExt = $file->getClientOriginalName();
+                    // Get just filename
+                    $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                    // Get just ext
+                    $extension = $file->extension();
+                    // Filename to store
+                    $fileNameToStore = $filename.'_'.$user_id.'.'.$extension;
+                    // Upload Image
 
+                    // Save XL Project image
+                    $path = 'public/project/cover/'.$user_id.'/'.$project->id;
+                    $file->storeAs($path ,$fileNameToStore);
+
+                    $cover = Image::make($file);
+                    // resize image to fixed size
+                    $cover->resize(null, 300, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+                    // Save small project image
+                    $cover->save(public_path('/project/cover/'.$fileNameToStore));
+
+                    $project->picture = $fileNameToStore;
+                }
+
+                if ($result){
+                    return true;
+                } else {
+                    return response()->json(['errors' => 'Un problème est survenu, veuillez réessayer plus tard.'], 500);
+                }
         }
 
-        //return $request->all();
-
-
-}
+    }
 }

@@ -22,7 +22,7 @@
                         </div>
                         <div class="flex mx-2">
                             <router-link
-                                to="/projet/nouveau"
+                                to="/nouveau"
                                     class="flex items-center
                                     focus:outline-none border rounded-full
                                     py-2 px-6 leading-none border-gray-500
