@@ -239,9 +239,9 @@
         </Popover>
 
         <router-link
-          to="/projets"
+          to="/abonnement"
           class="pt-8 text-base font-medium text-gray-500 hover:text-gray-900"
-          >Projects
+          >Abonnement
         </router-link>
 
         <router-link

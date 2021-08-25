@@ -35,7 +35,7 @@
 
             </div>
             <!-- Right Side -->
-            <div class="w-full md:w-9/12 mx-2 h-64">
+            <div class="w-full md:w-9/12 mx-2">
                 <!-- Profile tab -->
                 <!-- About Section -->
                 <div class="bg-white p-3 shadow-sm rounded-sm">

@@ -34,6 +34,9 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     /*  USER PROFILE  */
     Route::get('/profil', [App\Http\Controllers\Api\UserApiController::class, 'show'])->name('user.show');
 
+    /*  SUBSCRIPTION  */
+    Route::get('/abonnement', [App\Http\Controllers\Api\SubscriptionApiController::class, 'index'])->name('subscription.index');
+
     /*  OTHERS  */
     Route::get('/accueil');
     Route::get('/offres');
