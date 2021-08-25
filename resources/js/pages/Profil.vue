@@ -3,20 +3,20 @@
 <template>
 
 
-    <div class="container mx-auto my-5 p-5">
-        <div class="md:flex no-wrap md:-mx-2 ">
+    <div class="mx-auto my-5 p-5">
+        <div class="md:flex md:-mx-2 ">
             <!-- Left Side -->
             <div class="w-full md:w-3/12 md:mx-2">
                 <!-- Profile Card -->
                 <div class="bg-white p-3 border-t-4 border-indigo-400">
                     <div class="image overflow-hidden">
 
-                        <img src="#" alt="profile image" style="object-fit:cover;">
+                        <img :src="user.avatar" :alt="'profile image de ' + user.firstname" style="object-fit:cover;">
 
                     </div>
-                    <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">firstname</h1>
-                    <h3 class="text-gray-600 font-lg text-semibold leading-6"><b>Niveau</b> : level</h3>
-                    <p class="mt-4 text-sm text-gray-500 hover:text-gray-600 leading-6">about</p>
+                    <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">{{ user.firstname }} {{ user.lastname }}</h1>
+                    <h3 class="text-gray-600 font-lg text-semibold leading-6"><b>Niveau</b> : {{ user.level }}</h3>
+                    <p class="mt-4 text-sm text-gray-500 hover:text-gray-600 leading-6">{{ user.about }}</p>
                     <ul
                         class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">
                         <li class="flex items-center py-3">
@@ -26,7 +26,7 @@
                         </li>
                         <li class="py-3">
                             <p>Devenu membre</p>
-                            <span class="ml-auto">diffForHumans</span>
+                            <span class="ml-auto">{{ sinds }}</span>
                         </li>
                     </ul>
                 </div>
@@ -44,20 +44,20 @@
                         <div class="grid md:grid-cols-2 text-sm">
                             <div class="grid grid-cols-2">
                                 <div class="px-4 py-2 font-semibold"><b>Prénom</b></div>
-                                <div class="px-4 py-2">firstname</div>
+                                <div class="px-4 py-2">{{ user.firstname }}</div>
                             </div>
                             <div class="grid grid-cols-2">
                                 <div class="px-4 py-2 font-semibold"><b>Nom de famille</b></div>
-                                <div class="px-4 py-2">lastname</div>
+                                <div class="px-4 py-2">{{ user.lastname }}</div>
                             </div>
                             <div class="grid grid-cols-2">
                                 <div class="px-4 py-2 font-semibold"><b>Téléphone</b></div>
-                                <div class="px-4 py-2">phone</div>
+                                <div class="px-4 py-2">{{ user.phone }}</div>
                             </div>
                             <div class="grid grid-cols-2">
                                 <div class="px-4 py-2 font-semibold"><b>Email</b></div>
                                 <div class="px-4 py-2">
-                                    <a class="text-blue-800" href="mailto:#">email</a>
+                                    <a class="text-blue-800" :href="'mailto:'+user.email" >{{ user.email }}</a>
                                 </div>
                             </div>
                         </div>
@@ -77,7 +77,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                             </svg>
                             <span class="text-gray-700 group-hover:text-white">
-                                lkModifier mon profil
+                                Modifier mon profil
                             </span>
                         </button>
 
@@ -117,13 +117,19 @@
                                 </span>
                                 <span class="tracking-wide">Mes demandes</span>
                             </div>
-                            <ul class="list-inside space-y-2">
-
+                            <ul v-if="myProjects.length > 0" class="list-inside space-y-2">
+                                    <li v-for="myProject in myProjects" :key="myProject">
+                                        <router-link
+                                            :to="'/projet/'+myProject.id"
+                                            class="text-base font-medium text-gray-500 hover:text-gray-900"
+                                            >{{ myProject.name }}
+                                        </router-link>
+                                    </li>
+                            </ul>
+                            <ul v-else class="list-inside space-y-2">
                                     <li>
                                         <div class="text-teal-600">Aucune demandes</div>
                                     </li>
-
-
                             </ul>
                         </div>
                         <div>
@@ -140,14 +146,19 @@
                                 </span>
                                 <span class="tracking-wide">Projets réalisés</span>
                             </div>
-                            <ul class="list-inside space-y-2">
-
-
+                            <ul v-if="myProjectsDone.length > 0" class="list-inside space-y-2">
+                                    <li v-for="myProjectDone in myProjectsDone" :key="myProjectDone">
+                                        <router-link
+                                            :to="'/projet/'+myProjectDone.id"
+                                            class="text-base font-medium text-gray-500 hover:text-gray-900"
+                                            >{{ myProjectDone.name }}
+                                        </router-link>
+                                    </li>
+                            </ul>
+                            <ul v-else class="list-inside space-y-2">
                                     <li>
                                         <div class="text-teal-600">Aucune réalisations</div>
                                     </li>
-
-
                             </ul>
                         </div>
                     </div>
@@ -162,12 +173,48 @@
 
 <script>
 
+import axios from 'axios'
+
+export default {
+
+    data(){
+        return {
+            myProjectsDone: {},
+            myProjects: {},
+            user: {},
+            sinds: ''
+        }
+    },
+    methods:{
+        loadData(){
+
+            const config = {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                }
+            }
+
+            axios.get("/api/profil", config)
+            .then(({data}) => (
+                this.myProjectsDone = data[0],
+                this.myProjects = data[1],
+                this.user = data[2],
+                this.sinds = data[3]
+            ))
+            .catch(error => console.log('error', error))
+        },
+    },
+    
+    created(){
+        this.loadData();
+    }
+    
+}
 
 </script>
 
 
 <style>
-
     .text-gradient {
         background-clip: text;
         -webkit-text-fill-color: transparent;

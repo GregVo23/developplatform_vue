@@ -31,14 +31,15 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::post('/favoris/{id}', [App\Http\Controllers\Api\FavoriteApiController::class, 'add'])->name('favorite.add');
     Route::post('/favoris/supprimer/{id}', [App\Http\Controllers\Api\FavoriteApiController::class, 'delete'])->name('favorite.delete');
 
-    /*  FAVORITE  */
-    Route::get('/subcategories/{id}', [App\Http\Controllers\Api\SubCategoryApiController::class, 'subcategories'])->name('subcategories');
+    /*  USER PROFILE  */
+    Route::get('/profil', [App\Http\Controllers\Api\UserApiController::class, 'show'])->name('user.show');
 
     /*  OTHERS  */
     Route::get('/accueil');
     Route::get('/offres');
     Route::get('/rechercher');
-    Route::get('/profil', [App\Http\Controllers\Api\UserApiController::class, 'show'])->name('user.show');
+    
+    Route::get('/subcategories/{id}', [App\Http\Controllers\Api\SubCategoryApiController::class, 'subcategories'])->name('subcategories');
 });
 
 

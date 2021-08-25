@@ -9,7 +9,7 @@ use App\Models\Project;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 use App\Http\Controllers\Controller;
 
-class UserController extends Controller
+class UserApiController extends Controller
 {
     /**
      * Logout the user.
@@ -92,17 +92,14 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
         $user = Auth()->user();
         $myProjects = Project::where('user_id', '=', $user->id)->where('done', '=', NULL)->get();
         $myProjectsDone = Project::where('user_id', '=', $user->id)->where('done', '!=', NULL)->get();
+        $sinds = $user->created_at->diffForHumans();
 
-        return view("user.show",[
-            "user" => $user,
-            "myProjects" => $myProjects,
-            "myProjectsDone" => $myProjectsDone,
-        ]);
+        return json_encode([$myProjectsDone, $myProjects, $user, $sinds]);
     }
 
     /**

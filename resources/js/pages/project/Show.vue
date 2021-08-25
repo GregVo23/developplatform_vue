@@ -23,7 +23,7 @@
                         <b>Prix annoncé</b>
                     </dt>
                     <dd class="mt-1 text-sm text-gray-900">
-                        {{ project.price }} €
+                        {{ project.price ? project.price : "Pas de prix annoncé" }} €
                     </dd>
                     </div>
 
@@ -33,7 +33,7 @@
                         <b>Date de réalisation</b>
                     </dt>
                     <dd class="mt-1 text-sm text-gray-900">
-                        {{ project.deadline }}
+                        {{ project.deadline ? project.deadline : "Pas de deadline"}}
                     </dd>
                     </div>
 
@@ -46,7 +46,7 @@
             <a :href="project.picture" target="about_blank">
             <img
             class="h-56 w-56 rounded object-cover"
-            :src="'project/cover/'+project.picture"
+            :src="'http://localhost:8000/project/cover/'+project.picture"
             :alt="project.name" />
             </a>
         </div>
@@ -65,11 +65,12 @@
 
 
                     <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
-                    <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">Pas de pièce-jointe</li>
+                    
+                    <li v-if="!document" class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">Pas de pièce-jointe</li>
 
 
-                    <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
-                        <div class="w-0 flex-1 flex items-center">
+                    <li v-if="document" class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                        <div v-for="doc in document" :key="doc" class="w-0 flex-1 flex items-center">
                         <!-- Heroicon name: solid/paper-clip -->
                         <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                             <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd" />
