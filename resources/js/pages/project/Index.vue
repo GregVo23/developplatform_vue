@@ -74,7 +74,6 @@
                                 class="flex-grow w-full items-center justify-between bg-white
                                 dark:bg-gray-800 px-8 py-6 border-l-2 border-indigo-700
                                 dark:border-indigo-300">
-                                >
                                 <!-- card -->
                                 <div class="flex justify-between">
                                     <a :href="'http://localhost:8000/project/cover/'+this.user+'/'+project.id+'/'+project.picture">

@@ -17,6 +17,8 @@ export default {
             user: {},
         }
     },
+
+
     methods:{
         loadData(){
 
@@ -33,7 +35,13 @@ export default {
             .catch(error => console.log('error', error))
         },
     },
-    
+/*
+    mounted() {
+      let stripeScript = document.createElement('script')
+      stripeScript.setAttribute('src', 'https://js.stripe.com/v3/')
+      document.head.appendChild(recaptchaScript)
+    },
+*/
     created(){
         this.loadData();
     }

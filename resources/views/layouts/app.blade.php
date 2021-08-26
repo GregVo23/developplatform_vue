@@ -13,8 +13,8 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
-        <!--AlpineJs-->
-        <style>[x-cloak] { display: none; }</style>
+        <!--Stripe-->
+        <script src="https://js.stripe.com/v3/"></script>
 
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
