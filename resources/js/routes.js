@@ -10,6 +10,7 @@ import Offer from './pages/project/Offer.vue';
 import Search from './pages/project/Search.vue';
 import Profil from './pages/Profil.vue';
 import Subscription from './pages/Subscription.vue';
+import NotFound from './pages/NotFound.vue';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -25,7 +26,9 @@ const router = createRouter({
         { path: '/rechercher', component: Search },
         { path: '/profil', component: Profil },
         { path: '/abonnement', component: Subscription },
-        { path: '/*', redirect: '/accueil' },
+        //{ path: '/*', redirect: '/accueil' },
+        { path: '/*', component: NotFound },
+        
     ]
   });
 

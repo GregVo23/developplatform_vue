@@ -6,7 +6,7 @@
 <!-- Create a button that your customers click to complete their purchase. Customize the styling to suit your branding. -->
 <button
   style="background-color:#6772E5;color:#FFF;padding:8px 12px;border:0;border-radius:4px;font-size:1em;cursor:pointer"
-  id="checkout-button-price_1JSlMfFCkda43Xw8Md5lJxHE"
+  id="checkout-button-price_1JT0OtFCkda43Xw8OTkjwzuL"
   role="link"
   type="button"
 >
@@ -138,7 +138,7 @@ export default {
         },
 
         loadStripe10(){
-            var stripe = Stripe('pk_test_51IcIjOFCkda43Xw8tZ45QYGDBxJiJoN9f8of0S54aNrCFCS64RZK4ePfee6oP5PJIRac7QCvUOrDYQ9mjMzMMn5r00aR3zRlKb');
+            var stripe = Stripe(process.env.STRIPE_KEY);
 
             var checkoutButton = document.getElementById('checkout-button-price_1JSjCFFCkda43Xw8G6PrlmJW');
             checkoutButton.addEventListener('click', function () {
@@ -173,16 +173,16 @@ export default {
         },
 
         loadStripe25(){
-            var stripe = Stripe('pk_test_51IcIjOFCkda43Xw8tZ45QYGDBxJiJoN9f8of0S54aNrCFCS64RZK4ePfee6oP5PJIRac7QCvUOrDYQ9mjMzMMn5r00aR3zRlKb');
+            var stripe = Stripe(process.env.STRIPE_KEY);
 
-            var checkoutButton = document.getElementById('checkout-button-price_1JSlMfFCkda43Xw8Md5lJxHE');
+            var checkoutButton = document.getElementById('checkout-button-price_1JT0OtFCkda43Xw8OTkjwzuL');
             checkoutButton.addEventListener('click', function () {
                 /*
                 * When the customer clicks on the button, redirect
                 * them to Checkout.
                 */
                 stripe.redirectToCheckout({
-                lineItems: [{price: 'price_1JSlMfFCkda43Xw8Md5lJxHE', quantity: 1}],
+                lineItems: [{price: 'price_1JT0OtFCkda43Xw8OTkjwzuL', quantity: 1}],
                 mode: 'subscription',
                 /*
                 * Do not rely on the redirect to the successUrl for fulfilling
