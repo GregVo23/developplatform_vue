@@ -1,125 +1,160 @@
-
-
+<!-- This example requires Tailwind CSS v2.0+ -->
 <template>
-
-
-<!-- Create a button that your customers click to complete their purchase. Customize the styling to suit your branding. -->
-<button
-  style="background-color:#6772E5;color:#FFF;padding:8px 12px;border:0;border-radius:4px;font-size:1em;cursor:pointer"
-  id="checkout-button-price_1JSlMfFCkda43Xw8Md5lJxHE"
-  role="link"
-  type="button"
->
-  Abonnement 25€
-</button>
-
-
-<button
-  style="background-color:#6772E5;color:#FFF;padding:8px 12px;border:0;border-radius:4px;font-size:1em;cursor:pointer"
-  id="checkout-button-price_1JSjCFFCkda43Xw8G6PrlmJW"
-  role="link"
-  type="button"
->
-  Abonnement 10€
-</button>
-
-<div id="error-message"></div>
-
-<!---->
-
-    <div class="bg-contain bg-no-repeat bg-right-bottom h-screen" style="background-image: ">
-        <div class="flex items-center justify-center">
-
-
-    <div @submit="formSubmit" class="bg-white  px-8 pt-6 pb-8 mb-4 flex flex-col my-2 sm:w-4/5 md:w-3/5 mx-auto   p-10 mt-20 rounded-lg shadow-lg overflow-hidden">
-      <form role="form" action="/abonnement" method="post" class="validation"
-      data-cc-on-file="false"
-          data-stripe-publishable-key="STRIPE_KEY"
-              id="payment-form">
-        <div class="-mx-3 md:flex mb-6">
-          <div class="required md:w-1/2 px-3 mb-6 md:mb-0">
-            <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-first-name">
-              Nom du titulaire de la carte
-            </label>
-            <input v-model="payment.name" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" type="text" placeholder="Jean Luc Dupond">
-            <p class="text-red text-xs italic">Veuillez remplir tous les champs.</p>
-          </div>
-          <div class="required md:w-1/2 px-3">
-            <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-last-name">
-              Numéro de la carte
-            </label>
-            <input v-model="payment.cartNumber" class="card-num appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" type="text" placeholder="4242424242424242">
-          </div>
+  <div class="bg-gray-200">
+    <div class="pt-12 sm:pt-16 lg:pt-24">
+      <div class="max-w-7xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto space-y-2 lg:max-w-none">
+          <h2 class="text-lg leading-6 font-semibold text-gray-700 uppercase tracking-wider">
+            Nos formules
+          </h2>
+          <p class="text-3xl font-extrabold text-gray-900 sm:text-4xl lg:text-5xl">
+            Découvrez nos formules d'abonnement !
+          </p>
+          <p class="text-xl text-gray-700">
+            Vous souhaitez demander et exécuter plus qu'un projet par mois ? Faites votre choix !
+          </p>
         </div>
-        <div class="required -mx-3 md:flex mb-2">
-          <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-            <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-city">
-              CVC
-            </label>
-            <input v-model="payment.cvc" class="card-cvc appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" type="text" placeholder="415">
-          </div>
-          <div class="required md:w-1/2 px-3">
-            <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-state">
-              Mois d'expiration
-            </label>
-            <input v-model="payment.month" class="card-expiry-month appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" type="text" placeholder="11">
-          </div>
-          <div class="required md:w-1/2 px-3">
-            <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-zip">
-              Année d'expiration
-            </label>
-            <input v-model="payment.year" class="card-expiry-year appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" type="text" placeholder="2027">
-          </div>
-        </div>
-        <div class="inline-flex mt-5">
-          <div>
-              <button class="px-6 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-red-800 hover:bg-red-700" type="submit">Payer</button>
-          </div>
       </div>
-    </form>
+    </div>
+    <div class="mt-8 pb-12 bg-gray-200 sm:mt-12 sm:pb-16 lg:mt-16 lg:pb-24">
+      <div class="relative">
+        <div class="absolute inset-0 h-3/4 bg-gray-200" />
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="max-w-md mx-auto space-y-4 lg:max-w-5xl lg:grid lg:grid-cols-2 lg:gap-5 lg:space-y-0">
+
+
+
+            <div class="flex flex-col rounded-lg shadow-lg overflow-hidden">
+              <div class="px-6 py-8 bg-white sm:p-10 sm:pb-6">
+                <div>
+                  <h3 class="inline-flex px-4 py-1 rounded-full text-sm font-semibold tracking-wide uppercase bg-indigo-100 text-indigo-600" id="tier-standard">
+                    Developplatform 10
+                  </h3>
+                </div>
+                <div class="mt-4 flex items-baseline text-6xl font-extrabold">
+                  10€
+                  <span class="ml-1 text-2xl font-medium text-gray-500">
+                    /année
+                  </span>
+                </div>
+                <p class="mt-5 text-lg text-gray-500">
+                  description
+                </p>
+              </div>
+              <div class="flex-1 flex flex-col justify-between px-6 pt-6 pb-8 bg-gray-50 space-y-6 sm:p-10 sm:pt-6">
+                <ul role="list" class="space-y-4">
+                  <li class="flex items-start">
+                    <div class="flex-shrink-0">
+                      <CheckIcon class="h-6 w-6 text-yellow" aria-hidden="true" />
+                    </div>
+                    <p class="ml-3 text-base text-gray-700">
+                      3 demandes de réalisation/mois
+                    </p>
+                  </li>
+                  <li class="flex items-start">
+                    <div class="flex-shrink-0">
+                      <CheckIcon class="h-6 w-6 text-yellow" aria-hidden="true" />
+                    </div>
+                    <p class="ml-3 text-base text-gray-700">
+                      3 création de projet/mois
+                    </p>
+                  </li>
+                </ul>
+                <div>
+
+                  <button
+                    class="inline-flex items-center px-5 pt-4 pb-3.5 bg-gray-800 border border-transparent rounded-full font-semibold text-xs text-white uppercase tracking-widest hover:bg-yellow active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-200 transform hover:-translate-y-1 hover:translate-x-0.5"
+                    id="checkout-button-price_1JSjCFFCkda43Xw8G6PrlmJW"
+                    role="link"
+                    type="button"
+                  >
+                    Abonnement 10€
+                  </button>
+
+                  <div id="error-message"></div>
+
+                </div>
+              </div>
+            </div>
+
+
+
+
+            <div class="flex flex-col rounded-lg shadow-lg overflow-hidden">
+              <div class="px-6 py-8 bg-white sm:p-10 sm:pb-6">
+                <div>
+                  <h3 class="inline-flex px-4 py-1 rounded-full text-sm font-semibold tracking-wide uppercase bg-indigo-100 text-indigo-600" id="tier-standard">
+                    Developplatform 25
+                  </h3>
+                </div>
+                <div class="mt-4 flex items-baseline text-6xl font-extrabold">
+                  25€
+                  <span class="ml-1 text-2xl font-medium text-gray-500">
+                    /année
+                  </span>
+                </div>
+                <p class="mt-5 text-lg text-gray-500">
+                  description
+                </p>
+              </div>
+              <div class="flex-1 flex flex-col justify-between px-6 pt-6 pb-8 bg-gray-50 space-y-6 sm:p-10 sm:pt-6">
+                <ul role="list" class="space-y-4">
+                  <li class="flex items-start">
+                    <div class="flex-shrink-0">
+                      <CheckIcon class="h-6 w-6 text-yellow" aria-hidden="true" />
+                    </div>
+                    <p class="ml-3 text-base text-gray-700">
+                      10 demandes de réalisation/mois
+                    </p>
+                  </li>
+                  <li class="flex items-start">
+                    <div class="flex-shrink-0">
+                      <CheckIcon class="h-6 w-6 text-yellow" aria-hidden="true" />
+                    </div>
+                    <p class="ml-3 text-base text-gray-700">
+                      10 création de projet/mois
+                    </p>
+                  </li>
+                </ul>
+                <div>
+
+                  <button
+                    class="inline-flex items-center px-5 pt-4 pb-3.5 bg-gray-800 border border-transparent rounded-full font-semibold text-xs text-white uppercase tracking-widest hover:bg-yellow active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-200 transform hover:-translate-y-1 hover:translate-x-0.5"
+                    id="checkout-button-price_1JT0OtFCkda43Xw8OTkjwzuL"
+                    role="link"
+                    type="button"
+                  >
+                    Abonnement 25€
+                  </button>
+
+                  <div id="error-message"></div>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-
-  </div>
-  </div>
-
-
-
 </template>
 
-
 <script>
-
+import { CheckIcon } from '@heroicons/vue/outline'
 import axios from 'axios'
-import * as stripe from '../services/stripe.js'
+import { useRoute } from 'vue-router'
 
 export default {
+  components: {
+    CheckIcon,
+  },
 
     data(){
-        const customer = {
-            token : '',
-            stripe_token : '',
-            amount : '',
-            email : '',
-            name : '',
-            street : '',
-            postcode : '',
-            city : '',
-            country : '',
-        }
-        const payment = {
-            name : '',
-            cartNumber : '',
-            cvc : '',
-            month : '',
-            year : '',
-        }
-        return {
-            user: {},
-            customer,
-            payment,
-        }
+      return {
+          user: {}
+      }
     },
-
 
     methods:{
         loadData(){
@@ -173,83 +208,63 @@ export default {
         },
 
         loadStripe25(){
-            var stripe = Stripe('pk_test_51IcIjOFCkda43Xw8tZ45QYGDBxJiJoN9f8of0S54aNrCFCS64RZK4ePfee6oP5PJIRac7QCvUOrDYQ9mjMzMMn5r00aR3zRlKb');
+          var stripe = Stripe('pk_test_51IcIjOFCkda43Xw8tZ45QYGDBxJiJoN9f8of0S54aNrCFCS64RZK4ePfee6oP5PJIRac7QCvUOrDYQ9mjMzMMn5r00aR3zRlKb');
 
-            var checkoutButton = document.getElementById('checkout-button-price_1JSlMfFCkda43Xw8Md5lJxHE');
-            checkoutButton.addEventListener('click', function () {
+          var checkoutButton = document.getElementById('checkout-button-price_1JT0OtFCkda43Xw8OTkjwzuL');
+          checkoutButton.addEventListener('click', function () {
+            /*
+            * When the customer clicks on the button, redirect
+            * them to Checkout.
+            */
+            stripe.redirectToCheckout({
+              lineItems: [{price: 'price_1JT0OtFCkda43Xw8OTkjwzuL', quantity: 1}],
+              mode: 'subscription',
+              /*
+              * Do not rely on the redirect to the successUrl for fulfilling
+              * purchases, customers may not always reach the success_url after
+              * a successful payment.
+              * Instead use one of the strategies described in
+              * https://stripe.com/docs/payments/checkout/fulfill-orders
+              */
+              successUrl: 'http://localhost:8000/abonnement?session_id={CHECKOUT_SESSION_ID}',
+              cancelUrl: 'https://example.com/canceled',
+            })
+            .then(function (result) {
+              if (result.error) {
                 /*
-                * When the customer clicks on the button, redirect
-                * them to Checkout.
+                * If `redirectToCheckout` fails due to a browser or network
+                * error, display the localized error message to your customer.
                 */
-                stripe.redirectToCheckout({
-                lineItems: [{price: 'price_1JSlMfFCkda43Xw8Md5lJxHE', quantity: 1}],
-                mode: 'subscription',
-                /*
-                * Do not rely on the redirect to the successUrl for fulfilling
-                * purchases, customers may not always reach the success_url after
-                * a successful payment.
-                * Instead use one of the strategies described in
-                * https://stripe.com/docs/payments/checkout/fulfill-orders
-                */
-                successUrl: 'http://localhost:8000/abonnement?session_id={CHECKOUT_SESSION_ID}',
-                cancelUrl: 'http://localhost:8000/abonnement',
-                })
-                .then(function (result) {
-                if (result.error) {
-                    /*
-                    * If `redirectToCheckout` fails due to a browser or network
-                    * error, display the localized error message to your customer.
-                    */
-                    var displayError = document.getElementById('error-message');
-                    displayError.textContent = result.error.message;
-                }
-                });
+                var displayError = document.getElementById('error-message');
+                displayError.textContent = result.error.message;
+              }
             });
+          });
         },
 
-        formSubmit(e) {
-            e.preventDefault();
-
-            const config = {
-                headers: {
-                    'content-type': 'multipart/form-data',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                }
+        getSubscribe(){
+          const route = useRoute();
+          const session = '';
+          if(route.query.session_id){
+              session = route.query.session_id;
+              console.log(session);
             }
+          }
 
-            let data = new FormData();
-            data.append('name', this.payment.name);
-            data.append('cartNumber', this.payment.cartNumber);
-            data.append('cvc', this.payment.cvc);
-            data.append('month', this.payment.month);
-            data.append('year', this.payment.year);
-
-            axios.post('api/abonnement', data, config)
-                .then(function (res) {
-                    console.log(res);
-                })
-                .catch(error => { error });
-
-        }
     },
-/*
-    mounted() {
-      let stripeScript = document.createElement('script')
-      stripeScript.setAttribute('src', 'https://js.stripe.com/v3/')
-      document.head.appendChild(recaptchaScript)
-    },
-*/
+
     created(){
         this.loadData();
     },
+
     mounted(){
         this.loadStripe25();
         this.loadStripe10();
+        this.getSubscribe();
     },
+
 }
-
 </script>
-
 
 <style>
 

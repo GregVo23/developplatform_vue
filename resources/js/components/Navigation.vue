@@ -78,7 +78,7 @@
             <PopoverPanel
               class="
                 absolute
-                z-10
+                z-50
                 -ml-4
                 mt-3
                 transform
@@ -281,7 +281,7 @@
             <PopoverPanel
               class="
                 absolute
-                z-10
+                z-50
                 left-1/2
                 transform
                 -translate-x-1/2
@@ -340,6 +340,7 @@
         class="
           absolute
           top-0
+          z-50
           inset-x-0
           p-2
           transition

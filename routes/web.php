@@ -43,6 +43,7 @@ Route::post('/', [App\Http\Controllers\ContactController::class, 'contact'])->na
 //Offre
 Route::post('/{id}/accept', [App\Http\Controllers\ProjectUserController::class, 'accept'])->middleware(['auth','verified'])->name('project.accept');
 Route::post('/{id}/offre', [App\Http\Controllers\ProjectUserController::class, 'offer'])->middleware(['auth','verified'])->name('project.offer');
+Route::post('/inscrit', [App\Http\Controllers\ProjectController::class, 'subscriber'])->middleware(['auth','verified'])->name('project.subscriber');
 
 Route::get('/{any}', function () {
     return view('dashboard');
