@@ -31,54 +31,34 @@ class SubscriptionApiController extends Controller
     }
 
     /**
-     * Display a listing of the projects + categories + subcategories, and user's id
+     * Check if the payment is done and for wich subscribtion
      *
      * @return \Illuminate\Http\Response
      */
     public function subscribe(Request $request)
     {
-        $user = Auth()->user();
+        //$user = Auth()->user();
+        $session_id = $request->session;
         
-/*
-        $request->validate([
-            'stripeToken' => ['required'],
-            'amount' => ['required', Rule::in([20, 50])],
-            'email' => ['required', 'email'],
-            'name' => ['required'],
-            'street' => ['required'],
-            'postcode' => ['required'],
-            'city' => ['required'],
-            'country' => ['required'],
-        ]);
+        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        if (\Stripe\Checkout\Session::retrieve($session_id)){
+            $session = \Stripe\Checkout\Session::retrieve($session_id);
+            $customer = \Stripe\Customer::retrieve($session->customer);
+            //return response()->json(($session->amount_total == 1000) ? 1000 : false);
+            if ($session->payment_status == "paid"){
+              if ($session->amount_total == 1000){
+                return response()->json(1000);
+                //TODO
+              } elseif ($session->amount_total == 2000) {
+                return response()->json(2000);
+                //TODO
+              }
+            } else {
+              return response()->json(["error" => "une erreur est survenue lors du paiement"]);
+            }
+            return response()->json($session);
+        }
+        return response()->json(false);
 
-        $request->validate([
-            'stripeToken' => ['required'],
-            'amount' => ['required', Rule::in([20, 50])],
-            'email' => ['required', 'email'],
-            'name' => ['required'],
-            'street' => ['required'],
-            'postcode' => ['required'],
-            'city' => ['required'],
-            'country' => ['required'],
-        ]);
-
-        \Stripe\Stripe::setApiKey(env('STRIPE_KEY'));
-
-        $intent = \Stripe\PaymentIntent::create([
-        'amount' => 1099,
-        'currency' => 'eur',
-        // Verify your integration in this guide by including this parameter
-        'metadata' => ['integration_check' => 'accept_a_payment'],
-        ]);
-
-        $stripe = new \Stripe\StripeClient(env('STRIPE_KEY'));
-          $stripe->subscriptions->create([
-            'customer' => 'cus_K6yRCWpdoNUFCl',
-            'items' => [
-              ['price' => 'price_1JSlMfFCkda43Xw8Md5lJxHE'],
-            ],
-          ]);
-        */
-        return response()->json($request->all());
     }
 }

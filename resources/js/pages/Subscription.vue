@@ -144,6 +144,7 @@
 import { CheckIcon } from '@heroicons/vue/outline'
 import axios from 'axios'
 import { useRoute } from 'vue-router'
+//import { loadStripe } from "@stripe/stripe-js"
 
 export default {
   components: {
@@ -241,16 +242,6 @@ export default {
             });
           });
         },
-
-        getSubscribe(){
-          const route = useRoute();
-          const session = '';
-          if(route.query.session_id){
-              session = route.query.session_id;
-              console.log(session);
-            }
-          }
-
     },
 
     created(){
@@ -260,7 +251,6 @@ export default {
     mounted(){
         this.loadStripe25();
         this.loadStripe10();
-        this.getSubscribe();
     },
 
 }

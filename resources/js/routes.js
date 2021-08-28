@@ -12,6 +12,8 @@ import Profil from './pages/Profil.vue';
 import Subscription from './pages/Subscription.vue';
 //import NotFound from './pages/NotFound.vue';
 
+import axios from 'axios'
+
 const router = createRouter({
     history: createWebHistory(),
     routes: [
@@ -33,7 +35,28 @@ const router = createRouter({
   });
 
   router.beforeEach((to, from, next) => {
-      console.log(to, from);
+      //console.log(to.query.session_id, from);
+      if(to.query.session_id != undefined){
+        let session = to.query.session_id;
+        console.log(session);
+        console.log(session.session_id);
+
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            }
+        }
+
+        let data = new FormData();
+        data.append('session', session);
+
+        axios.post('api/abonnement', data, config)
+        .then(function (res) {
+            console.log(res);
+        })
+        .catch(error => {})
+      }
       next();
   });
 
