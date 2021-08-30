@@ -59,6 +59,58 @@ class ProjectApiController extends Controller
 
 
     /**
+     * Display a listing of the user's projects + categories + subcategories, and user's id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function myProjects()
+    {
+        $projects = [];
+        $user_id = ['user_id' => auth()->user()->id];
+        $listOfProjects = Project::where('user_id', $user_id)->get();
+        $categories = Category::all();
+        $subCategories = SubCategory::all();
+        foreach($listOfProjects as $project){
+
+            $nbLikes = DB::table('project_user')
+            ->where('favorite', '=', 1)
+            ->where('project_id', '=', $project->id)
+            ->count();
+
+            $like = ["like" => false, "nbLike" => $nbLikes];
+
+            $project = json_decode(json_encode($project), true);
+            array_push($projects, ($like+$project));
+        }
+
+        return json_encode([$projects, $categories,  $subCategories, $user_id]);
+    }
+
+
+    /**
+     * Show the form for creating a new project.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function myOffers()
+    {
+        $user = auth()->user();
+        $user_id = ['user_id' => auth()->user()->id];
+        $projects = Project::all();
+        $categories = Category::all();
+        $subCategories = SubCategory::all();
+        /*
+        $projects = DB::table('project_user')
+        ->join('projects', 'project_user.project_id', '=' ,'projects.id')
+        ->where('project_user.user_id', '=', $user->id)
+        //->where('project_user.proposal', '<>', NULL)
+        ->get();
+        */
+        return json_encode([$projects, $categories,  $subCategories, $user_id]);
+    }
+
+
+    /**
      * Show the form for creating a new project.
      *
      * @return \Illuminate\Http\Response
@@ -144,7 +196,7 @@ class ProjectApiController extends Controller
         }
     }
 
-        /**
+    /**
      * Make an offer for a specific project.
      *
      * @param  \Illuminate\Http\Request  $request

@@ -535,7 +535,7 @@ const solutions = [
     color: false,
     blade: true,
     description: "Vous rechercher un projet à réaliser.",
-    href: "/rechercher",
+    href: "/projets",
     icon: ChartBarIcon,
   },
   {
@@ -559,7 +559,7 @@ const solutions = [
     color: true,
     blade: true,
     description: "La liste de vos demandes de réalisations.",
-    href: "/projets",
+    href: "/demandes",
     icon: RefreshIcon,
   },
   {

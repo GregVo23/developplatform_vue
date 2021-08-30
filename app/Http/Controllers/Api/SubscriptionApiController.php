@@ -32,7 +32,7 @@ class SubscriptionApiController extends Controller
     }
 
     /**
-     * Check if the payment is done and for wich subscribtion
+     * Check if the payment is done and for wich subscribtion 10 (5 projects) or 25 for 15 projects, free is for 3 projects.
      *
      * @return \Illuminate\Http\Response
      */
@@ -51,11 +51,11 @@ class SubscriptionApiController extends Controller
               $subscription = Subscription::where('user_id', '=' ,$user->id)->first();
               if ($session->amount_total == 1000){
                 $subscription->subscription = '10';
-                $subscription->nb_max_projet = '3';
+                $subscription->nb_max_projet = '5';
                 //return response()->json(1000);
               } elseif ($session->amount_total == 2500) {
                 $subscription->subscription = '25';
-                $subscription->nb_max_projet = '10';
+                $subscription->nb_max_projet = '15';
                 //return response()->json(2000);
               }
 

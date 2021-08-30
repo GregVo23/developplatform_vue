@@ -22,9 +22,13 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
 
     /*  PROJECTS  */
     Route::get('/projets', [App\Http\Controllers\Api\ProjectApiController::class, 'index'])->name('projects.index');
+    Route::get('/demandes', [App\Http\Controllers\Api\ProjectApiController::class, 'myProjects'])->name('projects.mine');
     Route::get('/projet/{id}', [App\Http\Controllers\Api\ProjectApiController::class, 'show'])->name('projects.show');
     Route::get('/nouveau', [App\Http\Controllers\Api\ProjectApiController::class, 'create'])->name('project.create');
     Route::post('/store', [App\Http\Controllers\Api\ProjectApiController::class, 'store'])->name('project.store');
+    
+    /*  OFFERS  */
+    Route::get('/projet/offre', [App\Http\Controllers\Api\ProjectApiController::class, 'myOffers'])->name('project.offers');
     Route::post('/projet/accepter/{id}', [App\Http\Controllers\Api\ProjectApiController::class, 'accept'])->name('project.accept');
     Route::post('/projet/offre/{id}', [App\Http\Controllers\Api\ProjectApiController::class, 'offer'])->name('project.offer');
 
@@ -41,10 +45,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::post('/abonnement', [App\Http\Controllers\Api\SubscriptionApiController::class, 'subscribe'])->name('subscription.subscribe');
 
     /*  OTHERS  */
-    Route::get('/accueil');
-    Route::get('/offres');
-    Route::get('/rechercher');
-    
+    Route::get('/accueil');    
     Route::get('/subcategories/{id}', [App\Http\Controllers\Api\SubCategoryApiController::class, 'subcategories'])->name('subcategories');
 });
 

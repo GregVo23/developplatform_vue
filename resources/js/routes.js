@@ -10,6 +10,7 @@ import Offer from './pages/project/Offer.vue';
 import Search from './pages/project/Search.vue';
 import Profil from './pages/Profil.vue';
 import Subscription from './pages/Subscription.vue';
+import MyProjects from './pages/project/MyProjects.vue';
 //import NotFound from './pages/NotFound.vue';
 
 import axios from 'axios'
@@ -21,6 +22,7 @@ const router = createRouter({
         { path: '/accueil', component: HomePage },
         { path: '/message', component: Message },
         { path: '/projets', component: Index },
+        { path: '/demandes', component: MyProjects },
         { path: '/projet/:id', component: Show },
         { path: '/nouveau', component: Create },
         { path: '/favoris', component: Favorite },

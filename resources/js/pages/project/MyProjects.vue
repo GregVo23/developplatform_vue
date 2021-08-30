@@ -22,19 +22,19 @@
                             <div class="flex justify-items-stretch">
 
                                 <div class="flex-col w-1/3 mx-1">
-                                    <select id="Selectcategory" name="Selectcategory" class="w-full mt-1 block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-                                            <option value="">Filtre par catégorie</option>
+                                    <select @change="onCategory($event)" id="Selectcategory" name="Selectcategory" class="w-full mt-1 block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                                            <option value="" disabled selected hidden>Filtre par catégorie</option>
 
-                                            <option v-for="category in categories" :key="category.id" value="{{ category.id }}">{{ category.name }}</option>
+                                            <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
 
                                     </select>
                                 </div>
 
                                 <div class="flex-col w-1/3 mx-1">
-                                    <select id="SelectSubCategory" name="SelectSubCategory" class="w-full mt-1 block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-                                            <option value="">Filtre par sous-catégorie</option>
+                                    <select @change="onSubCategory($event)" id="SelectSubCategory" name="SelectSubCategory" class="w-full mt-1 block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                                            <option value="" disabled selected hidden>Filtre par sous-catégorie</option>
 
-                                            <option v-for="subcategory in subcategories" :key="subcategory.id" value="{{ subcategory.id }}">{{ subcategory.name }}</option>
+                                            <option v-for="subcategory in subcategories" :key="subcategory.id" :value=" subcategory.id ">{{ subcategory.name }}</option>
                                     </select>
                                 </div>
 
@@ -96,6 +96,16 @@
                                     <p>{{ project.about.substring(0,100)+' ...' }}</p>
 
                                     <div class="mt-4 flex">
+                                        <div class="flex">
+                                            <svg class="flex-shrink-0 h-6 w-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                            </svg>
+                                        <span
+                                            class="ml-2 text-sm text-gray-600
+                                            dark:text-gray-300 capitalize">
+                                            {{ project.nbLike  }}
+                                        </span>
+                                        </div>
 
 
                                         <div class="flex ml-6">
@@ -153,28 +163,66 @@
                                         </span>
                                         </div>
                                     </div>
+                                    <div class="mt-1 text-sm">
+
+
+                                    </div>
+
 
                                     <div class="mt-4 flex justify-end flex-grow">
 
+                                            <button
+                                                v-if="project.user_id != user.user_id"
+                                                class="flex items-center ml-4
+                                                focus:outline-none group border rounded-full
+                                                py-2 px-6 leading-none border-indigo-700
+                                                dark:border-indigo-700 select-none
+                                                hover:bg-indigo-700 text-indigo-700 hover:text-white
+                                                dark-hover:text-gray-200">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                </svg>
+                                                <span
+                                                v-if="project.like"
+                                                @click="removeFavorite(project)"
+                                                class="text-gray-700 group-hover:text-white">
+                                                    Supprimer des favoris
+                                                </span>
+                                                <span
+                                                v-else
+                                                @click="addFavorite(project)"
+                                                class="text-gray-700 group-hover:text-white">
+                                                    Ajouter aux favoris
+                                                </span>
+                                            </button>
 
 
-                                        <a
-                                            :href="'/'+project.id+'/projet'"
-                                            class="flex items-center ml-4
-                                            focus:outline-none group border rounded-full
-                                            py-2 px-6 leading-none border-yellow
-                                            dark:border-yellow select-none
-                                            hover:bg-yellow text-yellow hover:text-white
-                                            dark-hover:text-gray-200 transition ease-in-out duration-200 transform hover:-translate-y-1 hover:translate-x-0.5">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                            </svg>
-                                            <span
-                                            class="text-gray-700 group-hover:text-white">
-                                                Voir mon projet
-                                            </span>
-                                        </a>
+
+        <router-link
+          :to="'/projet/'+project.id"
+          class="flex items-center ml-4
+                focus:outline-none group border rounded-full
+                py-2 px-6 leading-none border-yellow
+                dark:border-yellow select-none
+                hover:bg-yellow text-yellow hover:text-white
+                dark-hover:text-gray-200 transition ease-in-out duration-200 transform hover:-translate-y-1 hover:translate-x-0.5"
+        >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+            <span
+            v-if="project.user_id != user.user_id"
+            class="text-gray-700 group-hover:text-white">
+                Voir le projet
+            </span>
+            <span
+            v-else
+            class="text-gray-700 group-hover:text-white">
+                Voir mon projet
+            </span>
+        </router-link>
+
 
                                     </div>
                                     </div>
@@ -299,16 +347,8 @@ export default {
   },
   setup(props, context) {
       const letters = ref();
-      const projectFiltered = ref([]);
 
-      return { letters, projectFiltered };
-  },
-  computed: {
-    filteredList() {
-      return this.projects.filter(project => {
-        return project.name.toLowerCase().includes(this.letters.value.toLowerCase())
-      })
-    }
+      return { letters };
   },
   data(){
       return {
@@ -317,44 +357,101 @@ export default {
           subcategories: {},
           user: {},
           like: false,
+          filter: [],
+          listOfAllCategories: [],
+          listOfAllProjects: [],
+          listOfAllSubCategories: [],
+          categoryId: '',
       }
   },
   methods:{
       loadData(){
-        const config = {
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            const config = {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                }
             }
-        }
-          axios.get("/api/projet/offre", config).then(({data}) => (this.projects = data[0], this.categories = data[1], this.subcategories = data[2], this.user = data[3]));
-          console.log(this.data);
+          axios.get("api/demandes", config).then(({data}) => (this.projects = data[0], this.listOfAllProjects = data[0], this.categories = data[1], this.subcategories = data[2], this.user = data[3])).catch(error => console.log('error', error));
+      },
+      addFavorite(project){
+            const config = {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                }
+            }
+            axios.post("api/favoris/"+project.id, config).then(({data}) => (this.data = data)).catch(error => console.log('error', error));
+          project.like = !project.like;
+      },
+      removeFavorite(project){
+            const config = {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                }
+            }
+            axios.post("api/favoris/supprimer/"+project.id, config).then(({data}) => (this.data = data)).catch(error => console.log('error', error));
+          if(confirm("Etes vous sur ?")){
+            project.like = !project.like;
+          };
       },
       search(){
-          console.log(this.letters.value)
-          //console.log(this.projects);
-          //console.log(this.projects.filter(e => e.name.toLowerCase().includes(this.letters.toLowerCase().value)));
-          if (this.letters.value === 0){
-            this.projectFiltered = this.projects;
-            //console.log(this.projects.filter(e => e.name.includes('P')));
-          } else {
-                //filtrer
-            //projectFiltered = this.projects.filter(e => e.name.includes('P');
-            this.projects.forEach(element => {
+        this.filter = [];
 
-                if(element.name.indexOf(this.letters.value)){
-                    //projectFiltered = element.name.includes(this.letters.value);
-                    console.log(this.letters.value)
-                }else{
-                    //console.log(typeof element.name);
-                }
-            });
-
-          }
+        if(this.letters.length !== undefined){
+            if (this.letters.length === 0){
+                this.projects = this.listOfAllProjects;
+            } else {
+                this.projects = this.listOfAllProjects;
+                this.projects.forEach(element => {
+                    if(element.name.toLowerCase().search(this.letters.toLowerCase()) > -1){
+                        this.filter.push(element);
+                        JSON.stringify(this.filter);
+                    }else{
+                        this.projects = this.listOfAllProjects;
+                    }
+                });
+                this.projects = this.filter;
+            }
+        }
       },
+      onCategory(event){
+            this.filter = [];
+
+            this.listOfAllProjects.forEach(element => {
+                    if(element.category_id == event.target.value){
+                        this.filter.push(element);
+                        JSON.stringify(this.filter);
+                        this.categoryId = element.category_id;
+                        this.subCategoryChange();
+                    }else{
+                        this.projects = this.listOfAllProjects;
+                    }
+                });
+                this.projects = this.filter;
+            },
+      onSubCategory(event){
+            this.filter = [];
+
+            this.listOfAllProjects.forEach(element => {
+                    if(element.sub_category_id == event.target.value){
+                        this.filter.push(element);
+                        JSON.stringify(this.filter);
+                    }else{
+                        this.projects = this.listOfAllProjects;
+                    }
+                });
+                this.projects = this.filter;
+            },
+      subCategoryChange(){
+            const config = {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                }
+            }
+                axios.get("api/subcategories/"+this.categoryId, config).then(({data}) => (this.subcategories = data)).catch(error => console.log('error', error));
+            },
   },
 
   created(){
-      console.log('created');
       this.loadData();
   }
 }
