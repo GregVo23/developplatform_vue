@@ -365,29 +365,32 @@ export default {
   },
   methods:{
       loadData(){
-          axios.get("api/projets", { 'headers': { 'Authorization': 'Bearer 13|TiL3iGtihIVQ2pSGTmfL8QoIKhEwrJvupu7pHa6c' }
-
-          }).then(({data}) => (this.projects = data[0], this.categories = data[1], this.subcategories = data[2], this.user = data[3]));
+        const config = {
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            }
+        }
+          axios.get("api/projets", config).then(({data}) => (this.projects = data[0], this.categories = data[1], this.subcategories = data[2], this.user = data[3]));
           console.log(this.data);
       },
       addFavorite(project){
-            axios.post("api/favoris/"+project.id, { 'headers': { 'Authorization': 'Bearer 13|TiL3iGtihIVQ2pSGTmfL8QoIKhEwrJvupu7pHa6c' }
-
-          }).then(({data}) => (this.data = data));
+            const config = {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                }
+            }
+            axios.post("api/favoris/"+project.id, config).then(({data}) => (this.data = data));
           project.like = !project.like;
       },
       removeFavorite(project){
-            axios.post("api/favoris/supprimer/"+project.id, { 'headers': { 'Authorization': 'Bearer 13|TiL3iGtihIVQ2pSGTmfL8QoIKhEwrJvupu7pHa6c' }
-
-          }).then(({data}) => (this.data = data));
+            const config = {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                }
+            }
+            axios.post("api/favoris/supprimer/"+project.id, config).then(({data}) => (this.data = data));
           project.like = !project.like;
           alert("Etes vous sur ?");
-      },
-      me(){
-            axios.get("api/user", { 'headers': { 'Authorization': 'Bearer 13|TiL3iGtihIVQ2pSGTmfL8QoIKhEwrJvupu7pHa6c' }
-
-          }).then(({data}) => (this.user = data));
-          console.log(this.user);
       },
       search(){
           console.log(this.letters.value)

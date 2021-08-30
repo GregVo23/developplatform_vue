@@ -358,21 +358,32 @@ export default {
   },
   methods:{
       loadData(){
-          axios.get("api/favoris", { 'headers': { 'Authorization': 'Bearer 13|TiL3iGtihIVQ2pSGTmfL8QoIKhEwrJvupu7pHa6c' }
-          })
+
+            const config = {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                }
+            }
+          axios.get("api/favoris", config)
           .then(({data}) => (this.projects = data[0], this.listOfAllProjects = data[0], this.categories = data[1], this.subcategories = data[2], this.user = data[3]))
           .catch(error => console.log('error', error));
       },
       addFavorite(project){
-            axios.post("api/favoris/"+project.id, { 'headers': { 'Authorization': 'Bearer 13|TiL3iGtihIVQ2pSGTmfL8QoIKhEwrJvupu7pHa6c' }
-
-          }).then(({data}) => (this.data = data)).catch(error => console.log('error', error));
+            const config = {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                }
+            }
+            axios.post("api/favoris/"+project.id, config).then(({data}) => (this.data = data)).catch(error => console.log('error', error));
           project.like = !project.like;
       },
       removeFavorite(project){
-            axios.post("api/favoris/supprimer/"+project.id, { 'headers': { 'Authorization': 'Bearer 13|TiL3iGtihIVQ2pSGTmfL8QoIKhEwrJvupu7pHa6c' }
-
-          }).then(({data}) => (this.data = data)).catch(error => console.log('error', error));
+            const config = {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                }
+            }
+            axios.post("api/favoris/supprimer/"+project.id, config).then(({data}) => (this.data = data)).catch(error => console.log('error', error));
           if(confirm("Etes vous sur ?")){
             project.like = !project.like;
 
@@ -427,8 +438,12 @@ export default {
             this.projects = this.filter;
       },
       subCategoryChange(){
-            axios.get("api/subcategories/"+this.categoryId, { 'headers': { 'Authorization': 'Bearer 13|TiL3iGtihIVQ2pSGTmfL8QoIKhEwrJvupu7pHa6c' }
-            }).then(({data}) => (this.subcategories = data)).catch(error => console.log('error', error));
+            const config = {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                }
+            }
+            axios.get("api/subcategories/"+this.categoryId, config).then(({data}) => (this.subcategories = data)).catch(error => console.log('error', error));
       },
 
   },

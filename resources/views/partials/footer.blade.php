@@ -62,7 +62,7 @@
                 <li><a class="text-gray-500 hover:text-indigo-500" href="/profil">
                     {{ __('profil') }}</a>
                 </li>
-                <li><a class="text-gray-500 hover:text-indigo-500" href="{{ route('projects.index')}}">
+                <li><a class="text-gray-500 hover:text-indigo-500" href="/projets">
                     {{ __('Contact') }}</a>
                 </li>
                 <li>

@@ -9,11 +9,13 @@ use App\Models\ProjectUser;
 use App\Models\SubCategory;
 use Hamcrest\Arrays\IsArray;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -108,6 +110,100 @@ class ProjectApiController extends Controller
         ]);
     }
 
+    /**
+     * Accept a specific project for the given price.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function accept($id)
+    {
+
+        $user = auth()->user();
+
+        $project = ProjectUser::firstOrCreate(
+            ['project_id' =>  $id, 'user_id' => $user->id],
+            ['created_at' => Carbon::now(), 'project_id' =>  $id, 'user_id' => $user->id],
+        );
+        if($project->project->user_id != $user->id){
+            $project->proposal = today();
+            $result = $project->save();
+            if($result){
+                if($user->notification == true){
+                    Session::flash('success', 'Votre demande a été envoyée, attendez maintenant l\'email de confirmation');
+                    return response()->json(true, 200);
+                }else{
+                    Session::flash('success', 'Votre demande a été envoyée, attendez maintenant la confirmation');
+                    return response()->json(true, 200);
+                }
+            }
+        }else{
+            Session::flash('message', 'Une erreur est survenue, veuillez réessayer plus tard !');
+            return response()->json(false, 200);
+        }
+    }
+
+        /**
+     * Make an offer for a specific project.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function offer(Request $request, $id)
+    {
+        // dd($request);
+        $user = auth()->user();
+        // validate
+        $rules = array(
+
+            'information' => 'required|min:20|max:1000',
+            'amount' => 'required|numeric',
+        );
+        $validator = Validator::make($request->all(), $rules);
+
+        // process
+
+        if($validator->fails()) {
+            return Redirect()->back()
+                ->withErrors($validator);
+        } else {
+            $project = ProjectUser::firstOrCreate(
+                [
+                    'project_id' =>  $id,
+                    'user_id' => $user->id,
+                    'information' => $request->input('information'),
+                    'amount' => $request->input('amount'),
+                ], [
+                    'created_at' => Carbon::now(),
+                    'project_id' =>  $id, 'user_id' => $user->id,
+                    'information' => $request->input('information'),
+                    'amount' => $request->input('amount'),
+                ],
+            );
+
+            if($project->project->user_id != $user->id){
+                $project->proposal = today();
+                $result = $project->save();
+                if($result){
+                    if($user->notification == true){
+                        $request->session()->regenerate();
+                        Session::flash('success', 'Votre proposition d\'un montant de '.$request->amount.'€ a été envoyée, attendez maintenant l\'email de réponse');
+                        //return Redirect::to('dashboard')->with('success', 'Votre proposition d\'un montant de '.$request->amount.'€ a été envoyée, attendez maintenant l\'email de réponse');
+                    }else{
+                        $request->session()->regenerate();
+                        Session::flash('success', 'Votre proposition d\'un montant de '.$request->amount.'€ a été envoyée, attendez maintenant la réponse');
+                        //return Redirect::to('dashboard')->with('success', 'Votre proposition d\'un montant de '.$request->amount.'€ a été envoyée, attendez maintenant la réponse');
+                    }
+                }
+            }else{
+                $request->session()->regenerate();
+                Session::flash('message', 'Une erreur est survenue, veuillez réessayer plus tard !');
+                //return Redirect::to('dashboard')->with('message', 'Une erreur est survenue, veuillez réessayer plus tard !');
+            }
+        }
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -235,5 +331,51 @@ class ProjectApiController extends Controller
                 }
         }
 
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, $id)
+    {
+        if(Auth::check()){
+            $project = Project::find($id);
+            $name = $project->name;
+            $message = "Vous avez supprimer le projet : ".$name." !";
+            $picture_path = 'storage/project/cover/'.$project->user_id.'/'.$project->id;
+            $document_path = 'storage/project/doc/'.$project->user_id.'/'.$project->id;
+
+            if (File::exists(public_path($picture_path.'/'.$project->picture))) {
+                //Delete small project image
+                File::delete(public_path($picture_path.'/'.$project->picture));
+                //Delete XL project image
+                File::delete(public_path('project/cover/'.$project->picture));
+                //Delete all directories
+                File::deleteDirectory(public_path($picture_path));
+                File::deleteDirectory(public_path('storage/project/cover/'.$project->user_id));
+            }
+
+            if(!empty($project->document)){
+                $documents = json_decode($project->document);
+                foreach($documents as $document){
+                    if (File::exists(public_path($document_path.'/'.$document))) {
+                        File::delete(public_path($document_path.'/'.$document));
+                        File::deleteDirectory(public_path($document_path));
+                        File::deleteDirectory(public_path('storage/project/doc/'.$project->user_id));
+                    }
+                }
+            }
+
+            $project->delete();
+
+            //$request->session()->regenerate();
+            //Session::flash('success', $message);
+            //return Redirect::to('dashboard')->with('success', $message);
+        }else{
+            //return back();
+        }
     }
 }

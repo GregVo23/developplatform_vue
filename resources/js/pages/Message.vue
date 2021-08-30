@@ -266,9 +266,14 @@ export default {
   },
   methods:{
       loadData(){
-          axios.get("api/projets", { 'headers': { 'Authorization': 'Bearer 13|TiL3iGtihIVQ2pSGTmfL8QoIKhEwrJvupu7pHa6c' }
 
-          }).then(({data}) => (this.projects = data));
+        const config = {
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            }
+        }
+
+          axios.get("api/projets", config).then(({data}) => (this.projects = data));
           console.log(this.projects);
       },
   },

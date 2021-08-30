@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth;
 use App\Models\Project;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 use App\Http\Controllers\Controller;
+use App\Models\Subscription;
 
 class UserApiController extends Controller
 {
@@ -98,8 +99,9 @@ class UserApiController extends Controller
         $myProjects = Project::where('user_id', '=', $user->id)->where('done', '=', NULL)->get();
         $myProjectsDone = Project::where('user_id', '=', $user->id)->where('done', '!=', NULL)->get();
         $sinds = $user->created_at->diffForHumans();
+        $subscribtion = Subscription::where('user_id', '=', $user->id)->get();
 
-        return json_encode([$myProjectsDone, $myProjects, $user, $sinds]);
+        return json_encode([$myProjectsDone, $myProjects, $user, $sinds, $subscribtion]);
     }
 
     /**

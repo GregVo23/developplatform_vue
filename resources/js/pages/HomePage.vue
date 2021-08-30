@@ -90,9 +90,14 @@ export default {
   },
   methods : {
       fetchApi(){
-        axios.get("api/user", { 'headers': { 'Authorization': 'Bearer 13|TiL3iGtihIVQ2pSGTmfL8QoIKhEwrJvupu7pHa6c' }
+            
+        const config = {
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            }
+        }
 
-        }).then(({data}) => (this.user = data));
+        axios.get("api/user", config).then(({data}) => (this.user = data));
         console.log("mounted");
       }
   },

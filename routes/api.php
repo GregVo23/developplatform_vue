@@ -25,6 +25,8 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('/projet/{id}', [App\Http\Controllers\Api\ProjectApiController::class, 'show'])->name('projects.show');
     Route::get('/nouveau', [App\Http\Controllers\Api\ProjectApiController::class, 'create'])->name('project.create');
     Route::post('/store', [App\Http\Controllers\Api\ProjectApiController::class, 'store'])->name('project.store');
+    Route::post('/projet/accepter/{id}', [App\Http\Controllers\Api\ProjectApiController::class, 'accept'])->name('project.accept');
+    Route::post('/projet/offre/{id}', [App\Http\Controllers\Api\ProjectApiController::class, 'offer'])->name('project.offer');
 
     /*  FAVORITES  */
     Route::get('/favoris', [App\Http\Controllers\Api\FavoriteApiController::class, 'index'])->name('favorite.index');

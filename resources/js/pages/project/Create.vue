@@ -347,12 +347,20 @@ export default {
   },
     methods:{
         loadFormData() {
-            axios.get("api/nouveau", { 'headers': { 'Authorization': 'Bearer 13|TiL3iGtihIVQ2pSGTmfL8QoIKhEwrJvupu7pHa6c' }
-            }).then(({data}) => (this.categories = data[0], this.subcategories = data[1], this.user = data[2] )).catch(error => console.log('error', error));
+            const config = {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                }
+            }
+            axios.get("api/nouveau", config).then(({data}) => (this.categories = data[0], this.subcategories = data[1], this.user = data[2] )).catch(error => console.log('error', error));
         },
         subCategoryChange() {
-            axios.get("api/subcategories/"+this.categoryselected, { 'headers': { 'Authorization': 'Bearer 13|TiL3iGtihIVQ2pSGTmfL8QoIKhEwrJvupu7pHa6c' }
-            }).then(({data}) => (this.subcategories = data)).catch(error => console.log('error', error));
+            const config = {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                }
+            }
+            axios.get("api/subcategories/"+this.categoryselected, config).then(({data}) => (this.subcategories = data)).catch(error => console.log('error', error));
         },
         onChange(e) {
                 this.picture = e.target.files[0];

@@ -114,9 +114,7 @@
     <div class="flex justify-evenly">
 
 
-        <form v-if="user.id !== owner" name="frmAccept" method="post" action="#">
-
-            <button class="flex justify-center">
+            <button v-if="user.id !== owner" @click="accept(project)" class="flex justify-center">
                 <span class="flex bg-grey-lighter">
                 <span class="w-64 flex flex-col items-center px-4 py-6 bg-white text-gray-700 rounded-lg shadow-lg uppercase border border-blue cursor-pointer hover:bg-blue hover:text-gray-900">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
@@ -126,9 +124,9 @@
                 </span>
                 </span>
             </button>
-        </form>
 
-        <div v-if="user.id !== owner" class="flex justify-center">
+
+        <div v-if="user.id !== owner"  class="flex justify-center">
             <span class="flex bg-grey-lighter" @click.prevent ="open = !open">
               <span class="w-64 flex flex-col items-center px-4 py-6 bg-white text-gray-700 rounded-lg shadow-lg uppercase border border-blue cursor-pointer hover:bg-blue hover:text-gray-900">
                   <svg xmlns="http://www.w3.org/2000/svg" v-show="!open" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
@@ -174,7 +172,7 @@
 
 
     </div>
-    <form method="POST" action="#" name="frmNegociation">
+    <form @submit="formSubmit" name="frmNegociation" id="frmNegociation" class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-8" method="POST" enctype="multipart/form-data" action="./api/projet/offre">
 
         <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
 
@@ -194,7 +192,7 @@
                       €
                     </span>
                   </div>
-                  <input type="text" name="amount" id="amount" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" required aria-describedby="amount-currency">
+                  <input v-model="amount" type="text" name="amount" id="amount" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" required aria-describedby="amount-currency">
                   <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                     <span class="text-gray-500 sm:text-sm" id="amount-currency">
                       EUR
@@ -217,7 +215,7 @@
                   <span id="information-max" class="text-sm text-warm-gray-500">Max. 1000 charactères</span>
                 </div>
                 <div class="mt-1">
-                  <textarea id="information" name="information" rows="4" class="py-3 px-4 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-indigo-500 border border-gray-300 rounded-md" required aria-describedby="information-max"></textarea>
+                  <textarea v-model="information" id="information" name="information" rows="4" class="py-3 px-4 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-indigo-500 border border-gray-300 rounded-md" required aria-describedby="information-max"></textarea>
                 </div>
               </div>
 
@@ -229,6 +227,7 @@
               x-transition:leave="ease-in-out duration-500"
               x-transition:leave-start="opacity-100"
               x-transition:leave-end="opacity-0"
+                type="submit"
                 class="flex items-center ml-4
                 focus:outline-none group border rounded-full
                 py-2 px-8 leading-none border-yellow
@@ -269,14 +268,19 @@ export default {
             category: '',
             subCategory: '',
             categoryDescription: '',
-            subCategoryDescription: ''
+            subCategoryDescription: '',
+            information: '',
+            amount: ''
         }
     },
     methods:{
         loadFormData(){
-            axios.get("/api/projet/"+this.id, { 'headers': { 'Authorization': 'Bearer 13|TiL3iGtihIVQ2pSGTmfL8QoIKhEwrJvupu7pHa6c' }
-
-            }).then(({data}) => (
+            const config = {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                }
+            }
+            axios.get("/api/projet/"+this.id, config).then(({data}) => (
                 this.project = data[0],
                 this.user = data[1],
                 this.owner = data[2],
@@ -289,6 +293,35 @@ export default {
                 this.subCategoryDescription = data[9]
             )).catch(error => console.log('error', error));
         },
+      accept(project){
+            const config = {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                }
+            }
+          if(confirm("Etes vous sur d'accepter ce projet ?")){
+              axios.post("/api/projet/accepter/"+project.id, config).then(({data}) => (this.data = data)).catch(error => console.log('error', error));
+          };
+      },
+        formSubmit(e) {
+                e.preventDefault();
+
+                const config = {
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    }
+                }
+
+                let data = new FormData();
+                data.append('amount', this.amount);
+                data.append('information', this.information);
+
+                axios.post("/api/projet/offre/"+this.id, data, config)
+                    .then(function (res) {
+                        console.log(res);
+                    })
+                    .catch(error => console.log('error', error));
+      }
     },
     created(){
         this.loadFormData();

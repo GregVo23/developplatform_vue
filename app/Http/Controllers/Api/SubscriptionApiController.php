@@ -8,26 +8,27 @@ use App\Models\User;
 use App\Models\Project;
 use Stripe\StripeClient;
 use Stripe\PaymentIntent;
+use App\Models\Subscription;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class SubscriptionApiController extends Controller
 {
     /**
-     * Display a listing of the projects + categories + subcategories, and user's id
+     * Display a listing of all the subscriptions
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
         $user = Auth()->user();
+        $subscriptions = Subscription::all();
 
-
-
-        return json_encode([$user]);
+        return json_encode([$user, $subscriptions]);
     }
 
     /**
@@ -37,28 +38,40 @@ class SubscriptionApiController extends Controller
      */
     public function subscribe(Request $request)
     {
-        //$user = Auth()->user();
+        $user = Auth()->user();
         $session_id = $request->session;
         
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
         if (\Stripe\Checkout\Session::retrieve($session_id)){
             $session = \Stripe\Checkout\Session::retrieve($session_id);
-            $customer = \Stripe\Customer::retrieve($session->customer);
-            //return response()->json(($session->amount_total == 1000) ? 1000 : false);
+            //$customer = \Stripe\Customer::retrieve($session->customer);
             if ($session->payment_status == "paid"){
+
+              Subscription::firstOrCreate(['user_id' => $user->id]);
+              $subscription = Subscription::where('user_id', '=' ,$user->id)->first();
               if ($session->amount_total == 1000){
-                return response()->json(1000);
-                //TODO
-              } elseif ($session->amount_total == 2000) {
-                return response()->json(2000);
-                //TODO
+                $subscription->subscription = '10';
+                $subscription->nb_max_projet = '3';
+                //return response()->json(1000);
+              } elseif ($session->amount_total == 2500) {
+                $subscription->subscription = '25';
+                $subscription->nb_max_projet = '10';
+                //return response()->json(2000);
               }
+
+              if ($subscription->save()){
+                  return json_encode([
+                      $session->amount_total,
+                  ]);
+              } else {
+                  return response()->json(['errors' => 'Un problème est survenu, veuillez réessayer plus tard.'], 500);
+              };
+
             } else {
               return response()->json(["error" => "une erreur est survenue lors du paiement"]);
             }
             return response()->json($session);
         }
         return response()->json(false);
-
     }
 }

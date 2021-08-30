@@ -1,7 +1,4 @@
-
-
 <template>
-
 
     <div class="mx-auto my-5 p-5">
         <div class="md:flex md:-mx-2 ">
@@ -20,9 +17,9 @@
                     <ul
                         class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">
                         <li class="flex items-center py-3">
-                            <span>Statut</span>
+                            <span>Abonnement</span>
                             <span class="ml-auto">
-                            <span class="bg-indigo-500 py-1 px-2 rounded text-white text-sm">Actif</span></span>
+                            <span v-if="(subscription[0].subscription != undifined)" class="bg-indigo-500 py-1 px-2 rounded text-white text-sm">{{ (subscription[0].subscription != undifined) ? subscription[0].subscription : "" }} {{ (subscription[0].subscription != undifined) ? "€" : "" }}</span></span>
                         </li>
                         <li class="py-3">
                             <p>Devenu membre</p>
@@ -182,7 +179,8 @@ export default {
             myProjectsDone: {},
             myProjects: {},
             user: {},
-            sinds: ''
+            sinds: '',
+            subscription: {},
         }
     },
     methods:{
@@ -199,7 +197,8 @@ export default {
                 this.myProjectsDone = data[0],
                 this.myProjects = data[1],
                 this.user = data[2],
-                this.sinds = data[3]
+                this.sinds = data[3],
+                this.subscription = data[4]
             ))
             .catch(error => console.log('error', error))
         },

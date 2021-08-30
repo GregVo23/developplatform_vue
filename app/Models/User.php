@@ -83,6 +83,11 @@ class User extends Authenticatable  implements MustVerifyEmail
         return $this->belongsToMany(Project::class)->wherePivot('favorite', true);
     }
 
+    public function subscription()
+    {
+        return $this->hasOne(Subscription::class);
+    }
+
     public function name()
     {
         $name = $this->firstname." ".$this->lastname;
