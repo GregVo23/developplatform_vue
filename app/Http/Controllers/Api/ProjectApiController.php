@@ -58,8 +58,8 @@ class ProjectApiController extends Controller
     }
 
 
-        /**
-     * Show the form for creating a new project.
+    /**
+     * Display a listing of all the user's offers
      *
      * @return \Illuminate\Http\Response
      */
@@ -71,7 +71,7 @@ class ProjectApiController extends Controller
         $projects = DB::table('project_user')
         ->join('projects', 'project_user.project_id', '=' ,'projects.id')
         ->where('project_user.user_id', '=', $user_id)
-        //->where('project_user.proposal', '<>', NULL)
+        ->where('project_user.proposal', '<>', NULL)
         ->get();
         
         return json_encode([$projects, $categories, $subCategories, $user_id]);
