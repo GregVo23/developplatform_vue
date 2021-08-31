@@ -58,6 +58,26 @@ class ProjectApiController extends Controller
     }
 
 
+        /**
+     * Show the form for creating a new project.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function proposal()
+    {
+        $categories = Category::all();
+        $subCategories = SubCategory::all();
+        $user_id = auth()->user()->id;
+        $projects = DB::table('project_user')
+        ->join('projects', 'project_user.project_id', '=' ,'projects.id')
+        ->where('project_user.user_id', '=', $user_id)
+        //->where('project_user.proposal', '<>', NULL)
+        ->get();
+        
+        return json_encode([$projects, $categories, $subCategories, $user_id]);
+    }
+
+
     /**
      * Display a listing of the user's projects + categories + subcategories, and user's id
      *
@@ -83,29 +103,6 @@ class ProjectApiController extends Controller
             array_push($projects, ($like+$project));
         }
 
-        return json_encode([$projects, $categories,  $subCategories, $user_id]);
-    }
-
-
-    /**
-     * Show the form for creating a new project.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function myOffers()
-    {
-        $user = auth()->user();
-        $user_id = ['user_id' => auth()->user()->id];
-        $projects = Project::all();
-        $categories = Category::all();
-        $subCategories = SubCategory::all();
-        /*
-        $projects = DB::table('project_user')
-        ->join('projects', 'project_user.project_id', '=' ,'projects.id')
-        ->where('project_user.user_id', '=', $user->id)
-        //->where('project_user.proposal', '<>', NULL)
-        ->get();
-        */
         return json_encode([$projects, $categories,  $subCategories, $user_id]);
     }
 

@@ -1,5 +1,3 @@
-
-
 <template>
         <main class="mt-4 mb-4">
             <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-full lg:px-8">
@@ -15,54 +13,6 @@
                     <div class="rounded-lg bg-white overflow-hidden shadow">
                     <div class="p-4">
                     <!-- Content -->
-
-
-
-                        <div class="flex mt-2 flex-col">
-                            <div class="flex justify-items-stretch">
-
-                                <div class="flex-col w-1/3 mx-1">
-                                    <select id="Selectcategory" name="Selectcategory" class="w-full mt-1 block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-                                            <option value="">Filtre par catégorie</option>
-
-                                            <option v-for="category in categories" :key="category.id" value="{{ category.id }}">{{ category.name }}</option>
-
-                                    </select>
-                                </div>
-
-                                <div class="flex-col w-1/3 mx-1">
-                                    <select id="SelectSubCategory" name="SelectSubCategory" class="w-full mt-1 block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-                                            <option value="">Filtre par sous-catégorie</option>
-
-                                            <option v-for="subcategory in subcategories" :key="subcategory.id" value="{{ subcategory.id }}">{{ subcategory.name }}</option>
-                                    </select>
-                                </div>
-
-                                <div class="flex-col w-1/3 mx-1">
-                                    <input class="mt-1 relative border leading-none border-gray-500
-                                    dark:border-gray-600 select-none block w-full bg-white bg-opacity-20 py-2 pl-10 pr-3 rounded-md mb-6 text-gray-900 placeholder-gray-400 focus:outline-none focus:bg-opacity-100 focus:border-transparent focus:placeholder-gray-700 focus:ring-0 sm:text-sm"
-                                    placeholder="Filtre par mot clé"
-                                    type="FilterSearch"
-                                    name="FilterSearch"
-                                    v-model="letters"
-                                    ref=""
-                                    @keyup="search()">
-                                    <p>{{ letters }}</p>
-                                </div>
-
-                            </div>
-                            <div class="flex justify-items-end">
-
-                                <div class="flex ml-1">
-                                    <select id="nbPage" name="nBpage" class="w-24 mt-1 block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-
-                                            <option value="1">1</option>
-
-                                    </select>
-                                    <label for="nbPage" class="mt-2 ml-2"></label>
-                                </div>
-                            </div>
-                        </div>
 
                     <template v-for="project in projects" :key="project.id">
 
@@ -96,6 +46,16 @@
                                     <p>{{ project.about.substring(0,100)+' ...' }}</p>
 
                                     <div class="mt-4 flex">
+                                        <div class="flex">
+                                            <svg class="flex-shrink-0 h-6 w-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                            </svg>
+                                        <span
+                                            class="ml-2 text-sm text-gray-600
+                                            dark:text-gray-300 capitalize">
+                                            {{ project.nbLike  }}
+                                        </span>
+                                        </div>
 
 
                                         <div class="flex ml-6">
@@ -154,27 +114,32 @@
                                         </div>
                                     </div>
 
-                                    <div class="mt-4 flex justify-end flex-grow">
+
+                                    <div class="mt-4 flex justify-between flex-grow">
+                                        <p>65 €</p>
 
 
 
-                                        <a
-                                            :href="'/'+project.id+'/projet'"
-                                            class="flex items-center ml-4
-                                            focus:outline-none group border rounded-full
-                                            py-2 px-6 leading-none border-yellow
-                                            dark:border-yellow select-none
-                                            hover:bg-yellow text-yellow hover:text-white
-                                            dark-hover:text-gray-200 transition ease-in-out duration-200 transform hover:-translate-y-1 hover:translate-x-0.5">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                            </svg>
-                                            <span
-                                            class="text-gray-700 group-hover:text-white">
-                                                Voir mon projet
-                                            </span>
-                                        </a>
+
+        <router-link
+          :to="'/projet/'+project.id"
+          class="flex items-center ml-4
+                focus:outline-none group border rounded-full
+                py-2 px-6 leading-none border-yellow
+                dark:border-yellow select-none
+                hover:bg-yellow text-yellow hover:text-white
+                dark-hover:text-gray-200 transition ease-in-out duration-200 transform hover:-translate-y-1 hover:translate-x-0.5"
+        >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+            <span
+            class="text-gray-700 group-hover:text-white">
+                Voir le projet
+            </span>
+        </router-link>
+
 
                                     </div>
                                     </div>
@@ -275,48 +240,20 @@
 
 
 <script>
-import { ref } from "vue";
-import { Menu, MenuButton, MenuItem, MenuItems, Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
-import { SearchIcon } from '@heroicons/vue/solid'
-import { BellIcon, MenuIcon, XIcon } from '@heroicons/vue/outline'
 import axios from 'axios'
 
 
 
 export default {
-  components: {
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuItems,
-    Popover,
-    PopoverButton,
-    PopoverPanel,
-    BellIcon,
-    MenuIcon,
-    SearchIcon,
-    XIcon,
-  },
-  setup(props, context) {
-      const letters = ref();
-      const projectFiltered = ref([]);
 
-      return { letters, projectFiltered };
-  },
-  computed: {
-    filteredList() {
-      return this.projects.filter(project => {
-        return project.name.toLowerCase().includes(this.letters.value.toLowerCase())
-      })
-    }
-  },
-  data(){
+
+
+   data(){
       return {
           projects: {},
           categories: {},
-          subcategories: {},
-          user: {},
-          like: false,
+          subCategories: {},
+          user: {}
       }
   },
   methods:{
@@ -326,31 +263,29 @@ export default {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
             }
         }
-          axios.get("/api/projet/offre", config).then(({data}) => (this.projects = data[0], this.categories = data[1], this.subcategories = data[2], this.user = data[3]));
-          console.log(this.data);
-      },
-      search(){
-          console.log(this.letters.value)
-          //console.log(this.projects);
-          //console.log(this.projects.filter(e => e.name.toLowerCase().includes(this.letters.toLowerCase().value)));
-          if (this.letters.value === 0){
-            this.projectFiltered = this.projects;
-            //console.log(this.projects.filter(e => e.name.includes('P')));
-          } else {
-                //filtrer
-            //projectFiltered = this.projects.filter(e => e.name.includes('P');
-            this.projects.forEach(element => {
-
-                if(element.name.indexOf(this.letters.value)){
-                    //projectFiltered = element.name.includes(this.letters.value);
-                    console.log(this.letters.value)
-                }else{
-                    //console.log(typeof element.name);
+          axios.get("/api/offres", config)
+            .then(({data}) => (this.projects = data[0], this.categories = data[1], this.subCategories = data[2], this.user = data[3]))
+            .catch(function (error) {
+                if (error.response) {
+                // Request made and server responded
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+                } else if (error.request) {
+                // The request was made but no response was received
+                console.log(error.request);
+                } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error', error.message);
                 }
+
             });
 
-          }
       },
+      check(){
+          console.log(this.projects)
+      }
+
   },
 
   created(){

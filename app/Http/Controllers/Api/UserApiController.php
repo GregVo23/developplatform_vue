@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use App\Models\User;
-use App\Http\Controllers\Auth;
 use App\Models\Project;
-use Illuminate\Support\Facades\Auth as FacadesAuth;
-use App\Http\Controllers\Controller;
 use App\Models\Subscription;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Auth;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class UserApiController extends Controller
 {
@@ -99,7 +100,8 @@ class UserApiController extends Controller
         $myProjects = Project::where('user_id', '=', $user->id)->where('done', '=', NULL)->get();
         $myProjectsDone = Project::where('user_id', '=', $user->id)->where('done', '!=', NULL)->get();
         $sinds = $user->created_at->diffForHumans();
-        $subscribtion = Subscription::where('user_id', '=', $user->id)->get();
+        $subscribtion = DB::table('subscription')->where('user_id', '=', $user->id)->first();
+
 
         return json_encode([$myProjectsDone, $myProjects, $user, $sinds, $subscribtion]);
     }

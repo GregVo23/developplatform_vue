@@ -19,7 +19,9 @@
                         <li class="flex items-center py-3">
                             <span>Abonnement</span>
                             <span class="ml-auto">
-                            <span v-if="(subscription[0].subscription != undifined)" class="bg-indigo-500 py-1 px-2 rounded text-white text-sm">{{ (subscription[0].subscription != undifined) ? subscription[0].subscription : "" }} {{ (subscription[0].subscription != undifined) ? "€" : "" }}</span></span>
+                            <span v-if="(subscription != false)" class="bg-indigo-500 py-1 px-2 rounded text-white text-sm">{{ (subscription != undifined) ? subscription.subscription : "" }} {{ (subscription != undifined) ? "€" : "" }}</span>
+                            <span v-else class="bg-indigo-500 py-1 px-2 rounded text-white text-sm">non</span>
+                            </span>
                         </li>
                         <li class="py-3">
                             <p>Devenu membre</p>
@@ -174,15 +176,17 @@ import axios from 'axios'
 
 export default {
 
+    
     data(){
         return {
             myProjectsDone: {},
             myProjects: {},
             user: {},
             sinds: '',
-            subscription: {},
+            subscription: []
         }
     },
+
     methods:{
         loadData(){
 
