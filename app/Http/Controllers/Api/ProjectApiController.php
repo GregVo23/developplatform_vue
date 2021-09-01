@@ -133,6 +133,12 @@ class ProjectApiController extends Controller
         $user = Auth()->user();
         $project = Project::find($id);
         $owner = User::find($project->user_id);
+        $offer = ProjectUser::where('user_id', '=', $user->id)->where('project_id', '=', $id)->where('proposal', '<>', NULL)->first();
+        if(!empty($offer)){
+            $offer = true;
+        } else {
+            $offer = false;
+        }
         $category = $project->category->name;
         $categoryDescription = $project->category->description;
         $subCategory = $project->sub_category->name;
@@ -155,7 +161,8 @@ class ProjectApiController extends Controller
             $category,
             $subCategory,
             $categoryDescription,
-            $subCategoryDescription
+            $subCategoryDescription,
+            $offer
         ]);
     }
 
@@ -181,15 +188,18 @@ class ProjectApiController extends Controller
             if($result){
                 if($user->notification == true){
                     Session::flash('success', 'Votre demande a été envoyée, attendez maintenant l\'email de confirmation');
-                    return response()->json(true, 200);
+                    return response()->json(['success' => 'Votre demande a été envoyée, attendez maintenant l\'email de confirmation'], 200);
                 }else{
                     Session::flash('success', 'Votre demande a été envoyée, attendez maintenant la confirmation');
-                    return response()->json(true, 200);
+                    return response()->json(['success' => 'Votre demande a été envoyée, attendez maintenant la confirmation'], 200);
                 }
+            }else{
+                Session::flash('message', 'Une erreur est survenue lors de l\'acceptation, veuillez réessayer plus tard !');
+                return response()->json(['error' => 'Une erreur est survenue lors de l\'acceptation'], 500);
             }
         }else{
             Session::flash('message', 'Une erreur est survenue, veuillez réessayer plus tard !');
-            return response()->json(false, 200);
+            return response()->json(['error' => 'Vous ne pouvez pas accepter ce projet'], 401);
         }
     }
 
@@ -202,7 +212,6 @@ class ProjectApiController extends Controller
      */
     public function offer(Request $request, $id)
     {
-        // dd($request);
         $user = auth()->user();
         // validate
         $rules = array(
@@ -213,21 +222,20 @@ class ProjectApiController extends Controller
         $validator = Validator::make($request->all(), $rules);
 
         // process
-
         if($validator->fails()) {
-            return Redirect()->back()
-                ->withErrors($validator);
+            Session::flash('message', 'Une erreur est survenue lors de l\'enregistrement, veuillez réessayer plus tard !');
+            return response()->json(['error' => ''], 401);
         } else {
             $project = ProjectUser::firstOrCreate(
                 [
                     'project_id' =>  $id,
                     'user_id' => $user->id,
-                    'information' => $request->input('information'),
+                    'information' => htmlentities($request->input('information')),
                     'amount' => $request->input('amount'),
                 ], [
                     'created_at' => Carbon::now(),
                     'project_id' =>  $id, 'user_id' => $user->id,
-                    'information' => $request->input('information'),
+                    'information' => htmlentities($request->input('information')),
                     'amount' => $request->input('amount'),
                 ],
             );

@@ -1,9 +1,10 @@
 <template>
-
-    <navigation></navigation>
-
-    <router-view></router-view>
-
+    <header>
+        <navigation></navigation>
+    </header>
+    <main>
+        <router-view></router-view>
+    </main>
 
 </template>
 

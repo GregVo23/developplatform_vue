@@ -11,7 +11,7 @@
             Découvrez nos formules d'abonnement !
           </p>
           <p class="text-xl text-gray-700">
-            Vous souhaitez demander et exécuter plus qu'un projet par mois ? Faites votre choix !
+            Vous souhaitez demander et exécuter plus que 3 projets par mois ? Faites votre choix !
           </p>
         </div>
       </div>
@@ -48,7 +48,7 @@
                       <CheckIcon class="h-6 w-6 text-yellow" aria-hidden="true" />
                     </div>
                     <p class="ml-3 text-base text-gray-700">
-                      3 demandes de réalisation/mois
+                      10 demandes de réalisation/mois
                     </p>
                   </li>
                   <li class="flex items-start">
@@ -56,7 +56,7 @@
                       <CheckIcon class="h-6 w-6 text-yellow" aria-hidden="true" />
                     </div>
                     <p class="ml-3 text-base text-gray-700">
-                      3 création de projet/mois
+                      10 création de projet/mois
                     </p>
                   </li>
                 </ul>
@@ -104,7 +104,7 @@
                       <CheckIcon class="h-6 w-6 text-yellow" aria-hidden="true" />
                     </div>
                     <p class="ml-3 text-base text-gray-700">
-                      10 demandes de réalisation/mois
+                      25 demandes de réalisation/mois
                     </p>
                   </li>
                   <li class="flex items-start">
@@ -112,7 +112,7 @@
                       <CheckIcon class="h-6 w-6 text-yellow" aria-hidden="true" />
                     </div>
                     <p class="ml-3 text-base text-gray-700">
-                      10 création de projet/mois
+                      25 création de projet/mois
                     </p>
                   </li>
                 </ul>
@@ -153,7 +153,9 @@ export default {
 
     data(){
       return {
-          user: {}
+          user: {},
+          subscribtions: {},
+          subscribtion: {}
       }
     },
 

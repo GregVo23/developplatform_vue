@@ -1,47 +1,60 @@
-
 @if(Session::has('message') || Session::has('success'))
-    @if(Session::has('message'))
-        <div x-data="{ show: false }"
-        x-init="() => {
-            setTimeout(() => show = true, 500);
-            setTimeout(() => show = false, 6000);
-        }"
-        x-cloak
-        x-show="show"
-        x-description="Notification panel, show/hide based on alert state."
-        @click.away="show = false"
-        x-transition:enter="transition ease-out duration-300"
-        x-transition:enter-start="opacity-0 transform scale-90"
-        x-transition:enter-end="opacity-100 transform scale-100"
-        x-transition:leave="transition ease-in duration-300"
-        x-transition:leave-start="opacity-100 transform scale-100"
-        x-transition:leave-end="opacity-0 transform scale-90"
-        class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert"> <p>{{ Session::get('message') }}</p>
-    @else
-        <div x-data="{ show: false }"
-            x-init="() => {
-            setTimeout(() => show = true, 500);
-            setTimeout(() => show = false, 6000);
-            }"
-            x-cloak
-            x-show="show"
-            x-description="Notification panel, show/hide based on alert state."
-            @click.away="show = false"
-            x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0 transform scale-90"
-            x-transition:enter-end="opacity-100 transform scale-100"
-            x-transition:leave="transition ease-in duration-300"
-            x-transition:leave-start="opacity-100 transform scale-100"
-            x-transition:leave-end="opacity-0 transform scale-90"
-            class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert"> <p>{{ Session::get('success') }}</p>
-    @endif
-            <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
-                <button @click="show = false" class="inline-flex text-gray-400 focus:outline-none focus:text-gray-500 transition ease-in-out duration-150">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+    @if(Session::has('success'))
+        <div class="z-50 absolute inset-x-0 top-50 shadow-xl bg-white mx-auto rounded-lg rounded-t-none">
+            <div class="rounded-md bg-green-50 p-4">
+                <div class="flex justify-center">
+                <div class="flex-shrink-0">
+                    <!-- Heroicon name: solid/check-circle -->
+                    <svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
                     </svg>
-                </button>
-            </span>
+                </div>
+                <div class="ml-3">
+                    <h3 class="text-sm font-medium text-green-800">
+                    Succès
+                    </h3>
+                    <div class="mt-2 text-sm text-green-700">
+                    <p>
+                        {{ Session::get('success') }}
+                    </p>
+                    </div>
+                    <div class="mt-4">
+                    <div class="-mx-2 -my-1.5 flex">
+                        <button type="button" class="bg-green-50 px-2 py-1.5 rounded-md text-sm font-medium text-green-800 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-green-50 focus:ring-green-600">
+                            Fermer
+                        </button>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
         </div>
+    @else
+        <div class="rounded-md bg-red-50 p-4">
+            <div class="flex justify-center">
+            <div class="flex-shrink-0">
+                <!-- Heroicon name: solid/x-circle -->
+                <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <div class="ml-3">
+                <h3 class="text-sm font-medium text-red-800">
+                There were 2 errors with your submission
+                </h3>
+                <div class="mt-2 text-sm text-red-700">
+                <ul role="list" class="list-disc pl-5 space-y-1">
+                    <li>
+                        Erreur !
+                    </li>
+                    <li>
+                        {{ Session::get('message') }}
+                    </li>
+                </ul>
+                </div>
+            </div>
+            </div>
+        </div>
+    @endif
 @endif
 
