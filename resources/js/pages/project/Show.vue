@@ -100,21 +100,19 @@
 
         <p class="mt-8 max-w-2xl text-sm text-gray-500">
         <b>Catégorie:</b> {{ category }} </p><p class="text-gray-400 text-sm mt-2">{{ categoryDescription }}</p>
-                <!--($projects[0]->user[0]->pivot->price)-->
-                <!--($projects[0]->category[0]->pivot)-->
 
         <p class="mt-2 max-w-2xl text-sm text-gray-500">
-            <b>Sous-Catégorie:</b> {{ subCategory }} </p><p class="text-gray-400 text-sm mt-2">{{ subCategoryDescription }}</p>
+        <b>Sous-Catégorie:</b> {{ subCategory }} </p><p class="text-gray-400 text-sm mt-2">{{ subCategoryDescription }}</p>
 
 
     </div>
 
-    <section class="mb-6" x-data="{open: false}">
+    <section class="mb-6">
 
     <div class="flex justify-evenly">
 
 
-            <button v-if="user.id !== owner" @click="accept(project)" class="flex justify-center">
+            <button v-if="user.id !== owner.id" @click="accept(project)" class="flex justify-center">
                 <span class="flex bg-grey-lighter">
                 <span class="w-64 flex flex-col items-center px-4 py-6 bg-white text-gray-700 rounded-lg shadow-lg uppercase border border-blue cursor-pointer hover:bg-blue hover:text-gray-900">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
@@ -126,23 +124,22 @@
             </button>
 
 
-        <div v-if="user.id !== owner"  class="flex justify-center">
-            <span class="flex bg-grey-lighter" @click.prevent ="open = !open">
-              <span class="w-64 flex flex-col items-center px-4 py-6 bg-white text-gray-700 rounded-lg shadow-lg uppercase border border-blue cursor-pointer hover:bg-blue hover:text-gray-900">
-                  <svg xmlns="http://www.w3.org/2000/svg" v-show="!open" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clip-rule="evenodd" />
-                  </svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" v-show="open" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clip-rule="evenodd" />
-                  </svg>
-                  <span class="mt-2 text-base leading-normal text-center">Faire une offre</span>
-              </span>
-            </span>
-        </div>
 
+            <div v-if="user.id !== owner.id"  class="flex justify-center">
+                <span class="flex bg-grey-lighter" @click.prevent ="open = !open">
+                <span class="w-64 flex flex-col items-center px-4 py-6 bg-white text-gray-700 rounded-lg shadow-lg uppercase border border-blue cursor-pointer hover:bg-blue hover:text-gray-900">
+                    <svg xmlns="http://www.w3.org/2000/svg" v-show="!open" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clip-rule="evenodd" />
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" v-show="open" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clip-rule="evenodd" />
+                    </svg>
+                    <span class="mt-2 text-base leading-normal text-center">Faire une offre</span>
+                </span>
+                </span>
+            </div>
 
-
-        <div v-if="user.id === owner" class="flex justify-center">
+        <div v-if="user.id === owner.id" class="flex justify-center">
             <span class="flex bg-grey-lighter">
               <span class="w-64 flex flex-col items-center px-4 py-6 bg-white text-gray-700 rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue hover:text-gray-900">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
@@ -155,7 +152,7 @@
             </span>
         </div>
 
-        <form v-if="user.id === owner" name="frmDelete" method="get" action="#">
+        <form v-if="user.id === owner.id" name="frmDelete" method="get" action="#">
 
             <button class="flex justify-center">
                 <span class="flex bg-grey-lighter">
@@ -220,14 +217,9 @@
               </div>
 
               <button
-              v-show="open"
-              x-transition:enter="ease-in-out duration-500"
-              x-transition:enter-start="opacity-0"
-              x-transition:enter-end="opacity-100"
-              x-transition:leave="ease-in-out duration-500"
-              x-transition:leave-start="opacity-100"
-              x-transition:leave-end="opacity-0"
+                v-show="open"
                 type="submit"
+                @click="submit"
                 class="flex items-center ml-4
                 focus:outline-none group border rounded-full
                 py-2 px-8 leading-none border-yellow
@@ -245,14 +237,19 @@
         </div>
     </form>
     </section>
-
+    <Notification v-if="show" :message=message :type=type />
 </template>
 
 
 <script>
 import axios from 'axios'
+import Notification from '../../components/Notification.vue'
 
 export default {
+    name: "Show",
+    components:{
+        Notification
+    },
 
     data(){
         return {
@@ -270,7 +267,11 @@ export default {
             categoryDescription: '',
             subCategoryDescription: '',
             information: '',
-            amount: ''
+            amount: '',
+            message: '',
+            type: '',
+            show: false,
+            offer: false
         }
     },
     methods:{
@@ -290,21 +291,94 @@ export default {
                 this.category = data[6],
                 this.subCategory = data[7],
                 this.categoryDescription = data[8],
-                this.subCategoryDescription = data[9]
+                this.subCategoryDescription = data[9],
+                this.offer = data[10]
             )).catch(error => console.log('error', error));
+
         },
       accept(project){
-            const config = {
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                }
-            }
-          if(confirm("Etes vous sur d'accepter ce projet ?")){
-              axios.post("/api/projet/accepter/"+project.id, config).then(({data}) => (this.data = data)).catch(error => console.log('error', error));
-          };
-      },
+                    const config = {
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        }
+                    }
+                if(confirm("Etes vous sur d'accepter ce projet ?")){
+                    axios.post("/api/projet/accepter/"+project.id, config).then(({data}) => (this.data = data)).catch(error => {
+                        console.log('error', error);
+                        this.message="Une erreur est survenue !";
+                        this.type=false;
+                        this.showNotification();
+                        throw new Error("Une erreur est survenue lors de l'acceptation de l'offre !");
+                        });
+
+                    this.message="Vous avez acceptez le projet, attendez désormais une réponse de l'auteur.";
+                    this.type=true;
+                    this.showNotification();
+                    this.offer = !this.offer;
+                } else {
+                    this.message="Vous changer d'avis !";
+                    this.type=false;
+                    this.showNotification();
+                };
+            },
+
+        showNotification() {
+                this.show = true;
+                this.hideNotification();
+            },
+
+        hideNotification() {
+                this.hideTimeout = setTimeout(() => {
+                    this.show = false;
+                }, 5000);
+            },
+
+        destroyNotification() {
+                this.show = false;
+                clearTimeout(this.hideTimeout);
+            },
+
         formSubmit(e) {
                 e.preventDefault();
+
+                // Prohibited words
+                const words = ["connard", "salaud", "enculé", "salope", "pute", "fuck", "baise", "cul", "penis", "fdp", ]
+
+                if(isNaN(this.amount)){
+                    console.log('error', 'Le montant doit être un nombre');
+                    this.message="Le montant doit être un nombre !";
+                    this.type=false;
+                    this.showNotification();
+                    throw new Error("Le montant doit être un nombre !");
+                }
+
+                if(this.project.price != undefined){
+                    if(this.amount.length > this.project.price/2){
+                        console.log('error', 'Le montant doit au moins plus grand que la moitié de ce que demande la personne !');
+                        this.message="Le montant doit au moins plus grand que la moitié de ce que demande la personne ! Vous proposez seulement "+this.amount.length+" € contre "+this.project.price+" € demandé ...";
+                        this.type=false;
+                        this.showNotification();
+                        throw new Error("Le montant doit au moins plus grand que la moitié de ce que demande la personne !");
+                    }
+                }
+
+                if(this.information.length > 999){
+                    console.log('error', 'Pas plus de milles caractères');
+                    this.message="Pas plus de milles caractères";
+                    this.type=false;
+                    this.showNotification();
+                    throw new Error("Pas plus de milles caractères !");
+                }
+
+                for (const element of words) {
+                    if(this.information.includes(element)){
+                        console.log('error', 'Votre texte contient un vocabulaire interdit comme : '+element);
+                        this.message="Le texte contient un vocabulaire interdit comme : "+element;
+                        this.type=false;
+                        this.showNotification();
+                        throw new Error("Le texte contient un vocabulaire interdit !");
+                    }
+                }
 
                 const config = {
                     headers: {
@@ -316,12 +390,32 @@ export default {
                 data.append('amount', this.amount);
                 data.append('information', this.information);
 
-                axios.post("/api/projet/offre/"+this.id, data, config)
-                    .then(function (res) {
-                        console.log(res);
-                    })
-                    .catch(error => console.log('error', error));
-      }
+                
+                if(confirm("Etes vous sur d'accepter ce projet ?")){
+                    axios.post("/api/projet/offre/"+this.id, data, config)
+                        .then(function (res) {
+                            console.log(res);
+                        })
+                    .catch(error => {
+                        console.log('error', error);
+                        this.message="Une erreur est survenue !";
+                        this.type=false;
+                        this.showNotification();
+                        throw new Error("Une erreur est survenue lors de l'enregistrement de votre offre !");
+                        });
+
+                    this.message="Merci pour votre offre, attendez désormais une réponse de l'auteur.";
+                    this.type=true;
+                    this.showNotification();
+                    this.offer = !this.offer;
+                } else {
+                    this.message="Vous changer d'avis !";
+                    this.type=false;
+                    this.showNotification();
+                };
+                
+            },
+
     },
     created(){
         this.loadFormData();

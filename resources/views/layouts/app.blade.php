@@ -25,20 +25,13 @@
 
 
         <div class="min-h-screen bg-gray-200">
-        <header class="pb-4 bg-gray-200">
-            <div id="app">
+        <div class="pb-4 bg-gray-200">
 
+            <div id="app" message={{ Session::get('success') }}>
             </div>
-        </header>
-        <main class="mt-4 mb-4">
-            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-full lg:px-8">
-            <h1 class="sr-only">Page title</h1>
-
-                <!-- Content -->
-                {{ $slot }}
-
+            <div id="message" class="hidden" message={{ Session::get('success') }}>
             </div>
-        </main>
+        </div>
         <footer id="footer">
             @include('partials.footer')
         </footer>

@@ -33,10 +33,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        $categories = Category::all();
-        session(['categories' => $categories]);
-
-        return redirect()->intended(RouteServiceProvider::HOME);
+        return redirect(RouteServiceProvider::HOME);
     }
 
     /**

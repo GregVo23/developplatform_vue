@@ -78,7 +78,7 @@
             <PopoverPanel
               class="
                 absolute
-                z-50
+                z-40
                 -ml-4
                 mt-3
                 transform
@@ -281,7 +281,7 @@
             <PopoverPanel
               class="
                 absolute
-                z-50
+                z-40
                 left-1/2
                 transform
                 -translate-x-1/2
@@ -340,7 +340,7 @@
         class="
           absolute
           top-0
-          z-50
+          z-40
           inset-x-0
           p-2
           transition
@@ -605,10 +605,14 @@ export default {
     };
   },
   methods : {
-      fetchApi(){
-        axios.get("api/user", { 'headers': { 'Authorization': 'Bearer 13|TiL3iGtihIVQ2pSGTmfL8QoIKhEwrJvupu7pHa6c' }
-
-        }).then(({data}) => (this.user = data)).catch(error => console.log('error', error));
+    
+    fetchApi(){
+        const config = {
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            }
+        }
+        axios.get("api/user", config).then(({data}) => (this.user = data)).catch(error => console.log('error', error));
       }
   },
   mounted(){
