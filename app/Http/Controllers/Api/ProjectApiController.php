@@ -402,14 +402,14 @@ class ProjectApiController extends Controller
             $project = Project::find($id);
             $name = $project->name;
             $message = "Vous avez supprimer le projet : ".$name." !";
-            $picture_path = 'storage/project/cover/'.$project->user_id.'/'.$project->id;
-            $document_path = 'storage/project/doc/'.$project->user_id.'/'.$project->id;
+            $picture_path = '/storage/project/cover/'.$project->id;
+            $document_path = '/storage/project/doc/'.$project->id;
 
             if (File::exists(public_path($picture_path.'/'.$project->picture))) {
                 //Delete small project image
                 File::delete(public_path($picture_path.'/'.$project->picture));
                 //Delete XL project image
-                File::delete(public_path('project/cover/'.$project->picture));
+                File::delete(public_path('/project/cover/'.$project->picture));
                 //Delete all directories
                 File::deleteDirectory(public_path($picture_path));
                 File::deleteDirectory(public_path('storage/project/cover/'.$project->user_id));

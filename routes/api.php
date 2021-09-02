@@ -26,6 +26,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('/projet/{id}', [App\Http\Controllers\Api\ProjectApiController::class, 'show'])->name('projects.show');
     Route::get('/nouveau', [App\Http\Controllers\Api\ProjectApiController::class, 'create'])->name('project.create');
     Route::post('/store', [App\Http\Controllers\Api\ProjectApiController::class, 'store'])->name('project.store');
+    Route::post('/projet/{id}', [App\Http\Controllers\Api\ProjectApiController::class, 'destroy'])->name('project.destroy');
     
     /*  OFFERS  */
     Route::get('/offres', [App\Http\Controllers\Api\ProjectApiController::class, 'proposal'])->name('project.proposal');

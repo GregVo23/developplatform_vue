@@ -19,7 +19,7 @@
                         <li class="flex items-center py-3">
                             <span>Abonnement</span>
                             <span class="ml-auto">
-                            <span v-if="(subscription != false)" class="bg-indigo-500 py-1 px-2 rounded text-white text-sm">{{ (subscription != undifined) ? subscription.subscription : "" }} {{ (subscription != undifined) ? "€" : "" }}</span>
+                            <span v-if="(subscription != undefined)" class="bg-indigo-500 py-1 px-2 rounded text-white text-sm">{{ (subscription != false) ? subscription.subscription : "" }} {{ (subscription != undifined) ? "€" : "" }}</span>
                             <span v-else class="bg-indigo-500 py-1 px-2 rounded text-white text-sm">non</span>
                             </span>
                         </li>
@@ -184,7 +184,7 @@ export default {
             myProjects: {},
             user: {},
             sinds: '',
-            subscription: false
+            subscription: ''
         }
     },
 

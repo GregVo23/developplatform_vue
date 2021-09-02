@@ -102,13 +102,6 @@ class UserApiController extends Controller
         $sinds = $user->created_at->diffForHumans();
         $subscribtion = DB::table('subscription')->where('user_id', '=', $user->id)->first();
 
-        if(!empty($subscription)){
-            $subscribtion = $subscribtion;
-        } else {
-            $subscribtion = false;
-        }
-
-
         return json_encode([$myProjectsDone, $myProjects, $user, $sinds, $subscribtion]);
     }
 
