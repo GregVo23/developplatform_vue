@@ -427,7 +427,7 @@ class ProjectApiController extends Controller
                         }
                     }
                 }
-
+                //Projet supprimer avec succes
                 $project->delete();
             }else{
                 //Seul l'auteur peut supprimer son projet
