@@ -1,9 +1,5 @@
-
-
 <template>
-
-    <!--content-->
-
+<div class="sm-mx-10 md-mx-20 lg-mx-30">
     <div class="px-4 py-5 sm:px-6 flex">
         <div class="flex-grow">
 
@@ -33,7 +29,7 @@
                         <b>Date de réalisation</b>
                     </dt>
                     <dd class="mt-1 text-sm text-gray-900">
-                        {{ project.deadline ? project.deadline : "Pas de deadline"}}
+                        {{ project.deadline ? project.deadline.split(" ")[0] : "Pas de deadline"}}
                     </dd>
                     </div>
 
@@ -42,10 +38,10 @@
         </div>
 
         <div class="flex-shrink-0 ml-4">
-
-            <a :href="project.picture" target="about_blank">
+            <a :href="url+''+picturePath+''+project.picture" target="about_blank">
             <img
             class="h-56 w-56 rounded object-cover"
+            title="Voir en grand"
             :src="'http://localhost:8000/project/cover/'+project.picture"
             :alt="project.name" />
             </a>
@@ -69,20 +65,20 @@
                     <li v-if="!document" class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">Pas de pièce-jointe</li>
 
 
-                    <li v-if="document" class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
-                        <div v-for="doc in document" :key="doc" class="w-0 flex-1 flex items-center">
+                    <li v-if="document">
+                        <div v-for="doc in document" :key="doc" class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
                         <!-- Heroicon name: solid/paper-clip -->
                         <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                             <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd" />
                         </svg>
                         <span class="ml-2 flex-1 w-0 truncate">
-                            {{ document }}
+                            {{ doc }}
                         </span>
-                        </div>
                         <div class="ml-4 flex-shrink-0">
-                        <a :href="document_path+''+document" target="about_blank" class="font-medium text-indigo-600 hover:text-indigo-500">
+                        <a :href="url+''+documentPath+''+doc" :download="doc" target="about_blank" class="font-medium text-indigo-600 hover:text-indigo-500">
                             Télécharger
                         </a>
+                        </div>
                         </div>
                     </li>
 
@@ -93,7 +89,7 @@
     </div>
 
     <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
-        <p class="text-sm font-medium text-gray-500"><b>Notifications</b>: {{ project.notifications ? "autorisées sur l'adresse email "+project.email : "refusées " }}</p>
+        <p class="text-sm font-medium text-gray-500"><b>Notifications</b>: {{ project.notifications ? "Autorisées" : "Refusées " }}</p>
     </div>
 
     <div class="mt-1 px-4 py-5 sm:px-6">
@@ -104,13 +100,11 @@
         <p class="mt-2 max-w-2xl text-sm text-gray-500">
         <b>Sous-Catégorie:</b> {{ subCategory }} </p><p class="text-gray-400 text-sm mt-2">{{ subCategoryDescription }}</p>
 
-
     </div>
 
     <section class="mb-6">
 
     <div class="flex justify-evenly">
-
 
             <button v-if="user.id !== owner.id" @click="accept(project)" class="flex justify-center">
                 <span class="flex bg-grey-lighter">
@@ -152,21 +146,19 @@
             </span>
         </div>
 
-        <form v-if="user.id === owner.id" name="frmDelete" method="get" action="#">
 
-            <button class="flex justify-center">
-                <span class="flex bg-grey-lighter">
-                <span class="w-64 flex flex-col items-center px-4 py-6 bg-white text-gray-700 rounded-lg shadow-lg uppercase border border-blue cursor-pointer hover:bg-blue hover:text-gray-900">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
-                    </svg>
-                    <span class="mt-2 text-base leading-normal text-center">Supprimer mon projet</span>
-                </span>
-                </span>
-            </button>
-        </form>
-
-
+        <button v-if="user.id === owner.id" class="flex justify-center"
+        @click="removeProject(project)">
+            <span class="flex bg-grey-lighter">
+            <span class="w-64 flex flex-col items-center px-4 py-6 bg-white text-gray-700 rounded-lg shadow-lg uppercase border border-blue cursor-pointer hover:bg-blue hover:text-gray-900">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                </svg>
+                <span class="mt-2 text-base leading-normal text-center">Supprimer mon projet</span>
+            </span>
+            </span>
+        </button>
+    
 
     </div>
     <form @submit="formSubmit" name="frmNegociation" id="frmNegociation" class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-8" method="POST" enctype="multipart/form-data" action="./api/projet/offre">
@@ -237,6 +229,7 @@
         </div>
     </form>
     </section>
+    </div>
     <Notification v-if="show" :message=message :type=type />
 </template>
 
@@ -271,7 +264,9 @@ export default {
             message: '',
             type: '',
             show: false,
-            offer: false
+            offer: false,
+            deadline: false,
+            url : "http://localhost:8000/"
         }
     },
     methods:{
@@ -414,6 +409,38 @@ export default {
                     this.showNotification();
                 };
                 
+            },
+            removeProject(project){
+                const config = {
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    }
+                }
+                if(confirm("Etes vous sur de supprimer ce projet : "+project.name.substring(0,25)+" ...")){
+                    axios.post("/api/projet/"+this.id, config)
+                        .then(function (res) {
+                            console.log(res);
+                        })
+                    .catch(error => {
+                        console.log('error', error);
+                        this.message="Une erreur est survenue !";
+                        this.type=false;
+                        this.showNotification();
+                        throw new Error("Une erreur est survenue lors de la suppression du projet");
+                        });
+
+                    this.message="Ce projet est supprimé.";
+                    this.type=true;
+                    this.showNotification();
+                    this.offer = !this.offer;
+                    window.location.replace("/accueil");
+                } else {
+                    this.message="Vous changer d'avis !";
+                    this.type=false;
+                    this.showNotification();
+                };
+                
+
             },
 
     },

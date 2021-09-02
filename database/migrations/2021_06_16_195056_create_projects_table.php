@@ -35,7 +35,7 @@ class CreateProjectsTable extends Migration
             $table->integer('price')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
-            $table->timestamp('deadline')->nullable();
+            $table->timestamp('deadline')->nullable()->default(null);
             $table->timestamp('done')->nullable()->default(null);
             $table->boolean('notifications')->default(true);
             $table->boolean('rules')->default(true);

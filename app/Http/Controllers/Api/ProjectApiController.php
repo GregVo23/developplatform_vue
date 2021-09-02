@@ -144,8 +144,8 @@ class ProjectApiController extends Controller
         $subCategory = $project->sub_category->name;
         $subCategoryDescription = $project->sub_category->description;
 
-        $picture_path = 'storage/project/cover/'.$project->user_id.'/'.$project->id.'/';
-        $document_path = 'storage/project/doc/'.$project->user_id.'/'.$project->id.'/';
+        $picture_path = 'storage/project/cover/'.$project->id.'/';
+        $document_path = 'storage/project/doc/'.$project->id.'/';
 
         //$file = File::get(public_path($picture_path.'/'.$project->picture));
         $documents = Json_decode($project->document);
@@ -263,7 +263,7 @@ class ProjectApiController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created project in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -370,9 +370,9 @@ class ProjectApiController extends Controller
                             // Get just ext
                             $extension = $file->extension();
                             // Filename to store
-                            $fileNameToStore = $filename.'_'.$user_id.'.'.$extension;
+                            $fileNameToStore = $filename.'_'.$project->id.'.'.$extension;
                             // Save link
-                            $path = $file->storeAs('public/project/doc/'.$user_id.'/'.$project->id,$fileNameToStore);
+                            $path = $file->storeAs('public/project/doc/'.$project->id,$fileNameToStore);
 
                             array_push($documents, $fileNameToStore);
                         }
@@ -399,35 +399,39 @@ class ProjectApiController extends Controller
     public function destroy(Request $request, $id)
     {
         if(Auth::check()){
+            $user_id = auth()->user()->id;
             $project = Project::find($id);
-            $name = $project->name;
-            $message = "Vous avez supprimer le projet : ".$name." !";
-            $picture_path = 'storage/project/cover/'.$project->user_id.'/'.$project->id;
-            $document_path = 'storage/project/doc/'.$project->user_id.'/'.$project->id;
+            if($user_id == $project->user_id){
+                $name = $project->name;
+                $message = "Vous avez supprimer le projet : ".$name." !";
+                $picture_path = '/storage/project/cover/'.$project->id;
+                $document_path = '/storage/project/doc/'.$project->id;
 
-            if (File::exists(public_path($picture_path.'/'.$project->picture))) {
-                //Delete small project image
-                File::delete(public_path($picture_path.'/'.$project->picture));
-                //Delete XL project image
-                File::delete(public_path('project/cover/'.$project->picture));
-                //Delete all directories
-                File::deleteDirectory(public_path($picture_path));
-                File::deleteDirectory(public_path('storage/project/cover/'.$project->user_id));
-            }
+                if (File::exists(public_path($picture_path.'/'.$project->picture))) {
+                    //Delete small project image
+                    File::delete(public_path($picture_path.'/'.$project->picture));
+                    //Delete XL project image
+                    File::delete(public_path('/project/cover/'.$project->picture));
+                    //Delete all directories
+                    File::deleteDirectory(public_path($picture_path));
+                    File::deleteDirectory(public_path('storage/project/cover/'.$project->user_id));
+                }
 
-            if(!empty($project->document)){
-                $documents = json_decode($project->document);
-                foreach($documents as $document){
-                    if (File::exists(public_path($document_path.'/'.$document))) {
-                        File::delete(public_path($document_path.'/'.$document));
-                        File::deleteDirectory(public_path($document_path));
-                        File::deleteDirectory(public_path('storage/project/doc/'.$project->user_id));
+                if(!empty($project->document)){
+                    $documents = json_decode($project->document);
+                    foreach($documents as $document){
+                        if (File::exists(public_path($document_path.'/'.$document))) {
+                            File::delete(public_path($document_path.'/'.$document));
+                            File::deleteDirectory(public_path($document_path));
+                            File::deleteDirectory(public_path('storage/project/doc/'.$project->user_id));
+                        }
                     }
                 }
+
+                $project->delete();
+            }else{
+                //Seul l'auteur peut supprimer son projet
             }
-
-            $project->delete();
-
             //$request->session()->regenerate();
             //Session::flash('success', $message);
             //return Redirect::to('dashboard')->with('success', $message);

@@ -30,7 +30,7 @@ const router = createRouter({
         { path: '/rechercher', component: Search },
         { path: '/profil', component: Profil },
         { path: '/abonnement', component: Subscription },
-        { path: '/*', redirect: '/accueil' },
+        { path: '/*', redirect: '/dashboard' },
         //{ path: '/*', component: NotFound },
         
     ]

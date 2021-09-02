@@ -19,7 +19,7 @@
                         <li class="flex items-center py-3">
                             <span>Abonnement</span>
                             <span class="ml-auto">
-                            <span v-if="(subscription != false)" class="bg-indigo-500 py-1 px-2 rounded text-white text-sm">{{ (subscription != undifined) ? subscription.subscription : "" }} {{ (subscription != undifined) ? "€" : "" }}</span>
+                            <span v-if="(subscription != undefined)" class="bg-indigo-500 py-1 px-2 rounded text-white text-sm">{{ (subscription != false) ? subscription.subscription : "" }} {{ (subscription != undifined) ? "€" : "" }}</span>
                             <span v-else class="bg-indigo-500 py-1 px-2 rounded text-white text-sm">non</span>
                             </span>
                         </li>
@@ -37,7 +37,7 @@
             <div class="w-full md:w-9/12 mx-2">
                 <!-- Profile tab -->
                 <!-- About Section -->
-                <div class="bg-white p-3 shadow-sm rounded-sm">
+                <div class="bg-white p-3 shadow-sm rounded-xl">
 
                     <div class="text-gray-700">
                         <div class="grid md:grid-cols-2 text-sm">
@@ -100,9 +100,23 @@
                 <!-- End of about section -->
 
                 <div class="my-4"></div>
+                <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6 rounded-t-xl">
+                    <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8 mb-3">
+                        <span clas="text-indigo-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                            </svg>
+                        </span>
+                        <span class="tracking-wide">Mes reviews</span>
+                    </div>
+                    <p class="mt-1 text-gray-600 font-lg text-semibold leading-6 mb-2">
+                    Ma note moyenne d'appréciation est de  5/5.
+                    </p>
+                    <Rating v-model="rating"/>
+                </div>
 
                 <!-- Experience and education -->
-                <div class="bg-white p-3 shadow-sm rounded-sm">
+                <div class="bg-white p-3 shadow-sm rounded-sm px-4 py-5 border-b border-gray-200 sm:px-6">
 
                     <div class="grid grid-cols-2">
                         <div>
@@ -120,14 +134,15 @@
                                     <li v-for="myProject in myProjects" :key="myProject">
                                         <router-link
                                             :to="'/projet/'+myProject.id"
-                                            class="text-base font-medium text-gray-500 hover:text-gray-900"
-                                            >{{ myProject.name }}
+                                            class="text-base font-medium text-gray-500 hover:text-gray-900 leading-6"
+                                            >{{ myProject.name ? myProject.name.substring(0,40)+' ...' : '' }}
+                                            
                                         </router-link>
                                     </li>
                             </ul>
                             <ul v-else class="list-inside space-y-2">
                                     <li>
-                                        <div class="text-teal-600">Aucune demandes</div>
+                                        <div class="leading-6 text-teal-600">Aucune demandes</div>
                                     </li>
                             </ul>
                         </div>
@@ -149,20 +164,32 @@
                                     <li v-for="myProjectDone in myProjectsDone" :key="myProjectDone">
                                         <router-link
                                             :to="'/projet/'+myProjectDone.id"
-                                            class="text-base font-medium text-gray-500 hover:text-gray-900"
-                                            >{{ myProjectDone.name }}
+                                            class="text-base font-medium text-gray-500 hover:text-gray-900 leading-6"
+                                            >{{ myProjectDone.name ? myProjectDone.name.substring(0,40)+' ...' : '' }}
                                         </router-link>
                                     </li>
                             </ul>
                             <ul v-else class="list-inside space-y-2">
                                     <li>
-                                        <div class="text-teal-600">Aucune réalisations</div>
+                                        <div class="text-teal-600 leading-6">Aucune réalisations</div>
                                     </li>
                             </ul>
                         </div>
                     </div>
                     <!-- End of Experience and education grid -->
+
+
+
+
+
+
+
+
+
                 </div>
+
+
+                    
                 <!-- End of profile tab -->
             </div>
         </div>
@@ -171,20 +198,25 @@
 
 
 <script>
-
+import Rating from "../components/Rating";
 import axios from 'axios'
 
 export default {
 
     
-    data(){
+    data(vm){
         return {
             myProjectsDone: {},
             myProjects: {},
             user: {},
             sinds: '',
-            subscription: []
+            subscription: '',
+            rating: 3,
         }
+    },
+
+    components: {
+            Rating
     },
 
     methods:{
