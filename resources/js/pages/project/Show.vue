@@ -442,6 +442,7 @@ export default {
                     this.type=true;
                     this.showNotification();
                     this.offer = !this.offer;
+                    window.location.replace("/accueil");
                 } else {
                     this.message="Vous changer d'avis !";
                     this.type=false;

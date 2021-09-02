@@ -40299,6 +40299,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.type = true;
         this.showNotification();
         this.offer = !this.offer;
+        window.location.replace("/accueil");
       } else {
         this.message = "Vous changer d'avis !";
         this.type = false;
