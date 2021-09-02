@@ -121,7 +121,8 @@
                                         <router-link
                                             :to="'/projet/'+myProject.id"
                                             class="text-base font-medium text-gray-500 hover:text-gray-900"
-                                            >{{ myProject.name }}
+                                            >{{ myProject.name ? myProject.name.substring(0,40)+' ...' : '' }}
+                                            
                                         </router-link>
                                     </li>
                             </ul>
@@ -150,7 +151,7 @@
                                         <router-link
                                             :to="'/projet/'+myProjectDone.id"
                                             class="text-base font-medium text-gray-500 hover:text-gray-900"
-                                            >{{ myProjectDone.name }}
+                                            >{{ myProjectDone.name ? myProjectDone.name.substring(0,40)+' ...' : '' }}
                                         </router-link>
                                     </li>
                             </ul>
@@ -183,7 +184,7 @@ export default {
             myProjects: {},
             user: {},
             sinds: '',
-            subscription: []
+            subscription: false
         }
     },
 

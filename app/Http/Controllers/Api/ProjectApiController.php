@@ -144,8 +144,8 @@ class ProjectApiController extends Controller
         $subCategory = $project->sub_category->name;
         $subCategoryDescription = $project->sub_category->description;
 
-        $picture_path = 'storage/project/cover/'.$project->user_id.'/'.$project->id.'/';
-        $document_path = 'storage/project/doc/'.$project->user_id.'/'.$project->id.'/';
+        $picture_path = 'storage/project/cover/'.$project->id.'/';
+        $document_path = 'storage/project/doc/'.$project->id.'/';
 
         //$file = File::get(public_path($picture_path.'/'.$project->picture));
         $documents = Json_decode($project->document);
@@ -370,9 +370,9 @@ class ProjectApiController extends Controller
                             // Get just ext
                             $extension = $file->extension();
                             // Filename to store
-                            $fileNameToStore = $filename.'_'.$user_id.'.'.$extension;
+                            $fileNameToStore = $filename.'_'.$project->id.'.'.$extension;
                             // Save link
-                            $path = $file->storeAs('public/project/doc/'.$user_id.'/'.$project->id,$fileNameToStore);
+                            $path = $file->storeAs('public/project/doc/'.$project->id,$fileNameToStore);
 
                             array_push($documents, $fileNameToStore);
                         }

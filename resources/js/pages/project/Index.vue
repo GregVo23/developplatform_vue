@@ -93,7 +93,7 @@
                                     </span>
                                     <span class="text-lg font-bold">{{ project.name }}
                                     </span>
-                                    <p>{{ project.about.substring(0,100)+' ...' }}</p>
+                                    <p>{{ project.about ? project.about.substring(0,100)+' ...' : '' }}</p>
 
                                     <div class="mt-4 flex">
                                         <div class="flex">
@@ -103,7 +103,7 @@
                                         <span
                                             class="ml-2 text-sm text-gray-600
                                             dark:text-gray-300 capitalize">
-                                            {{ project.nbLike  }}
+                                            {{ project.nbLike }}
                                         </span>
                                         </div>
 
@@ -115,7 +115,7 @@
                                         <span
                                             class="ml-2 text-sm text-gray-600
                                             dark:text-gray-300">
-                                            {{ project.price  }}
+                                            {{ project.price ?  project.price : "Pas de prix"  }}
                                         </span>
                                         </div>
 
@@ -126,7 +126,7 @@
                                         <span
                                             class="ml-2 text-sm text-gray-600
                                             dark:text-gray-300">
-                                            {{ project.country }}
+                                            {{ project.country ? project.country : "Indéfini" }}
                                         </span>
                                         </div>
 
@@ -159,7 +159,7 @@
                                             01-3.89-1.63z"></path>
                                         </svg>
                                         <span class="ml-2 text-sm text-gray-600 dark:text-gray-300">
-                                            {{ project.deadline }}
+                                            {{ project.deadline ? project.deadline.split(" ")[0] : "Pas de deadline" }}
                                         </span>
                                         </div>
                                     </div>
@@ -381,6 +381,7 @@ export default {
             }
             axios.post("api/favoris/"+project.id, config).then(({data}) => (this.data = data)).catch(error => console.log('error', error));
           project.like = !project.like;
+          project.nbLike++;
       },
       removeFavorite(project){
             const config = {
@@ -391,6 +392,7 @@ export default {
             axios.post("api/favoris/supprimer/"+project.id, config).then(({data}) => (this.data = data)).catch(error => console.log('error', error));
           if(confirm("Etes vous sur ?")){
             project.like = !project.like;
+            project.nbLike--;
           };
       },
       search(){

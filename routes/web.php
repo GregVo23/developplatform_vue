@@ -30,6 +30,7 @@ Route::post('/logout', [App\Http\Controllers\UserController::class, 'logout'])->
 Route::post('/', [App\Http\Controllers\ContactController::class, 'contact'])->name('contact');
 
 // Redirections
+
 Route::get('/{any}', function () {
     return view('dashboard');
 })->where('any', '.*')->middleware(['auth','verified']);
