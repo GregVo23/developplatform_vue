@@ -25,14 +25,14 @@
 
 
         <div class="min-h-screen bg-gray-200">
-        <div class="pb-4 bg-gray-200">
+        <div class="bg-gray-200">
 
             <div id="app" message={{ Session::get('success') }}>
             </div>
             <div id="message" class="hidden" message={{ Session::get('success') }}>
             </div>
         </div>
-        <footer id="footer">
+        <footer id="footer" class="-mt-1.5">
             @include('partials.footer')
         </footer>
         </div>

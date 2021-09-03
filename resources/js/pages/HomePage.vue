@@ -41,7 +41,7 @@
         </div>
     </div>
     <div class="flex">
-        <div class="flex-shrink w-2/4">
+        <div class="flex-shrink w-2/4 -mb-50 -pb-50">
 
             <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_NmBGIS.json"  background="transparent"  speed="1"  style="width: 80%;"  loop  autoplay></lottie-player>
             <!--<lottie-player src="https://assets3.lottiefiles.com/private_files/lf30_wwq2op12.json"  background="transparent"  speed="1"  style="width: 60%;"  loop  autoplay></lottie-player>-->

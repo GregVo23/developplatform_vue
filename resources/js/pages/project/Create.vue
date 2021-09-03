@@ -86,7 +86,6 @@
 
 
             <div>
-
                 <label for="picture" class="block text-sm font-medium text-gray-700">
                     Photo de couverture
                     </label>
@@ -99,6 +98,7 @@
                             <input v-on:change="onChange" type='file' class="hidden" name="picture"/>
                         </label>
                     </div>
+                    {{ project.pictureName }}
             </div>
 
 
@@ -320,7 +320,7 @@ export default {
                 number: '',
                 street: '',
                 notifications: '',
-                rules: ''
+                rules: '',
             }
 
         return {

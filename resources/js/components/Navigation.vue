@@ -522,7 +522,6 @@ import {
   DocumentReportIcon,
   MenuIcon,
   RefreshIcon,
-  ShieldCheckIcon,
   ViewGridIcon,
   XIcon,
 } from "@heroicons/vue/outline";
@@ -597,6 +596,9 @@ export default {
         .getAttribute("content"),
       user: {},
     };
+  },
+  commputed() {
+      fetchApi()
   },
   setup() {
     return {
