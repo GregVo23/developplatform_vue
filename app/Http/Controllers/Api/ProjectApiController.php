@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
@@ -248,11 +249,33 @@ class ProjectApiController extends Controller
                         $request->session()->regenerate();
                         Session::flash('success', 'Votre proposition d\'un montant de '.$request->amount.'€ a été envoyée, attendez maintenant l\'email de réponse');
                         //return Redirect::to('dashboard')->with('success', 'Votre proposition d\'un montant de '.$request->amount.'€ a été envoyée, attendez maintenant l\'email de réponse');
-                    }else{
+                        
+                        
+                        Mail::raw([],function($message){
+                            $message->from('admin@developplatform.com', 'admin');
+                            $message->to('vanosselgregory@gmail.com');
+                            $message->subject('test');
+                            $message->setBody('blablablaba');
+                        });
+
+
+
+                    } else {
                         $request->session()->regenerate();
                         Session::flash('success', 'Votre proposition d\'un montant de '.$request->amount.'€ a été envoyée, attendez maintenant la réponse');
                         //return Redirect::to('dashboard')->with('success', 'Votre proposition d\'un montant de '.$request->amount.'€ a été envoyée, attendez maintenant la réponse');
+                    
+                        Mail::raw([],function($message){
+                            $message->from('admin@developplatform.com', 'admin');
+                            $message->to('vanosselgregory@gmail.com');
+                            $message->subject('test');
+                            $message->setBody('blablablaba');
+                        });
+                    
+                    
+                    
                     }
+
                 }
             }else{
                 $request->session()->regenerate();

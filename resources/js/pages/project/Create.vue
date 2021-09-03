@@ -95,10 +95,10 @@
                                 <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
                             </svg>
                             <span class="mt-2 text-base leading-normal select-none">Choisir une photo</span>
-                            <input v-on:change="onChange" type='file' class="hidden" name="picture"/>
+                            <input v-on:change="onChange" type='file' class="hidden" id="picture" name="picture"/>
                         </label>
                     </div>
-                    {{ project.pictureName }}
+                    <p @click="RemoveImg()" class="text-yellow hover:text-indigo-700 cursor-pointer">{{ (preview != undefined) ? preview.substring(0,25) : '' }}</p>
             </div>
 
 
@@ -117,7 +117,7 @@
                         <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                     </svg>
                     <span class="mt-2 text-base leading-normal select-none">Vos fichiers</span>
-                    <input v-on:change="getFiles" type='file' class="hidden" name="document[]" multiple/>
+                    <input v-on:change="getFiles" id="file" type='file' class="hidden" name="document[]" multiple/>
                     <!--document[]-->
                 </label>
               </div>
@@ -335,6 +335,7 @@ export default {
             errors: [],
             alert: false,
             nbErrors: 0,
+            preview: ''
         }
     },
       computed: {
@@ -365,6 +366,7 @@ export default {
         onChange(e) {
                 this.picture = e.target.files[0];
                 this.pictureName = e.target.files[0].name;
+                this.preview = e.target.files[0].name;
         },
         getFiles(e){
                 this.document = e.target.files;
@@ -437,6 +439,10 @@ export default {
               }
                   setTimeout(() => {this.refresh();}, 5550);
             })
+        },
+        RemoveImg(){
+            document.getElementById('picture').value = '';
+            this.preview = '';
         },
     },
     created(){

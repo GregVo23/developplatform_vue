@@ -48,8 +48,10 @@ class RegisteredUserController extends Controller
         $message = "Vous êtes désormais membre sur Developplatform ! Bienvenue ".$request->first_name." !";
         session(['categories' => $categories]);
 
-        if($request->notification == "on"){
+        if ($request->notification == "on"){
             $notification = true;
+        } else {
+            $notification = false;
         }
 
         if($request->has('rules')){
