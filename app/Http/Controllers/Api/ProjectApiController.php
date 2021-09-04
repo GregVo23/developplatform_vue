@@ -7,7 +7,6 @@ use App\Models\Project;
 use App\Models\Category;
 use App\Models\ProjectUser;
 use App\Models\SubCategory;
-use Hamcrest\Arrays\IsArray;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -19,6 +18,11 @@ use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use App\Mail\EmailContact;
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Redirect;
+
+
 
 class ProjectApiController extends Controller
 {
@@ -135,7 +139,7 @@ class ProjectApiController extends Controller
         $project = Project::find($id);
         $owner = User::find($project->user_id);
         $offer = ProjectUser::where('user_id', '=', $user->id)->where('project_id', '=', $id)->where('proposal', '<>', NULL)->first();
-        if(!empty($offer)){
+        if(!empty($offer->proposal)){
             $offer = true;
         } else {
             $offer = false;
@@ -178,7 +182,6 @@ class ProjectApiController extends Controller
     {
 
         $user = auth()->user();
-
         $project = ProjectUser::firstOrCreate(
             ['project_id' =>  $id, 'user_id' => $user->id],
             ['created_at' => Carbon::now(), 'project_id' =>  $id, 'user_id' => $user->id],
@@ -187,13 +190,50 @@ class ProjectApiController extends Controller
             $project->proposal = today();
             $result = $project->save();
             if($result){
+                $project = Project::find($id);
                 if($user->notification == true){
                     Session::flash('success', 'Votre demande a été envoyée, attendez maintenant l\'email de confirmation');
                     return response()->json(['success' => 'Votre demande a été envoyée, attendez maintenant l\'email de confirmation'], 200);
-                }else{
-                    Session::flash('success', 'Votre demande a été envoyée, attendez maintenant la confirmation');
-                    return response()->json(['success' => 'Votre demande a été envoyée, attendez maintenant la confirmation'], 200);
-                }
+
+                        // Send notification email to the offer sender
+                        $message = "Vous avez accepté le projet suivant : '$project->name'. Attendez maintenant la réponse de l'auteur du projet. Nous vous remercions pour votre confiance et vous souhaitons beaucoup de succès sur Developplatform.";
+                        $title = "Votre offre a été envoyé sur Developplatform";
+                        $name = $user->firstname;
+                        $email = $user->email;
+                        $mailData = [
+                            'title' => $title,
+                            'name' => $name,
+                            'texte' => $message,
+                            'email' => $email,
+                        ];
+                        Mail::to($email)->send(new EmailContact($mailData));
+
+                    }else{
+                        Session::flash('success', 'Votre demande a été envoyée, attendez maintenant la confirmation');
+                        return response()->json(['success' => 'Votre demande a été envoyée, attendez maintenant la confirmation'], 200);
+                    }
+
+                    if($project->notifications == true){
+                        $owner_id =  $project->project_user->user_id;
+                        $owner = User::find($owner_id);
+
+                        // Send notification email to the project's owner
+                        $message = "Votre projet a été accepté : '$project->name'. Vous pouvez réagir à cette acceptation, la confirmer ou la refuser. Nous vous remercions pour votre confiance et vous souhaitons beaucoup de succès sur Developplatform.";
+                        $title = "Vous avez reçu une offre pour votre projet.";
+                        $name = $owner->firstname;
+                        $email = $owner->email;
+                        $mailData = [
+                            'title' => $title,
+                            'name' => $name,
+                            'texte' => $message,
+                            'email' => $email,
+                        ];
+                        Mail::to($email)->send(new EmailContact($mailData));
+                    } else {
+                        // Notification to the project's owner -> Your project is accepted
+                    }
+
+
             }else{
                 Session::flash('message', 'Une erreur est survenue lors de l\'acceptation, veuillez réessayer plus tard !');
                 return response()->json(['error' => 'Une erreur est survenue lors de l\'acceptation'], 500);
@@ -251,29 +291,44 @@ class ProjectApiController extends Controller
                         //return Redirect::to('dashboard')->with('success', 'Votre proposition d\'un montant de '.$request->amount.'€ a été envoyée, attendez maintenant l\'email de réponse');
                         
                         
-                        Mail::raw([],function($message){
-                            $message->from('admin@developplatform.com', 'admin');
-                            $message->to('vanosselgregory@gmail.com');
-                            $message->subject('test');
-                            $message->setBody('blablablaba');
-                        });
-
-
+                        // Send notification email to the offer sender
+                        $message = "Votre proposition d\'un montant de '.$request->amount.'€ a été envoyée, attendez maintenant la réponse de l'auteur du projet. Nous vous remercions pour votre confiance et vous souhaitons beaucoup de succès sur Developplatform.";
+                        $title = "Votre offre a été envoyé sur Developplatform";
+                        $name = $user->firstname;
+                        $email = $user->email;
+                        $mailData = [
+                            'title' => $title,
+                            'name' => $name,
+                            'texte' => $message,
+                            'email' => $email,
+                        ];
+                        Mail::to($email)->send(new EmailContact($mailData));
 
                     } else {
                         $request->session()->regenerate();
                         Session::flash('success', 'Votre proposition d\'un montant de '.$request->amount.'€ a été envoyée, attendez maintenant la réponse');
-                        //return Redirect::to('dashboard')->with('success', 'Votre proposition d\'un montant de '.$request->amount.'€ a été envoyée, attendez maintenant la réponse');
+                        //return Redirect::to('dashboard')->with('success', 'Votre proposition d\'un montant de '.$request->amount.'€ a été envoyée, attendez maintenant la réponse');              
                     
-                        Mail::raw([],function($message){
-                            $message->from('admin@developplatform.com', 'admin');
-                            $message->to('vanosselgregory@gmail.com');
-                            $message->subject('test');
-                            $message->setBody('blablablaba');
-                        });
-                    
-                    
-                    
+                    }
+
+                    if($project->notifications == true){
+                        $owner_id =  $project->project_user->user_id;
+                        $owner = User::find($owner_id);
+
+                        // Send notification email to the project's owner
+                        $message = "Une proposition d\'un montant de '.$request->amount.'€ a été reçu pour votre projet : '$project->name'. Vous pouvez réagir à cette offre, l'accepter ou la refuser. Nous vous remercions pour votre confiance et vous souhaitons beaucoup de succès sur Developplatform.";
+                        $title = "Vous avez reçu une offre pour votre projet.";
+                        $name = $owner->firstname;
+                        $email = $owner->email;
+                        $mailData = [
+                            'title' => $title,
+                            'name' => $name,
+                            'texte' => $message,
+                            'email' => $email,
+                        ];
+                        Mail::to($email)->send(new EmailContact($mailData));
+                    } else {
+                        // Notification to the project's owner -> you have an new offer 
                     }
 
                 }
@@ -284,6 +339,26 @@ class ProjectApiController extends Controller
             }
         }
     }
+
+
+    /**
+     * Cancel an project's offer.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function cancel(Request $request, $id)
+    {
+        $user = Auth()->user();
+        $offer = ProjectUser::where('user_id', '=', $user->id)->where('project_id', '=', $id);
+        $result = $offer->delete();
+        if ($result){
+            return true;
+        } else {
+            return response()->json(['errors' => 'Un problème est survenu, impossible de supprimer votre offre. Veuillez réessayer plus tard.'], 500);
+        }
+    }
+
 
     /**
      * Store a newly created project in storage.

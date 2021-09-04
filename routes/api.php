@@ -32,6 +32,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('/offres', [App\Http\Controllers\Api\ProjectApiController::class, 'proposal'])->name('project.proposal');
     Route::post('/projet/accepter/{id}', [App\Http\Controllers\Api\ProjectApiController::class, 'accept'])->name('project.accept');
     Route::post('/projet/offre/{id}', [App\Http\Controllers\Api\ProjectApiController::class, 'offer'])->name('project.offer');
+    Route::post('/projet/annuler/{id}', [App\Http\Controllers\Api\ProjectApiController::class, 'cancel'])->name('project.offer.cancel');
 
     /*  FAVORITES  */
     Route::get('/favoris', [App\Http\Controllers\Api\FavoriteApiController::class, 'index'])->name('favorite.index');

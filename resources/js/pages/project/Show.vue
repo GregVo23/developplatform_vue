@@ -104,7 +104,7 @@
 
     <section class="mb-6">
 
-    <div class="flex justify-evenly">
+    <div v-if="!makeOffer" class="flex justify-evenly">
 
             <button v-if="user.id !== owner.id" @click="accept(project)" class="flex justify-center">
                 <span class="flex bg-grey-lighter">
@@ -160,6 +160,20 @@
         </button>
     
 
+    </div>
+    <div v-else>
+        <div class="flex justify-center">
+            <span class="flex bg-grey-lighter">
+              <span @click="removeOffer(project)" class="w-64 flex flex-col items-center px-4 py-6 bg-white text-gray-700 rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue hover:text-gray-900">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z" clip-rule="evenodd" />
+                    <path d="M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z" />
+                </svg>
+                  <span class="mt-2 text-base leading-normal text-center">Retirer mon offre</span>
+                  <a href="#" ></a>
+              </span>
+            </span>
+        </div>
     </div>
     <form @submit="formSubmit" name="frmNegociation" id="frmNegociation" class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-8" method="POST" enctype="multipart/form-data" action="./api/projet/offre">
 
@@ -265,10 +279,14 @@ export default {
             type: '',
             show: false,
             offer: false,
+            acceptProject: false,
+            offerProject: false,
+            makeOffer: false,
             deadline: false,
             url : "http://localhost:8000/"
         }
     },
+
     methods:{
         loadFormData(){
             const config = {
@@ -290,6 +308,17 @@ export default {
                 this.offer = data[10]
             )).catch(error => console.log('error', error));
 
+                this.isOfferte();
+
+        },
+      isOfferte(){
+            if (this.offer == false){
+                this.makeOffer = false;
+                return false;
+            } else {
+                this.makeOffer = true;
+                return true;
+            }
         },
       accept(project){
                     const config = {
@@ -303,13 +332,16 @@ export default {
                         this.message="Une erreur est survenue !";
                         this.type=false;
                         this.showNotification();
-                        throw new Error("Une erreur est survenue lors de l'acceptation de l'offre !");
+                        throw new Error("Une erreur est survenue lors de l'acceptProject de l'offre !");
                         });
 
                     this.message="Vous avez acceptez le projet, attendez désormais une réponse de l'auteur.";
                     this.type=true;
                     this.showNotification();
                     this.offer = !this.offer;
+                    this.makeOffer = !this.makeOffer;
+                    this.offerProject = !this.offerProject;
+                    this.acceptProject = !this.acceptProject;
                 } else {
                     this.message="Vous changer d'avis !";
                     this.type=false;
@@ -403,6 +435,8 @@ export default {
                     this.type=true;
                     this.showNotification();
                     this.offer = !this.offer;
+                    this.makeOffer = !this.makeOffer;
+                    this.offerProject = !this.offerProject;
                 } else {
                     this.message="Vous changer d'avis !";
                     this.type=false;
@@ -432,18 +466,51 @@ export default {
                     this.message="Ce projet est supprimé.";
                     this.type=true;
                     this.showNotification();
-                    this.offer = !this.offer;
+                    this.offerProject = !this.offerProject;
                     window.location.replace("/accueil");
                 } else {
                     this.message="Vous changer d'avis !";
                     this.type=false;
                     this.showNotification();
                 };
-                
 
+            },
+            removeOffer(project){
+                const config = {
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    }
+                }
+                if(confirm("Etes vous sur de retirer vottre offre pour ce projet : "+project.name.substring(0,25)+" ...")){
+                    axios.post("/api/projet/annuler/"+this.id, config)
+                        .then(function (res) {
+                            console.log(res);
+                        })
+                    .catch(error => {
+                        console.log('error', error);
+                        this.message="Une erreur est survenue !";
+                        this.type=false;
+                        this.showNotification();
+                        throw new Error("Une erreur est survenue lors de la suppression de votre offre");
+                        });
+
+                    this.message="Votre offre est supprimée.";
+                    this.type=true;
+                    this.showNotification();
+                    this.offerProject = false;
+                    this.acceptProject = false;
+                    this.offer = false;
+                    this.makeOffer = false;
+                    window.location.replace("/accueil");
+                } else {
+                    this.message="Vous changer d'avis !";
+                    this.type=false;
+                    this.showNotification();
+                };
             },
 
     },
+
     created(){
         this.loadFormData();
     }

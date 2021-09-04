@@ -6,6 +6,6 @@
 <b>Email</b> : {{ $mailData['email'] }} 
 
 
-Merci de répondre,<br>
+Bien à vous,<br>
 {{ config('app.name') }}
 @endcomponent
