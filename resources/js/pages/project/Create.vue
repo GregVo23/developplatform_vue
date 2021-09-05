@@ -98,7 +98,7 @@
                             <input v-on:change="onChange" type='file' class="hidden" id="picture" name="picture"/>
                         </label>
                     </div>
-                    <p @click="RemoveImg()" class="text-yellow hover:text-indigo-700 cursor-pointer">{{ (preview != undefined) ? preview.substring(0,25) : '' }}</p>
+                    <p @click="RemoveImg()" class="text-yellow hover:text-indigo-700 cursor-pointer" title="Supprimer">{{ (preview != undefined) ? preview.substring(0,25) : '' }}</p>
             </div>
 
 
@@ -121,6 +121,7 @@
                     <!--document[]-->
                 </label>
               </div>
+                <p v-for="doc in document" :key="doc" @click="removeDoc()" class="text-yellow hover:text-indigo-700 cursor-pointer" title="Supprimer">{{ doc.name }}</p>
             </div>
           </div>
         </div>
@@ -321,6 +322,7 @@ export default {
                 street: '',
                 notifications: '',
                 rules: '',
+                fileshow: true,
             }
 
         return {
@@ -439,10 +441,21 @@ export default {
               }
                   setTimeout(() => {this.refresh();}, 5550);
             })
+
+            if (errors){
+              console.log(errors)
+            } else {
+              window.location.replace("/accueil");
+            }
         },
         RemoveImg(){
             document.getElementById('picture').value = '';
             this.preview = '';
+        },
+
+        removeDoc(){
+            document.getElementById('file').value = '';
+            this.document = [];
         },
     },
     created(){

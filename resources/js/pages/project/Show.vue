@@ -339,6 +339,7 @@ export default {
                     this.type=true;
                     this.showNotification();
                     this.offer = !this.offer;
+                    this.open = false;
                     this.makeOffer = !this.makeOffer;
                     this.offerProject = !this.offerProject;
                     this.acceptProject = !this.acceptProject;
@@ -437,6 +438,7 @@ export default {
                     this.offer = !this.offer;
                     this.makeOffer = !this.makeOffer;
                     this.offerProject = !this.offerProject;
+                    this.open = false;
                 } else {
                     this.message="Vous changer d'avis !";
                     this.type=false;
@@ -490,6 +492,7 @@ export default {
                         console.log('error', error);
                         this.message="Une erreur est survenue !";
                         this.type=false;
+                        this.open = false;
                         this.showNotification();
                         throw new Error("Une erreur est survenue lors de la suppression de votre offre");
                         });
@@ -501,7 +504,7 @@ export default {
                     this.acceptProject = false;
                     this.offer = false;
                     this.makeOffer = false;
-                    window.location.replace("/accueil");
+                    //window.location.replace("/accueil");
                 } else {
                     this.message="Vous changer d'avis !";
                     this.type=false;
