@@ -7,18 +7,20 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class offer extends Mailable
+class EmailNotification extends Mailable
 {
     use Queueable, SerializesModels;
+
+    public $mailData;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($mailData)
     {
-        //
+        $this->mailData = $mailData;
     }
 
     /**
@@ -28,6 +30,6 @@ class offer extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->markdown('Email.notificationEmail')->with('mailData', $this->mailData);
     }
 }

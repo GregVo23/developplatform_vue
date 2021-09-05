@@ -18,7 +18,7 @@ use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use App\Mail\EmailContact;
+use App\Mail\EmailNotification;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Redirect;
 
@@ -206,7 +206,7 @@ class ProjectApiController extends Controller
                             'texte' => $message,
                             'email' => $email,
                         ];
-                        Mail::to($email)->send(new EmailContact($mailData));
+                        Mail::to($email)->send(new EmailNotification($mailData));
 
                     }
                     Session::flash('success', 'Votre demande pour ce projet a été envoyée, attendez maintenant la confirmation');
@@ -248,7 +248,7 @@ class ProjectApiController extends Controller
             Session::flash('message', 'Une erreur est survenue lors de l\'enregistrement due a une validation de donnée incorrecte');
             return response()->json(['error' => 'Une erreur est survenue lors de l\'enregistrement due a une validation de donnée incorrecte'], 401);
         } else {
-            $project = ProjectUser::firstOrCreate(
+            $offer = ProjectUser::firstOrCreate(
                 [
                     'project_id' =>  $id,
                     'user_id' => $user->id,
@@ -256,17 +256,18 @@ class ProjectApiController extends Controller
                     'amount' => $request->input('amount'),
                 ], [
                     'created_at' => Carbon::now(),
-                    'project_id' =>  $id, 'user_id' => $user->id,
+                    'project_id' =>  $id,
+                    'user_id' => $user->id,
                     'information' => htmlentities($request->input('information')),
                     'amount' => $request->input('amount'),
                 ],
             );
 
-            if($project->project->user_id != $user->id){
-                $project->proposal = today();
-                $result = $project->save();
+            if($offer->project->user_id != $user->id){
+                $offer->proposal = today();
+                $result = $offer->save();
                 if($result){
-
+                    $project = Project::find($id);
                     if($project->notifications == true){
                         $owner_id =  $project->user_id;
                         $owner = User::find($owner_id);
@@ -281,7 +282,7 @@ class ProjectApiController extends Controller
                             'texte' => $message2,
                             'email' => $email2,
                         ];
-                        Mail::to($email2)->send(new EmailContact($mailData2));
+                        Mail::to($email2)->send(new EmailNotification($mailData2));
                     } else {
                         // Notification to the project's owner -> you have an new offer 
                     }

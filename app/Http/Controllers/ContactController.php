@@ -38,9 +38,9 @@ class ContactController extends Controller {
 
             $message = "Votre demande à été envoyée aux administrateurs du site, nous vous répondrons dans les plus brefs délais.";
             $title = "Message d'un membre de Developplatform";
-            $name = $request->input('name');
+            $name = ucfirst($request->input('name'));
             $texte = $request->input('texte');
-            $email = ucfirst($request->input('email'));
+            $email = $request->input('email'); //TODO add email admin
             $mailData = [
                 'title' => $title,
                 'name' => $name,
