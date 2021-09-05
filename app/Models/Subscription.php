@@ -17,8 +17,9 @@ class Subscription extends Model
     protected $fillable = [
         'id',
         'user_id',
-        'nbProject',
+        'nb_projet',
         'subscription',
+        'nb_max_projet',
     ];
 
     /**

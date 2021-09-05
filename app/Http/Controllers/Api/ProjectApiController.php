@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Mail\EmailNotification;
+use App\Models\Subscription;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Redirect;
 
@@ -235,66 +236,85 @@ class ProjectApiController extends Controller
     public function offer(Request $request, $id)
     {
         $user = auth()->user();
-        // validate
-        $rules = array(
 
-            'information' => 'required|min:20|max:1000',
-            'amount' => 'required|numeric',
-        );
-        $validator = Validator::make($request->all(), $rules);
-
-        // process
-        if($validator->fails()) {
-            Session::flash('message', 'Une erreur est survenue lors de l\'enregistrement due a une validation de donnée incorrecte');
-            return response()->json(['error' => 'Une erreur est survenue lors de l\'enregistrement due a une validation de donnée incorrecte'], 401);
-        } else {
-            $offer = ProjectUser::firstOrCreate(
+            $subscription = Subscription::firstOrCreate(
                 [
-                    'project_id' =>  $id,
-                    'user_id' => $user->id,
-                    'information' => htmlentities($request->input('information')),
-                    'amount' => $request->input('amount'),
+                    'user_id' =>  $user->id,
                 ], [
-                    'created_at' => Carbon::now(),
-                    'project_id' =>  $id,
                     'user_id' => $user->id,
-                    'information' => htmlentities($request->input('information')),
-                    'amount' => $request->input('amount'),
+                    'nb_max_projet' =>  "3"
                 ],
             );
+            $subscription = Subscription::where('user_id', '=', $user->id)->first();
+            if ($subscription->nb_max_projet - $subscription->nb_projet >= 1){
+                $subscription->nb_projet ++;
+                if($subscription->save()){
+        
+                    // validate
+                    $rules = array(
 
-            if($offer->project->user_id != $user->id){
-                $offer->proposal = today();
-                $result = $offer->save();
-                if($result){
-                    $project = Project::find($id);
-                    if($project->notifications == true){
-                        $owner_id =  $project->user_id;
-                        $owner = User::find($owner_id);
-                        // Send notification email to the project's owner
-                        $message2 = "Une proposition d\'un montant de '.$request->amount.'€ a été reçu pour votre projet : '$project->name'. Vous pouvez réagir à cette offre, l'accepter ou la refuser. Nous vous remercions pour votre confiance et vous souhaitons beaucoup de succès sur Developplatform.";
-                        $title2 = "Vous avez reçu une offre pour votre projet.";
-                        $name2 = $owner->firstname;
-                        $email2 = $owner->email;
-                        $mailData2 = [
-                            'title' => $title2,
-                            'name' => $name2,
-                            'texte' => $message2,
-                            'email' => $email2,
-                        ];
-                        Mail::to($email2)->send(new EmailNotification($mailData2));
+                        'information' => 'required|min:20|max:1000',
+                        'amount' => 'required|numeric',
+                    );
+                    $validator = Validator::make($request->all(), $rules);
+
+                    // process
+                    if($validator->fails()) {
+                        Session::flash('message', "Une erreur est survenue lors de l'enregistrement due a une validation de donnée incorrecte");
+                        return response()->json(['error' => "Une erreur est survenue lors de l'enregistrement due a une validation de donnée incorrecte"], 401);
                     } else {
-                        // Notification to the project's owner -> you have an new offer 
+                        $offer = ProjectUser::firstOrCreate(
+                            [
+                                'project_id' =>  $id,
+                                'user_id' => $user->id,
+                                'information' => htmlentities($request->input('information')),
+                                'amount' => $request->input('amount'),
+                            ], [
+                                'created_at' => Carbon::now(),
+                                'project_id' =>  $id,
+                                'user_id' => $user->id,
+                                'information' => htmlentities($request->input('information')),
+                                'amount' => $request->input('amount'),
+                            ],
+                        );
+
+                        if($offer->project->user_id != $user->id){
+                            $offer->proposal = today();
+                            $result = $offer->save();
+                            if($result){
+                                $project = Project::find($id);
+                                if($project->notifications == true){
+                                    $owner_id =  $project->user_id;
+                                    $owner = User::find($owner_id);
+                                    // Send notification email to the project's owner
+                                    $message2 = "Une proposition d'un montant de $request->amount € a été reçu pour votre projet : $project->name . Vous pouvez réagir à cette offre, l'accepter ou la refuser. Nous vous remercions pour votre confiance et vous souhaitons beaucoup de succès sur Developplatform.";
+                                    $title2 = "Vous avez reçu une offre pour votre projet.";
+                                    $name2 = $owner->firstname;
+                                    $email2 = $owner->email;
+                                    $mailData2 = [
+                                        'title' => $title2,
+                                        'name' => $name2,
+                                        'texte' => $message2,
+                                        'email' => $email2,
+                                    ];
+                                    Mail::to($email2)->send(new EmailNotification($mailData2));
+                                } else {
+                                    // Notification to the project's owner -> you have an new offer 
+                                }
+                                $request->session()->regenerate();
+                                Session::flash('success', "Votre proposition d'un montant de $request->amount € a été envoyée, attendez maintenant l'email de réponse");
+                            }
+                        }else{
+                            $request->session()->regenerate();
+                            Session::flash('message', 'Une erreur est survenue, veuillez réessayer plus tard !');
+                        }
                     }
-                    $request->session()->regenerate();
-                    Session::flash('success', 'Votre proposition d\'un montant de '.$request->amount.'€ a été envoyée, attendez maintenant l\'email de réponse');
                 }
-            }else{
+            } else {
                 $request->session()->regenerate();
-                Session::flash('message', 'Une erreur est survenue, veuillez réessayer plus tard !');
+                Session::flash('message', 'Vous ne disposer plus d\'action pour effectuer cette requete, modifiez votre abonnement !');
             }
         }
-    }
 
 
     /**
