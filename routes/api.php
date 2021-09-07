@@ -40,6 +40,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::post('/favoris/supprimer/{id}', [App\Http\Controllers\Api\FavoriteApiController::class, 'delete'])->name('favorite.delete');
 
     /*  USER PROFILE  */
+    Route::post('/avatar/{id}', [App\Http\Controllers\Api\UserApiController::class, 'saveAvatar'])->name('user.avatar');
     Route::get('/profil', [App\Http\Controllers\Api\UserApiController::class, 'show'])->name('user.show');
     Route::delete('/profil/{id}', [App\Http\Controllers\Api\UserApiController::class, 'destroy'])->name('user.destroy');
 

@@ -48,24 +48,34 @@ class UserApiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function saveAvatar(Request $request)
+    public function saveAvatar(Request $request, $id)
     {
         $request->validate([
-            'file' => 'required|mimes:jpg,jpeg,png,csv,txt,xlx,xls,pdf|max:2048'
+            'file' => 'required|mimes:jpg,jpeg,png,csv,txt,xlx,xls,pdf|max:8000'
         ]);
 
-        $fileUpload = Auth()->user;
+        $user_id = Auth()->user()->id;
 
+        if ($user_id == $id){
+            $user = User::find($id);
 
-        if ($request->file()) {
-            $file_name = time() . '_' . $request->file->getClientOriginalName();
-            $file_path = $request->file('file')->storeAs('uploads', $file_name, 'public');
+            if ($request->file()) {
+                $file_name = time() . '_' . $request->file->getClientOriginalName();
+                $file_path = $request->file('file')->storeAs('avatar/' . $user->id, $file_name, 'public');
 
-            $fileUpload->name = time() . '_' . $request->file->getClientOriginalName();
-            $fileUpload->avatar = '/storage/' . $file_path;
-            $fileUpload->save();
-
-            return response()->json(['success' => 'File uploaded successfully.']);
+                $user->name = time() . '_' . $request->file->getClientOriginalName();
+                $user->avatar = '/storage/' . $file_path;
+                $result = $user->save();
+                if ( $result){
+                    return response()->json($request->all());
+                } else {
+                    return response()->json(['error' => 'Un problème est survenu !'], 500);
+                }
+            } else {
+                return response()->json(['error' => 'Un problème est survenu, absence de fichiers !'], 500);
+            }
+        } else {
+            return response()->json(['error' => 'Seul le propriétaire peut changer son avatar !'], 422);
         }
     }
 
@@ -163,12 +173,12 @@ class UserApiController extends Controller
 
             $projects = $user->projects;
             foreach ($projects as $project){
-                $project->delete();
 
-                //Delete all file from user
-                $picture_path = '/storage/project/cover/' . $project->id;
-                $document_path = '/storage/project/doc/' . $project->id;
+                //Delete all user data
+                $picture_path = '/storage/project/cover/'. $project->id;
+                $document_path = '/storage/project/doc/'. $project->id;
 
+                //Pictures
                 if (File::exists(public_path($picture_path . '/' . $project->picture))) {
                     //Delete small project image
                     File::delete(public_path($picture_path . '/' . $project->picture));
@@ -179,6 +189,7 @@ class UserApiController extends Controller
                     File::deleteDirectory(public_path('storage/project/cover/' . $project->user_id));
                 }
 
+                //Documents
                 if (!empty($project->document)) {
                     $documents = json_decode($project->document);
                     foreach ($documents as $document) {
@@ -188,6 +199,15 @@ class UserApiController extends Controller
                             File::deleteDirectory(public_path('storage/project/doc/' . $project->user_id));
                         }
                     }
+                }
+                $project->delete();
+
+                //Avatar
+                if (File::exists(public_path($user->avatar))) {
+                    //Delete small project image
+                    File::delete(public_path($user->avatar));
+                    //Delete all directories
+                    File::deleteDirectory(public_path($user->avatar. '/' . $user->id));
                 }
             }
             

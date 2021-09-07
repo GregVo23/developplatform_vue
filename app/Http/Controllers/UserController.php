@@ -38,32 +38,6 @@ class UserController extends Controller
     }
 
     /**
-     * Upload user avatar.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function saveAvatar(Request $request)
-    {
-        $request->validate([
-            'file' => 'required|mimes:jpg,jpeg,png,csv,txt,xlx,xls,pdf|max:2048'
-        ]);
-
-        $fileUpload = Auth()->user;
-
-
-        if ($request->file()) {
-            $file_name = time() . '_' . $request->file->getClientOriginalName();
-            $file_path = $request->file('file')->storeAs('uploads', $file_name, 'public');
-
-            $fileUpload->name = time() . '_' . $request->file->getClientOriginalName();
-            $fileUpload->avatar = '/storage/' . $file_path;
-            $fileUpload->save();
-
-            return response()->json(['success' => 'File uploaded successfully.']);
-        }
-    }
-
-    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response

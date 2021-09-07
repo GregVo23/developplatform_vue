@@ -12,6 +12,74 @@
                             style="object-fit: cover"
                         />
                     </div>
+                        <form
+                            @submit="formSubmit"
+                            name="frmAvatar"
+                            id="frmAvatar"
+                            method="POST"
+                            enctype="multipart/form-data"
+                            action="./api/avatar"
+                        >
+
+                            <label
+                                class="
+                                    w-64
+                                    flex flex-col
+                                    items-center
+                                    px-4
+                                    py-6
+                                    bg-white
+                                    text-gray-700
+                                    rounded-lg
+                                    shadow-lg
+                                    tracking-wide
+                                    uppercase
+                                    border border-blue
+                                    cursor-pointer
+                                    hover:bg-blue hover:text-gray-900
+                                "
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="h-8 w-8"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor"
+                                >
+                                    <path
+                                        fill-rule="evenodd"
+                                        d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                                        clip-rule="evenodd"
+                                    />
+                                </svg>
+                                <span
+                                    class="
+                                        mt-2
+                                        text-base
+                                        leading-normal
+                                        select-none
+                                    "
+                                    >Changer l'avatar</span
+                                >
+                                <input
+                                    v-on:change="onChange"
+                                    class="hidden"
+                                    type="file"
+                                    id="avatar"
+                                    name="avatar"
+                                />
+                                <input
+                                    type="submit"
+                                    value="Changer l'avatar"
+                                />
+                            </label>
+                        </form>
+
+
+
+
+
+
+
                     <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">
                         {{ user.firstname }} {{ user.lastname }}
                     </h1>
@@ -494,7 +562,7 @@ import Rating from "../components/Rating";
 import axios from "axios";
 
 export default {
-    data(vm) {
+    data() {
         return {
             myProjectsDone: {},
             myProjects: {},
@@ -502,6 +570,7 @@ export default {
             sinds: "",
             subscription: "",
             rating: 3,
+            avatar: '',
         };
     },
 
@@ -531,6 +600,37 @@ export default {
                     )
                 )
                 .catch((error) => console.log("error", error));
+        },        
+        onChange(e) {
+            this.avatar = e.target.files[0];
+            console.log("change");
+        },
+        formSubmit(e) {
+            e.preventDefault();
+
+            const config = {
+                headers: {
+                    "content-type": "multipart/form-data",
+                    "X-CSRF-TOKEN": document.querySelector(
+                        'meta[name="csrf-token"]'
+                    ).content,
+                },
+            };
+
+            let data = new FormData();
+            data.append('file', this.avatar);
+
+            axios
+                .post("api/avatar/"+this.user.id, data, config)
+                .then(function (res) {
+                    console.log(res);
+                })
+                .catch((error) => {
+                    if (error.response.status == 422) {
+                        console.log(error.response.data.errors);
+                        console.log(this.validationErrors);
+                    }
+                });
         },
         removeUser(user) {
 
@@ -554,7 +654,7 @@ export default {
                     .catch((error) => {
                         console.log("error", error);
                     });
-                //window.location.replace("/accueil");
+                window.location.replace("/");
             } else {
                 console.log="Vous changer d'avis !";
             }
