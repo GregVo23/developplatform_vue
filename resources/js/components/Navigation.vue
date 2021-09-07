@@ -363,8 +363,8 @@
               <div>
                 <img
                   class="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                  alt="Workflow"
+                  src="http://localhost:8000/images/logo.svg"
+                  alt="logo developplatform"
                 />
               </div>
               <div class="-mr-2">
@@ -444,26 +444,6 @@
           <div class="py-6 px-5">
             <div class="grid grid-cols-2 gap-4">
               <a
-                href="#"
-                class="text-base font-medium text-gray-900 hover:text-gray-700"
-              >
-                Pricing
-              </a>
-
-              <a
-                href="#"
-                class="text-base font-medium text-gray-900 hover:text-gray-700"
-              >
-                Docs
-              </a>
-
-              <a
-                href="#"
-                class="text-base font-medium text-gray-900 hover:text-gray-700"
-              >
-                Enterprise
-              </a>
-              <a
                 v-for="item in resources"
                 :key="item.name"
                 :href="item.href"
@@ -473,10 +453,8 @@
               </a>
             </div>
             <div class="mt-6">
-              <a
-                href="#"
-                class="
-                  w-full
+              <form method="POST" action="/logout">
+                  <input class="w-full
                   flex
                   items-center
                   justify-center
@@ -489,16 +467,14 @@
                   font-medium
                   text-white
                   bg-indigo-600
-                  hover:bg-indigo-700
-                "
-              >
-                Sign up
-              </a>
+                  hover:bg-indigo-700 cursor-pointer" type="submit" value="Se déconnecter">
+              </form>
+
               <p class="mt-6 text-center text-base font-medium text-gray-500">
-                Existing customer?
+                Besoin de nous contacter ?
                 {{ " " }}
-                <a href="#" class="text-indigo-600 hover:text-indigo-500">
-                  Sign in
+                <a href="https://developplatform.com/#contact" class="text-indigo-600 hover:text-indigo-500">
+                  contact
                 </a>
               </p>
             </div>
@@ -576,6 +552,11 @@ const resources = [
     name: "Mon profil",
     description: "Toutes mes informations.",
     href: "/profil",
+  },
+  {
+    name: "Abonnement",
+    description: "Réaliser plus de projets",
+    href: "/abonnement",
   },
 ];
 

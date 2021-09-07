@@ -8,8 +8,7 @@
 
                 <!-- Left column -->
                 <div class="grid grid-cols-1 gap-4 lg:col-span-2">
-                <section aria-labelledby="section-1-title">
-                    <h2 class="sr-only" id="section-1-title">Section title</h2>
+                <section v-if="(projects.length > 0)" aria-labelledby="section-1-title">
                     <div class="rounded-lg bg-white overflow-hidden shadow">
                     <div class="p-4">
                     <!-- Content -->
@@ -161,6 +160,84 @@
                 </div>
                 </div>
                 </section>
+                    <section v-else aria-labelledby="section-1-title">
+                    <div class="rounded-lg bg-white overflow-hidden shadow">
+                    <div class="p-4 text-center">
+                        <p class="pt-6 text-xl pb-6">Vous n'avez pas encore fait de propositions</p>
+<router-link
+                                to="/projets"
+                                class="
+                                  w-56
+                                  flex
+                                  items-center
+                                  m-auto
+                                  focus:outline-none
+                                  group
+                                  border
+                                  rounded-full
+                                  py-2
+                                  px-6
+                                  leading-none
+                                  border-yellow
+                                  dark:border-yellow
+                                  select-none
+                                  hover:bg-yellow
+                                  text-yellow
+                                  hover:text-white
+                                  dark-hover:text-gray-200
+                                  transition
+                                  ease-in-out
+                                  duration-200
+                                  transform
+                                  hover:-translate-y-1
+                                  hover:translate-x-0.5
+                                "
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  class="h-6 w-6"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                  />
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1"
+                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                  />
+                                </svg>
+                                <span
+                                  class="text-gray-700 group-hover:text-white"
+                                >
+                                  Rechercher un projet
+                                </span>
+                              </router-link>
+
+<div class="flex">
+        <div class="flex-shrink sm-w-3/4 xl-w-2/4 -mb-50 -pb-50">
+
+                <img src="http://localhost:8000/images/no-projects.jpg" alt="no projects to do">
+        </div>
+        <div class="flex-grow">
+                                              
+        </div>
+        </div>
+
+
+                    </div>
+                    </div>
+                    </section>
+
+
+
+
                 </div>
 
                 <!-- Right column -->

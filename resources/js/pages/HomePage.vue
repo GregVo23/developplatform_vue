@@ -41,37 +41,13 @@
         </div>
     </div>
     <div class="flex">
-        <div class="flex-shrink w-2/4 -mb-50 -pb-50">
+        <div class="flex-shrink sm-3/4 xl-w-2/4 -mb-50 -pb-50">
 
             <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_NmBGIS.json"  background="transparent"  speed="1"  style="width: 80%;"  loop  autoplay></lottie-player>
             <!--<lottie-player src="https://assets3.lottiefiles.com/private_files/lf30_wwq2op12.json"  background="transparent"  speed="1"  style="width: 60%;"  loop  autoplay></lottie-player>-->
         </div>
         <div class="flex-grow">
-            <div class="p-6">
-                <h3 class="mx-2 text-xl text-gray-700">
-                    Mes <b>notifications</b> récentes
-                </h3>
 
-                <!--TODO-->
-                <p class="mx-2 mt-2 text-gray-500">Je n'ai pas de notification</p>
-
-                <div class="mt-4 flex">
-                    <div class="flex mx-2">
-                        <button
-                            class="flex items-center
-                            focus:outline-none border rounded-full
-                            py-2 px-6 leading-none border-gray-500
-                            dark:border-gray-600 select-none
-                            hover:bg-indigo-700 hover:text-white
-                            dark-hover:text-gray-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                            </svg>
-                            <span>Mes messages</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </template>

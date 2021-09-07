@@ -7,7 +7,6 @@ import Create from './pages/project/Create.vue';
 import Show from './pages/project/Show.vue';
 import Favorite from './pages/Favorite.vue';
 import Offer from './pages/project/Offer.vue';
-import Search from './pages/project/Search.vue';
 import Profil from './pages/Profil.vue';
 import Subscription from './pages/Subscription.vue';
 import MyProjects from './pages/project/MyProjects.vue';
@@ -27,7 +26,6 @@ const router = createRouter({
         { path: '/nouveau', component: Create },
         { path: '/favoris', component: Favorite },
         { path: '/offres', component: Offer },
-        { path: '/rechercher', component: Search },
         { path: '/profil', component: Profil },
         { path: '/abonnement', component: Subscription },
         { path: '/*', redirect: '/dashboard' },
