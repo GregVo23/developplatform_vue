@@ -61,7 +61,7 @@ class Project extends Model
 
     public function user()
     {
-        return $this->belongsToMany(User::class)->withTimestamps()->withPivot('user_id', 'project_id', 'amount', 'created_at', 'updated_at', 'accepted', 'proposal');
+        return $this->belongsTo(User::class);
     }
 
     public function owner()
@@ -74,16 +74,6 @@ class Project extends Model
     public function favorites_projects()
     {
         return $this->hasMany(ProjectUser::class);
-    }
-
-    public function isFavorite()
-    {
-        if (!auth()->check()) {
-            return false;
-        }
-        if (auth()->user()->favorites_projects->contains('user_id', $this->id)) {
-            return true;
-        }
     }
 
     public function delay($deadline)
@@ -99,7 +89,7 @@ class Project extends Model
 
     public function address()
     {
-        $address = $this->country . ", " . $this->city;
+        $address = $this->country . ", " . $this->number . ", " . $this->city;
 
         return $address;
     }

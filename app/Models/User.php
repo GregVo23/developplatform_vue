@@ -72,9 +72,9 @@ class User extends Authenticatable  implements MustVerifyEmail
         $this->notify(new VerifyEmail); // my notification
     }
 
-    public function project()
+    public function projects()
     {
-        return $this->belongsToMany(Project::class)->withTimestamps()->withPivot('user_id', 'project_id', 'price', 'created_at', 'updated_at', 'accepted');
+        return $this->hasMany(Project::class);
     }
 
     public function favorites_projects()

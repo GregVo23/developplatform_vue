@@ -179,4 +179,7 @@ form label {
 	#wrapper > section:nth-child(3) {
 	  display: none;
 	}
+	#content > div > div > div.flex.justify-center.relative {
+	  display: none;
+	}
   }

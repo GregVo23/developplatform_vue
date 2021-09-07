@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class UserApiController extends Controller
@@ -154,6 +157,49 @@ class UserApiController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $userId = Auth()->user()->id;
+        if ($userId == $id){
+            $user = User::findOrFail($id);
+
+            $projects = $user->projects;
+            foreach ($projects as $project){
+                $project->delete();
+
+                //Delete all file from user
+                $picture_path = '/storage/project/cover/' . $project->id;
+                $document_path = '/storage/project/doc/' . $project->id;
+
+                if (File::exists(public_path($picture_path . '/' . $project->picture))) {
+                    //Delete small project image
+                    File::delete(public_path($picture_path . '/' . $project->picture));
+                    //Delete XL project image
+                    File::delete(public_path('/project/cover/' . $project->picture));
+                    //Delete all directories
+                    File::deleteDirectory(public_path($picture_path));
+                    File::deleteDirectory(public_path('storage/project/cover/' . $project->user_id));
+                }
+
+                if (!empty($project->document)) {
+                    $documents = json_decode($project->document);
+                    foreach ($documents as $document) {
+                        if (File::exists(public_path($document_path . '/' . $document))) {
+                            File::delete(public_path($document_path . '/' . $document));
+                            File::deleteDirectory(public_path($document_path));
+                            File::deleteDirectory(public_path('storage/project/doc/' . $project->user_id));
+                        }
+                    }
+                }
+            }
+            
+            $result = $user->delete();
+            if ($result){
+                Session::flash('success', "L'utilisateur est désormais supprimé avec succés.");
+                return response()->json(['success' => "L'utilisateur est désormais supprimé avec succés."], 200);
+            } else {
+                return response()->json(['errors' => 'Un problème est survenu lors de la suppression de l\'utilisateur.'], 500);
+            }
+        } else {
+            return response()->json(['errors' => 'Impossible de supprimer un compte hors que le sien.'], 422);
+        }
     }
 }

@@ -54,12 +54,12 @@
                                         text-white text-sm
                                     "
                                     >{{
-                                        subscription != false
+                                        (subscription != false || subscription != null)
                                             ? subscription.subscription
-                                            : ""
+                                            : "non"
                                     }}
                                     {{
-                                        subscription != undifined ? "€" : ""
+                                        (subscription != false || subscription != null) ? "€" : ""
                                     }}</span
                                 >
                                 <span
@@ -214,6 +214,7 @@
                         </button>
 
                         <button
+                            @click="removeUser(user)"
                             class="
                                 flex
                                 items-center
@@ -530,6 +531,33 @@ export default {
                     )
                 )
                 .catch((error) => console.log("error", error));
+        },
+        removeUser(user) {
+
+            const config = {
+                headers: {
+                    "X-CSRF-TOKEN": document.querySelector(
+                        'meta[name="csrf-token"]'
+                    ).content,
+                },
+            };
+            if (
+                confirm(
+                    ""+user.firstname+", êtes vous sur de supprimer votre compte ? Ceci est irréversible même en cas d'abonnement ..."  
+                )
+            ) {
+                axios
+                    .delete("/api/profil/" + user.id, config)
+                    .then(function (res) {
+                        console.log(res);
+                    })
+                    .catch((error) => {
+                        console.log("error", error);
+                    });
+                //window.location.replace("/accueil");
+            } else {
+                console.log="Vous changer d'avis !";
+            }
         },
     },
 

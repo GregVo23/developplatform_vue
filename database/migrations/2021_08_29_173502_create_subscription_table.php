@@ -15,7 +15,7 @@ class CreateSubscriptionTable extends Migration
     {
         Schema::create('subscription', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('restrict')->onUpdate('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->enum('subscription', [10, 25])->nullable();
             $table->integer('nb_projet')->default(0);
             $table->enum('nb_max_projet', [3, 5, 15])->default(3);

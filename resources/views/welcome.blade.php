@@ -59,11 +59,11 @@
 
             <div id="header-wrap">
                 <div class="container mx-auto sm:px-4">
-                    <div class="header-row">
+                    <div class="header-row px-4 sm:px-0">
 
                         <!-- Logo
                         ============================================= -->
-                        <div id="logo">
+                        <div id="logo" class="py-2 sm:py-0">
                             <a href="{{ url('/') }}" class="standard-logo"><img src="./images/logo.svg" alt="Logo"></a>
                             <a href="{{ url('/') }}" class="retina-logo"><img src="./images/logo.svg" alt="Logo"></a>
                         </div><!-- #logo end -->
@@ -99,10 +99,10 @@
 
         <!-- Slider
         ============================================= -->
-        <section id="slider" class="slider-element min-vh-md-100 py-4 include-header" style="background: #e5e5e5 repeat top center; background-size: cover; z-index: 1;">
+        <section id="slider" class="slider-element min-vh-md-100 sm:py-4 include-header" style="background: #e5e5e5 repeat top center; background-size: cover; z-index: 1;">
             <div class="slider-inner">
                 <div class="vertical-middle slider-element-fade" style="background-color: #e5e5e5">
-                    <div class="container mx-auto sm:px-4 text-center py-5" style="background-color: white">
+                    <div class="container mx-auto px-4 py-12 sm:py-5 text-center" style="background-color: white">
                         <div class="emphasis-title mb-2">
                             <h4 class="uppercase ls3 font-weight-bolder mb-0">Demandes de <strong>réalisations</strong> à une communauté de</h4>
                             <h1>
@@ -119,7 +119,7 @@
                         <div class="mx-auto"  style="max-width: 600px">
                             <p class="text-xl font-normal text-gray-900 mb-5">Vous souhaitez faire appel d'offres à des designers ou développeurs pour la réalisation d'un projet ? Vous êtes designer ou développeur et vous rechercher des petits projets ?</p>
                             <a href="{{ route('project.create') }}" class="button button-dark button-hero h-translatey-3 tf-ts button-reveal overflow-visible bg-gray-900 text-right"><span>Je demande</span><i class="icon-line-arrow-right"></i></a>
-                            <a href="{{ route('projects.index') }}" data-scrollto="#footer" data-easing="easeInOutExpo" data-speed="1250" data-offset="70" class="button button-large button-light text-gray-900 bg-transparent m-0" style="z-index: 1;"><i class="icon-line2-arrow-down font-bold"></i> <u>Chercher un projet</u></a>
+                            <a href="{{ route('projects.index') }}" class="button button-large button-light text-gray-900 bg-transparent m-0 mt-4 sm:mt-0" style="z-index: 1;"><i class="icon-line2-arrow-down font-bold"></i> <u>Chercher un projet</u></a>
                         </div>
                     </div>
                 </div>
@@ -145,9 +145,9 @@
         </section>
 
         <section id="content">
-            <div class="content-wrap p-0">
+            <div class="content-wrap p-0" style="background-color: #F4F4F4;">
 
-                <div class="section mb-0 pt-3 pb-0" style="background-color: #F4F4F4; margin-top: 0px; overflow: visible;">
+                <div class="section mb-0 pt-3 pb-0 py-4 sm:py-0" style="background-color: #F4F4F4; margin-top: 0px; overflow: visible;">
                     <div class="container mx-auto sm:px-4">
                         <div class="flex flex-wrap  justify-center text-center mt-5">
                             <div class="lg:w-1/2 pr-4 pl-4">
@@ -181,7 +181,7 @@
 
 
                     <div class="container mx-auto sm:px-4" style="max-width: 1000px">
-                        <div class="flex flex-wrap  col-mb-30 mt-5">
+                        <div class="flex flex-col md:flex-row flex-wrap col-mb-30 mt-5">
                             <div class="md:w-1/3 pr-4 pl-4">
                                 <div class="flex items-center justify-center">
                                     <div class="counter counter-xlarge text-white font-weight-bolder"><span data-from="1" data-to="{{ $withoutOffer }}" data-refresh-interval="2" data-speed="600"></span></div>

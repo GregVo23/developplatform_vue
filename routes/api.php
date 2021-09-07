@@ -41,6 +41,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
 
     /*  USER PROFILE  */
     Route::get('/profil', [App\Http\Controllers\Api\UserApiController::class, 'show'])->name('user.show');
+    Route::delete('/profil/{id}', [App\Http\Controllers\Api\UserApiController::class, 'destroy'])->name('user.destroy');
 
     /*  SUBSCRIPTION  */
     Route::get('/abonnement', [App\Http\Controllers\Api\SubscriptionApiController::class, 'index'])->name('subscription.index');
