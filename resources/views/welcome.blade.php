@@ -272,25 +272,21 @@
                             <div class="widget">
 
                                 <h3 class="h1 mb-5">Suivez-nous sur nos réseaux sociaux</h3>
-                                <span class="text-black-50">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis quisquam aspernatur vero voluptas.</span>
-                                <a href="mailto:noreply@canvas.com" class="h4 text-gray-900 mt-5 mb-4 block"><u>info@developplatform
+                                <span class="text-black-50">Nous sommes actif et postons régulièrement de nouvelles annonces.</span>
+                                <a href="mailto:info@developplatform" class="h4 text-gray-900 mt-5 mb-4 block"><u>info@developplatform
                                     .com</u> <i class="icon-line-arrow-right relative ml-2" style="top: 3px"></i></a>
-                                <div>
-                                    <a href="http://facebook.com/" class="social-icon si-small si-colored si-facebook" target="_blank">
-                                        <i class="icon-facebook"></i>
-                                        <i class="icon-facebook"></i>
+                                <div class="flex">
+                                    <a href="http://facebook.com/" target="_blank">
+                                        <img src="{{ asset('images/facebook.png') }}" alt="facebook logo" class="object-cover h-14"/>
                                     </a>
-                                    <a href="http://instagram.com/" class="social-icon si-small si-colored si-instagram" target="_blank">
-                                        <i class="icon-instagram"></i>
-                                        <i class="icon-instagram"></i>
+                                    <a href="http://linkedin.com/" target="_blank">
+                                        <img src="{{ asset('images/in.png') }}" alt="linkedin logo" class="object-cover h-14"/>
                                     </a>
-                                    <a href="http://youtube.com/" class="social-icon si-small si-colored si-youtube" target="_blank">
-                                        <i class="icon-youtube"></i>
-                                        <i class="icon-youtube"></i>
+                                    <a href="http://twitter.com/" target="_blank">
+                                        <img src="{{ asset('images/twitter.png') }}" alt="twitter logo" class="object-cover h-14"/>
                                     </a>
-                                    <a href="#" class="social-icon si-small si-colored si-flattr">
-                                        <i class="icon-flattr"></i>
-                                        <i class="icon-flattr"></i>
+                                    <a href="http://youtube.com/" target="_blank">
+                                        <img src="{{ asset('images/youtube.png') }}" alt="youtube logo" class="object-cover h-14"/>
                                     </a>
                                 </div>
 

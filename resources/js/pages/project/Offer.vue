@@ -1,7 +1,6 @@
 <template>
     <main class="mt-4 mb-4">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-full lg:px-8">
-            <h1 class="sr-only">Page title</h1>
+        <div v-show="loaded" class="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-full lg:px-8">
 
             <!-- Main 3 column grid -->
             <div
@@ -574,6 +573,7 @@ export default {
             categories: {},
             subCategories: {},
             user: {},
+            loaded: false
         };
     },
     methods: {
@@ -592,7 +592,8 @@ export default {
                         (this.projects = data[0]),
                         (this.categories = data[1]),
                         (this.subCategories = data[2]),
-                        (this.user = data[3])
+                        (this.user = data[3]),
+                        (this.loaded = true)
                     )
                 )
                 .catch(function (error) {

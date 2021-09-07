@@ -1,7 +1,6 @@
 <template>
     <main class="mt-4 mb-4">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-full lg:px-8">
-            <h1 class="sr-only">Page title</h1>
+        <div v-show="loaded" class="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-full lg:px-8">
 
             <!-- Main 3 column grid -->
             <div
@@ -854,6 +853,7 @@ export default {
             listOfAllProjects: [],
             listOfAllSubCategories: [],
             categoryId: "",
+            loaded: false
         };
     },
     methods: {
@@ -873,7 +873,8 @@ export default {
                         (this.listOfAllProjects = data[0]),
                         (this.categories = data[1]),
                         (this.subcategories = data[2]),
-                        (this.user = data[3])
+                        (this.user = data[3]),
+                        (this.loaded = true)
                     )
                 )
                 .catch((error) => console.log("error", error));
