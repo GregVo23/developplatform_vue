@@ -30,11 +30,11 @@ class ProjectController extends Controller
         $projects = Project::take(3)->get();   //TODO only project with a picture
 
         // offers/projects
-        $nbProjects = Project::where('done','=',NULL)->get()->count();
-        $nbOffer = ProjectUser::where('proposal','!=',NULL)->get()->count();
-        if(!empty($nbProjects) && !empty($nbOffer)){
-            $pourcentage = $nbOffer/$nbProjects*100;
-        }else{
+        $nbProjects = Project::where('done', '=', NULL)->get()->count();
+        $nbOffer = ProjectUser::where('proposal', '!=', NULL)->get()->count();
+        if (!empty($nbProjects) && !empty($nbOffer)) {
+            $pourcentage = $nbOffer / $nbProjects * 100;
+        } else {
             $pourcentage = 85;
         }
 
@@ -44,5 +44,4 @@ class ProjectController extends Controller
             'pourcentage' => $pourcentage,
         ]);
     }
-
 }

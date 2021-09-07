@@ -10,7 +10,6 @@ import Offer from './pages/project/Offer.vue';
 import Profil from './pages/Profil.vue';
 import Subscription from './pages/Subscription.vue';
 import MyProjects from './pages/project/MyProjects.vue';
-//import NotFound from './pages/NotFound.vue';
 
 import axios from 'axios'
 
@@ -29,7 +28,6 @@ const router = createRouter({
         { path: '/profil', component: Profil },
         { path: '/abonnement', component: Subscription },
         { path: '/*', redirect: '/dashboard' },
-        //{ path: '/*', component: NotFound },
         
     ]
   });

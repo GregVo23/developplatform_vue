@@ -23,7 +23,6 @@ class UserApiController extends Controller
         $request->session()->flush();
         $request->session()->regenerate();
         return redirect('/');
-
     }
 
     /**
@@ -35,7 +34,7 @@ class UserApiController extends Controller
     {
         $user = $request->user();
 
-        return view('dashboard',[
+        return view('dashboard', [
             'user' => $user,
             'personalUserPage' => true,
         ]);
@@ -49,23 +48,23 @@ class UserApiController extends Controller
     public function saveAvatar(Request $request)
     {
         $request->validate([
-           'file' => 'required|mimes:jpg,jpeg,png,csv,txt,xlx,xls,pdf|max:2048'
+            'file' => 'required|mimes:jpg,jpeg,png,csv,txt,xlx,xls,pdf|max:2048'
         ]);
 
         $fileUpload = Auth()->user;
 
 
-        if($request->file()) {
-            $file_name = time().'_'.$request->file->getClientOriginalName();
+        if ($request->file()) {
+            $file_name = time() . '_' . $request->file->getClientOriginalName();
             $file_path = $request->file('file')->storeAs('uploads', $file_name, 'public');
 
-            $fileUpload->name = time().'_'.$request->file->getClientOriginalName();
+            $fileUpload->name = time() . '_' . $request->file->getClientOriginalName();
             $fileUpload->avatar = '/storage/' . $file_path;
             $fileUpload->save();
 
-            return response()->json(['success'=>'File uploaded successfully.']);
+            return response()->json(['success' => 'File uploaded successfully.']);
         }
-   }
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -117,7 +116,7 @@ class UserApiController extends Controller
         $myProjects = Project::where('user_id', '=', $user->id)->where('done', '=', NULL)->get();
         $myProjectsDone = Project::where('user_id', '=', $user->id)->where('done', '!=', NULL)->get();
 
-        return view("user.show",[
+        return view("user.show", [
             "user" => $user,
             "myProjects" => $myProjects,
             "myProjectsDone" => $myProjectsDone,

@@ -74,8 +74,7 @@ class User extends Authenticatable  implements MustVerifyEmail
 
     public function project()
     {
-        return $this->belongsToMany(Project::class)->withTimestamps()->withPivot('user_id', 'project_id', 'price', 'created_at','updated_at', 'accepted');
-
+        return $this->belongsToMany(Project::class)->withTimestamps()->withPivot('user_id', 'project_id', 'price', 'created_at', 'updated_at', 'accepted');
     }
 
     public function favorites_projects()
@@ -90,7 +89,7 @@ class User extends Authenticatable  implements MustVerifyEmail
 
     public function name()
     {
-        $name = $this->firstname." ".$this->lastname;
+        $name = $this->firstname . " " . $this->lastname;
 
         return $name;
     }

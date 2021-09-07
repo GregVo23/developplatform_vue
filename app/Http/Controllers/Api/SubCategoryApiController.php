@@ -15,7 +15,7 @@ class SubCategoryApiController extends Controller
      */
     public function subcategories($id)
     {
-        $subCategories = SubCategory::where('category_id', '=' , $id)->get();
+        $subCategories = SubCategory::where('category_id', '=', $id)->get();
         return $subCategories;
     }
 }

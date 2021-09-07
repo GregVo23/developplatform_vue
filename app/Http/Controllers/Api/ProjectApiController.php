@@ -39,25 +39,25 @@ class ProjectApiController extends Controller
         $listOfProjects = Project::all();
         $categories = Category::all();
         $subCategories = SubCategory::all();
-        foreach($listOfProjects as $project){
+        foreach ($listOfProjects as $project) {
 
             $liked = ProjectUser::where('user_id', '=', $user_id)
-            ->where('project_id', '=', $project->id)
-            ->where('favorite', '=', 1)
-            ->first();
+                ->where('project_id', '=', $project->id)
+                ->where('favorite', '=', 1)
+                ->first();
 
             $nbLikes = DB::table('project_user')
-            ->where('favorite', '=', 1)
-            ->where('project_id', '=', $project->id)
-            ->count();
+                ->where('favorite', '=', 1)
+                ->where('project_id', '=', $project->id)
+                ->count();
 
-            if(empty($liked)){
+            if (empty($liked)) {
                 $like = ["like" => false, "nbLike" => $nbLikes];
-            }else{
+            } else {
                 $like = ["like" => true, "nbLike" => $nbLikes];
             }
             $project = json_decode(json_encode($project), true);
-            array_push($projects, ($like+$project));
+            array_push($projects, ($like + $project));
         }
 
         return json_encode([$projects, $categories,  $subCategories, $user_id]);
@@ -75,11 +75,11 @@ class ProjectApiController extends Controller
         $subCategories = SubCategory::all();
         $user_id = auth()->user()->id;
         $projects = DB::table('project_user')
-        ->join('projects', 'project_user.project_id', '=' ,'projects.id')
-        ->where('project_user.user_id', '=', $user_id)
-        ->where('project_user.proposal', '<>', NULL)
-        ->get();
-        
+            ->join('projects', 'project_user.project_id', '=', 'projects.id')
+            ->where('project_user.user_id', '=', $user_id)
+            ->where('project_user.proposal', '<>', NULL)
+            ->get();
+
         return json_encode([$projects, $categories, $subCategories, $user_id]);
     }
 
@@ -96,17 +96,17 @@ class ProjectApiController extends Controller
         $listOfProjects = Project::where('user_id', $user_id)->get();
         $categories = Category::all();
         $subCategories = SubCategory::all();
-        foreach($listOfProjects as $project){
+        foreach ($listOfProjects as $project) {
 
             $nbLikes = DB::table('project_user')
-            ->where('favorite', '=', 1)
-            ->where('project_id', '=', $project->id)
-            ->count();
+                ->where('favorite', '=', 1)
+                ->where('project_id', '=', $project->id)
+                ->count();
 
             $like = ["like" => false, "nbLike" => $nbLikes];
 
             $project = json_decode(json_encode($project), true);
-            array_push($projects, ($like+$project));
+            array_push($projects, ($like + $project));
         }
 
         return json_encode([$projects, $categories,  $subCategories, $user_id]);
@@ -124,7 +124,7 @@ class ProjectApiController extends Controller
         $categories = Category::all();
         $subCategories = SubCategory::all();
 
-        return json_encode([ $categories,  $subCategories, $user]);
+        return json_encode([$categories,  $subCategories, $user]);
     }
 
 
@@ -140,7 +140,7 @@ class ProjectApiController extends Controller
         $project = Project::find($id);
         $owner = User::find($project->user_id);
         $offer = ProjectUser::where('user_id', '=', $user->id)->where('project_id', '=', $id)->where('proposal', '<>', NULL)->first();
-        if(!empty($offer->proposal)){
+        if (!empty($offer->proposal)) {
             $offer = true;
         } else {
             $offer = false;
@@ -150,8 +150,8 @@ class ProjectApiController extends Controller
         $subCategory = $project->sub_category->name;
         $subCategoryDescription = $project->sub_category->description;
 
-        $picture_path = 'storage/project/cover/'.$project->id.'/';
-        $document_path = 'storage/project/doc/'.$project->id.'/';
+        $picture_path = 'storage/project/cover/' . $project->id . '/';
+        $document_path = 'storage/project/doc/' . $project->id . '/';
 
         //$file = File::get(public_path($picture_path.'/'.$project->picture));
         $documents = Json_decode($project->document);
@@ -186,68 +186,64 @@ class ProjectApiController extends Controller
         $subscription = Subscription::firstOrCreate(
             [
                 'user_id' =>  $user->id,
-            ], [
+            ],
+            [
                 'user_id' => $user->id,
                 'nb_max_projet' =>  "3"
             ],
         );
         $subscription = Subscription::where('user_id', '=', $user->id)->first();
-        if ($subscription->nb_max_projet - $subscription->nb_projet >= 1){
-            $subscription->nb_projet ++;
-            if($subscription->save()){
-                        
+        if ($subscription->nb_max_projet - $subscription->nb_projet >= 1) {
+            $subscription->nb_projet++;
+            if ($subscription->save()) {
+
                 $project = ProjectUser::firstOrCreate(
                     ['project_id' =>  $id, 'user_id' => $user->id],
                     ['created_at' => Carbon::now(), 'project_id' =>  $id, 'user_id' => $user->id],
                 );
-                if ($project->project->user_id != $user->id){
+                if ($project->project->user_id != $user->id) {
                     $project->proposal = today();
                     $result = $project->save();
-                    if ($result){
+                    if ($result) {
 
                         $project = Project::find($id);
                         $owner = User::find($project->user_id);
 
-                            if ($project->notifications == true){
+                        if ($project->notifications == true) {
 
-                                // Send notification email to the project's owner
-                                $message = "Votre projet a été accepté : '$project->name'. Vous pouvez réagir à cette acceptation, la confirmer ou la refuser. Nous vous remercions pour votre confiance et vous souhaitons beaucoup de succès sur Developplatform.";
-                                $title = "Vous avez reçu une offre pour votre projet.";
-                                $name = $owner->firstname;
-                                $email = $owner->email;
-                                $mailData = [
-                                    'title' => $title,
-                                    'name' => $name,
-                                    'texte' => $message,
-                                    'email' => $email,
-                                ];
-                                Mail::to($email)->send(new EmailNotification($mailData));
-
-                            }
-                            Session::flash('success', 'Votre demande pour ce projet a été envoyée, attendez maintenant la confirmation');
-                            return response()->json(['success' => 'Votre demande a été envoyée, attendez maintenant la confirmation'], 200);
-                            
-                    
+                            // Send notification email to the project's owner
+                            $message = "Votre projet a été accepté : '$project->name'. Vous pouvez réagir à cette acceptation, la confirmer ou la refuser. Nous vous remercions pour votre confiance et vous souhaitons beaucoup de succès sur Developplatform.";
+                            $title = "Vous avez reçu une offre pour votre projet.";
+                            $name = $owner->firstname;
+                            $email = $owner->email;
+                            $mailData = [
+                                'title' => $title,
+                                'name' => $name,
+                                'texte' => $message,
+                                'email' => $email,
+                            ];
+                            Mail::to($email)->send(new EmailNotification($mailData));
+                        }
+                        Session::flash('success', 'Votre demande pour ce projet a été envoyée, attendez maintenant la confirmation');
+                        return response()->json(['success' => 'Votre demande a été envoyée, attendez maintenant la confirmation'], 200);
                     } else {
                         Session::flash('message', 'Une erreur est survenue, veuillez réessayer plus tard !');
                         return response()->json(['error' => 'Vous ne pouvez pas accepter ce projet'], 500);
                     }
-
                 } else {
                     Session::flash('message', 'Vous ne pouvez pas accepter ce projet car vous en ête l\'auteur');
                     return response()->json(['error' => 'Vous ne pouvez pas accepter ce projet car vous en ête l\'auteur'], 401);
                 }
-
             } else {
                 Session::flash('message', 'Vous ne disposer plus d\'action pour effectuer cette requete, modifiez votre abonnement !');
-                return response()->json(['error' => "Un problème inatendu est survenu ! Désolé, revenez plus tard ..."], 500); 
+                return response()->json(['error' => "Un problème inatendu est survenu ! Désolé, revenez plus tard ..."], 500);
             }
         } else {
             Session::flash('message', 'Vous ne disposer plus d\'action pour effectuer cette requete, modifiez votre abonnement !');
-            return response()->json(['error' => "Vous ne disposer plus d\'action pour effectuer cette requete, modifiez votre abonnement !"], 401); 
+            return response()->json(['error' => "Vous ne disposer plus d\'action pour effectuer cette requete, modifiez votre abonnement !"], 401);
         }
     }
-            
+
 
     /**
      * Make an offer for a specific project.
@@ -260,87 +256,89 @@ class ProjectApiController extends Controller
     {
         $user = auth()->user();
 
-            $subscription = Subscription::firstOrCreate(
-                [
-                    'user_id' =>  $user->id,
-                ], [
-                    'user_id' => $user->id,
-                    'nb_max_projet' =>  "3"
-                ],
-            );
-            $subscription = Subscription::where('user_id', '=', $user->id)->first();
-            if ($subscription->nb_max_projet - $subscription->nb_projet >= 1){
-                $subscription->nb_projet ++;
-                if($subscription->save()){
-        
-                    // validate
-                    $rules = array(
+        $subscription = Subscription::firstOrCreate(
+            [
+                'user_id' =>  $user->id,
+            ],
+            [
+                'user_id' => $user->id,
+                'nb_max_projet' =>  "3"
+            ],
+        );
+        $subscription = Subscription::where('user_id', '=', $user->id)->first();
+        if ($subscription->nb_max_projet - $subscription->nb_projet >= 1) {
+            $subscription->nb_projet++;
+            if ($subscription->save()) {
 
-                        'information' => 'required|min:20|max:1000',
-                        'amount' => 'required|numeric',
+                // validate
+                $rules = array(
+
+                    'information' => 'required|min:20|max:1000',
+                    'amount' => 'required|numeric',
+                );
+                $validator = Validator::make($request->all(), $rules);
+
+                // process
+                if ($validator->fails()) {
+                    Session::flash('message', "Une erreur est survenue lors de l'enregistrement due a une validation de donnée incorrecte");
+                    return response()->json(['error' => "Une erreur est survenue lors de l'enregistrement due a une validation de donnée incorrecte"], 401);
+                } else {
+                    $offer = ProjectUser::firstOrCreate(
+                        [
+                            'project_id' =>  $id,
+                            'user_id' => $user->id,
+                            'information' => htmlentities($request->input('information')),
+                            'amount' => $request->input('amount'),
+                        ],
+                        [
+                            'created_at' => Carbon::now(),
+                            'project_id' =>  $id,
+                            'user_id' => $user->id,
+                            'information' => htmlentities($request->input('information')),
+                            'amount' => $request->input('amount'),
+                        ],
                     );
-                    $validator = Validator::make($request->all(), $rules);
 
-                    // process
-                    if($validator->fails()) {
-                        Session::flash('message', "Une erreur est survenue lors de l'enregistrement due a une validation de donnée incorrecte");
-                        return response()->json(['error' => "Une erreur est survenue lors de l'enregistrement due a une validation de donnée incorrecte"], 401);
-                    } else {
-                        $offer = ProjectUser::firstOrCreate(
-                            [
-                                'project_id' =>  $id,
-                                'user_id' => $user->id,
-                                'information' => htmlentities($request->input('information')),
-                                'amount' => $request->input('amount'),
-                            ], [
-                                'created_at' => Carbon::now(),
-                                'project_id' =>  $id,
-                                'user_id' => $user->id,
-                                'information' => htmlentities($request->input('information')),
-                                'amount' => $request->input('amount'),
-                            ],
-                        );
-
-                        if($offer->project->user_id != $user->id){
-                            $offer->proposal = today();
-                            $result = $offer->save();
-                            if($result){
-                                $project = Project::find($id);
-                                if($project->notifications == true){
-                                    $owner_id =  $project->user_id;
-                                    $owner = User::find($owner_id);
-                                    // Send notification email to the project's owner
-                                    $message2 = "Une proposition d'un montant de $request->amount € a été reçu pour votre projet : $project->name . Vous pouvez réagir à cette offre, l'accepter ou la refuser. Nous vous remercions pour votre confiance et vous souhaitons beaucoup de succès sur Developplatform.";
-                                    $title2 = "Vous avez reçu une offre pour votre projet.";
-                                    $name2 = $owner->firstname;
-                                    $email2 = $owner->email;
-                                    $mailData2 = [
-                                        'title' => $title2,
-                                        'name' => $name2,
-                                        'texte' => $message2,
-                                        'email' => $email2,
-                                    ];
-                                    Mail::to($email2)->send(new EmailNotification($mailData2));
-                                } else {
-                                    // Notification to the project's owner -> you have an new offer 
-                                }
-                                $request->session()->regenerate();
-                                Session::flash('success', "Votre proposition d'un montant de $request->amount € a été envoyée, attendez maintenant l'email de réponse");
-                                return response()->json(['success' => "Votre proposition d'un montant de $request->amount € a été envoyée, attendez maintenant l'email de réponse"], 200);
+                    if ($offer->project->user_id != $user->id) {
+                        $offer->proposal = today();
+                        $result = $offer->save();
+                        if ($result) {
+                            $project = Project::find($id);
+                            if ($project->notifications == true) {
+                                $owner_id =  $project->user_id;
+                                $owner = User::find($owner_id);
+                                // Send notification email to the project's owner
+                                $message2 = "Une proposition d'un montant de $request->amount € a été reçu pour votre projet : $project->name . Vous pouvez réagir à cette offre, l'accepter ou la refuser. Nous vous remercions pour votre confiance et vous souhaitons beaucoup de succès sur Developplatform.";
+                                $title2 = "Vous avez reçu une offre pour votre projet.";
+                                $name2 = $owner->firstname;
+                                $email2 = $owner->email;
+                                $mailData2 = [
+                                    'title' => $title2,
+                                    'name' => $name2,
+                                    'texte' => $message2,
+                                    'email' => $email2,
+                                ];
+                                Mail::to($email2)->send(new EmailNotification($mailData2));
+                            } else {
+                                // Notification to the project's owner -> you have an new offer 
                             }
-                        }else{
                             $request->session()->regenerate();
-                            Session::flash('message', 'Une erreur est survenue, veuillez réessayer plus tard !');
-                            return response()->json(['errors' => "Une erreur est survenue, veuillez réessayer plus tard !"], 500);
+                            Session::flash('success', "Votre proposition d'un montant de $request->amount € a été envoyée, attendez maintenant l'email de réponse");
+                            return response()->json(['success' => "Votre proposition d'un montant de $request->amount € a été envoyée, attendez maintenant l'email de réponse"], 200);
                         }
+                    } else {
+                        $request->session()->regenerate();
+                        Session::flash('message', 'Une erreur est survenue, veuillez réessayer plus tard !');
+                        return response()->json(['errors' => "Une erreur est survenue, veuillez réessayer plus tard !"], 500);
                     }
                 }
-            } else {
-                $request->session()->regenerate();
-                Session::flash('message', 'Vous ne disposer plus d\'action pour effectuer cette requete, modifiez votre abonnement !');
-                return response()->json(['errors' => "Vous ne disposer plus d\'action pour effectuer cette requete, modifiez votre abonnement !"], 401); 
             }
+        } else {
+            $request->session()->regenerate();
+            Session::flash('message', 'Vous ne disposer plus d\'action pour effectuer cette requete, modifiez votre abonnement !');
+            return response()->json(['errors' => "Vous ne disposer plus d\'action pour effectuer cette requete, modifiez votre abonnement !"], 401);
         }
+    }
 
 
     /**
@@ -354,7 +352,7 @@ class ProjectApiController extends Controller
         $user = Auth()->user();
         $offer = ProjectUser::where('user_id', '=', $user->id)->where('project_id', '=', $id);
         $result = $offer->delete();
-        if ($result){
+        if ($result) {
             return true;
         } else {
             return response()->json(['errors' => 'Un problème est survenu, impossible de supprimer votre offre. Veuillez réessayer plus tard.'], 500);
@@ -371,7 +369,7 @@ class ProjectApiController extends Controller
     public function store(Request $request)
     {
         // validate
-        
+
         $rules = array(
 
             'name' => 'required|string|min:3',
@@ -397,97 +395,96 @@ class ProjectApiController extends Controller
 
         // process
 
-            if($validator->fails()) {
-                return response()->json(['errors' => $validator->errors()], 422);
-            } else {
-                $user_id = $request->user_id;               
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        } else {
+            $user_id = $request->user_id;
 
-                $project = new Project;
-                $project->user_id = $request->user_id;
-                $project->category_id = $request->category_id;
-                $project->sub_category_id = $request->sub_category_id;
-                $project->name = ucfirst($request->name);
-                $project->about = ucfirst($request->about);
-                $project->price = $request->price;
-                $project->phone = $request->phone;
-                $project->deadline = $request->deadline;
-                $project->email = $request->email;
-                $project->country = ucfirst($request->country);
-                $project->city = ucfirst($request->city);
-                $project->zipcode = $request->zipcode;
-                $project->number = $request->number;
-                $project->street = $request->street;
-                $project->notifications = $request->notifications ? true : false;
-                $project->rules = $request->rules ? true : false;
+            $project = new Project;
+            $project->user_id = $request->user_id;
+            $project->category_id = $request->category_id;
+            $project->sub_category_id = $request->sub_category_id;
+            $project->name = ucfirst($request->name);
+            $project->about = ucfirst($request->about);
+            $project->price = $request->price;
+            $project->phone = $request->phone;
+            $project->deadline = $request->deadline;
+            $project->email = $request->email;
+            $project->country = ucfirst($request->country);
+            $project->city = ucfirst($request->city);
+            $project->zipcode = $request->zipcode;
+            $project->number = $request->number;
+            $project->street = $request->street;
+            $project->notifications = $request->notifications ? true : false;
+            $project->rules = $request->rules ? true : false;
 
-                $result = $project->save();
+            $result = $project->save();
 
-                $project = Project::find($project->id);
+            $project = Project::find($project->id);
 
-                if($request->hasFile('picture')){
+            if ($request->hasFile('picture')) {
 
-                    $file = $request->file('picture');
-                    // Get filename with the extension
-                    $filenameWithExt = $file->getClientOriginalName();
-                    // Get just filename
-                    $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-                    // Get just ext
-                    $extension = $file->extension();
-                    // here is the current date time timestamp
-		            $time = date("d-m-Y")."-".time();
-                    // Filename to store
-                    $fileNameToStore = $filename.'_'.$time.'.'.$extension;
-                    // Upload Image
+                $file = $request->file('picture');
+                // Get filename with the extension
+                $filenameWithExt = $file->getClientOriginalName();
+                // Get just filename
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                // Get just ext
+                $extension = $file->extension();
+                // here is the current date time timestamp
+                $time = date("d-m-Y") . "-" . time();
+                // Filename to store
+                $fileNameToStore = $filename . '_' . $time . '.' . $extension;
+                // Upload Image
 
-                    // Save XL Project image
-                    $path = 'public/project/cover/'.$project->id;
-                    $file->storeAs($path ,$fileNameToStore);
+                // Save XL Project image
+                $path = 'public/project/cover/' . $project->id;
+                $file->storeAs($path, $fileNameToStore);
 
-                     $cover = Image::make($file);
-                    // resize image to fixed size
-                    $cover->resize(null, 300, function ($constraint) {
-                        $constraint->aspectRatio();
-                    });
-                    // Save small project image
-                    $cover->save(public_path('/project/cover/'.$fileNameToStore));
+                $cover = Image::make($file);
+                // resize image to fixed size
+                $cover->resize(null, 300, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+                // Save small project image
+                $cover->save(public_path('/project/cover/' . $fileNameToStore));
 
-                    $project->picture = $fileNameToStore;
-                    $project->save();
-                }
+                $project->picture = $fileNameToStore;
+                $project->save();
+            }
 
-                //return response()->json($request->file('document'));
-                
-                if(!empty($request->file('document'))){
-                    
-                    $documents = [];
-                    foreach ($request->file('document') as $file){
-                        if(is_object($file) && $file->isValid()){
-                            
+            //return response()->json($request->file('document'));
 
-                            $filenameWithExt = $file->getClientOriginalName();
-                            // Get just filename
-                            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-                            // Get just ext
-                            $extension = $file->extension();
-                            // Filename to store
-                            $fileNameToStore = $filename.'_'.$project->id.'.'.$extension;
-                            // Save link
-                            $path = $file->storeAs('public/project/doc/'.$project->id,$fileNameToStore);
+            if (!empty($request->file('document'))) {
 
-                            array_push($documents, $fileNameToStore);
-                        }
+                $documents = [];
+                foreach ($request->file('document') as $file) {
+                    if (is_object($file) && $file->isValid()) {
+
+
+                        $filenameWithExt = $file->getClientOriginalName();
+                        // Get just filename
+                        $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                        // Get just ext
+                        $extension = $file->extension();
+                        // Filename to store
+                        $fileNameToStore = $filename . '_' . $project->id . '.' . $extension;
+                        // Save link
+                        $path = $file->storeAs('public/project/doc/' . $project->id, $fileNameToStore);
+
+                        array_push($documents, $fileNameToStore);
                     }
-                    $project->document = json_encode($documents);
-                    $project->save();
                 }
+                $project->document = json_encode($documents);
+                $project->save();
+            }
 
-                if ($result){
-                    return true;
-                } else {
-                    return response()->json(['errors' => 'Un problème est survenu, veuillez réessayer plus tard.'], 500);
-                }
+            if ($result) {
+                return true;
+            } else {
+                return response()->json(['errors' => 'Un problème est survenu, veuillez réessayer plus tard.'], 500);
+            }
         }
-
     }
 
     /**
@@ -498,44 +495,44 @@ class ProjectApiController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        if(Auth::check()){
+        if (Auth::check()) {
             $user_id = auth()->user()->id;
             $project = Project::find($id);
-            if($user_id == $project->user_id){
+            if ($user_id == $project->user_id) {
                 $name = $project->name;
-                $message = "Vous avez supprimer le projet : ".$name." !";
-                $picture_path = '/storage/project/cover/'.$project->id;
-                $document_path = '/storage/project/doc/'.$project->id;
+                $message = "Vous avez supprimer le projet : " . $name . " !";
+                $picture_path = '/storage/project/cover/' . $project->id;
+                $document_path = '/storage/project/doc/' . $project->id;
 
-                if (File::exists(public_path($picture_path.'/'.$project->picture))) {
+                if (File::exists(public_path($picture_path . '/' . $project->picture))) {
                     //Delete small project image
-                    File::delete(public_path($picture_path.'/'.$project->picture));
+                    File::delete(public_path($picture_path . '/' . $project->picture));
                     //Delete XL project image
-                    File::delete(public_path('/project/cover/'.$project->picture));
+                    File::delete(public_path('/project/cover/' . $project->picture));
                     //Delete all directories
                     File::deleteDirectory(public_path($picture_path));
-                    File::deleteDirectory(public_path('storage/project/cover/'.$project->user_id));
+                    File::deleteDirectory(public_path('storage/project/cover/' . $project->user_id));
                 }
 
-                if(!empty($project->document)){
+                if (!empty($project->document)) {
                     $documents = json_decode($project->document);
-                    foreach($documents as $document){
-                        if (File::exists(public_path($document_path.'/'.$document))) {
-                            File::delete(public_path($document_path.'/'.$document));
+                    foreach ($documents as $document) {
+                        if (File::exists(public_path($document_path . '/' . $document))) {
+                            File::delete(public_path($document_path . '/' . $document));
                             File::deleteDirectory(public_path($document_path));
-                            File::deleteDirectory(public_path('storage/project/doc/'.$project->user_id));
+                            File::deleteDirectory(public_path('storage/project/doc/' . $project->user_id));
                         }
                     }
                 }
                 //Projet supprimer avec succes
                 $project->delete();
-            }else{
+            } else {
                 //Seul l'auteur peut supprimer son projet
             }
             //$request->session()->regenerate();
             //Session::flash('success', $message);
             //return Redirect::to('dashboard')->with('success', $message);
-        }else{
+        } else {
             //return back();
         }
     }

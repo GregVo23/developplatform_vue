@@ -10,76 +10,71 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    /**
-     * Protcet API route width Token.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function login(Request $request)
+  /**
+   * Protcet API route width Token.
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function login(Request $request)
 
-    {
+  {
 
-      try {
+    try {
 
-        $credentials['email'] = $request->input('email');
+      $credentials['email'] = $request->input('email');
 
-        $credentials['password'] = $request->input('password');
+      $credentials['password'] = $request->input('password');
 
-        if (!Auth::attempt($credentials)) {
-
-          return response()->json([
-
-            'status' => 401,
-
-            'message' => 'Unauthorized'
-
-          ]);
-
-        }
-
-        $user = User::where('email', $credentials['email'])->first();
-
-        if ( !Hash::check($credentials['password'], $user->password, [])) {
-
-           throw new \Exception('Exception in login');
-
-        }
-
-        $tokenResult = $user->createToken('authToken')->plainTextToken;
+      if (!Auth::attempt($credentials)) {
 
         return response()->json([
 
-          'status' => 200,
+          'status' => 401,
 
-          'access_token' => $tokenResult,
-
-          'token_type' => 'Bearer',
+          'message' => 'Unauthorized'
 
         ]);
-
-      } catch (\Exception $error) {
-
-        return response()->json([
-
-          'status' => 500,
-
-          'message' => 'Exception in Login',
-
-          'error' => $error,
-
-        ]);
-
       }
 
-    }
+      $user = User::where('email', $credentials['email'])->first();
 
-    /**
-     * Find the connected User.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function me(Request $request)
-    {
-        return $request->user();
+      if (!Hash::check($credentials['password'], $user->password, [])) {
+
+        throw new \Exception('Exception in login');
+      }
+
+      $tokenResult = $user->createToken('authToken')->plainTextToken;
+
+      return response()->json([
+
+        'status' => 200,
+
+        'access_token' => $tokenResult,
+
+        'token_type' => 'Bearer',
+
+      ]);
+    } catch (\Exception $error) {
+
+      return response()->json([
+
+        'status' => 500,
+
+        'message' => 'Exception in Login',
+
+        'error' => $error,
+
+      ]);
     }
+  }
+
+  /**
+   * Find the connected User.
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function me(Request $request)
+  {
+    return $request->user();
+  }
 }

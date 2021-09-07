@@ -61,7 +61,7 @@ class Project extends Model
 
     public function user()
     {
-        return $this->belongsToMany(User::class)->withTimestamps()->withPivot('user_id', 'project_id', 'amount', 'created_at','updated_at', 'accepted', 'proposal');
+        return $this->belongsToMany(User::class)->withTimestamps()->withPivot('user_id', 'project_id', 'amount', 'created_at', 'updated_at', 'accepted', 'proposal');
     }
 
     public function owner()
@@ -81,7 +81,7 @@ class Project extends Model
         if (!auth()->check()) {
             return false;
         }
-        if(auth()->user()->favorites_projects->contains('user_id', $this->id)){
+        if (auth()->user()->favorites_projects->contains('user_id', $this->id)) {
             return true;
         }
     }
@@ -92,14 +92,14 @@ class Project extends Model
         $date2 = strtotime($deadline);
 
         $diff = abs($date2 - $date1);
-        $days = floor($diff / (60*60*24));
+        $days = floor($diff / (60 * 60 * 24));
 
         return $days;
     }
 
     public function address()
     {
-        $address = $this->country.", ".$this->city;
+        $address = $this->country . ", " . $this->city;
 
         return $address;
     }
@@ -107,9 +107,9 @@ class Project extends Model
     public function liked()
     {
         $likes = DB::table('project_user')
-        ->where('favorite', 1)
-        ->where('project_id', $this->id)
-        ->count();
+            ->where('favorite', 1)
+            ->where('project_id', $this->id)
+            ->count();
 
         return $likes;
     }

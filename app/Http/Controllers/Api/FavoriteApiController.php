@@ -21,26 +21,26 @@ class FavoriteApiController extends Controller
     public function index()
     {
         $projects = [];
-        $user_id = [ 'user_id' => auth()->user()->id];
+        $user_id = ['user_id' => auth()->user()->id];
         $listOfProjects = Project::all();
         $categories = Category::all();
         $subCategories = SubCategory::all();
-        foreach($listOfProjects as $project){
+        foreach ($listOfProjects as $project) {
 
             $liked = ProjectUser::where('user_id', '=', $user_id)
-            ->where('project_id', '=', $project->id)
-            ->where('favorite', '=', 1)
-            ->first();
+                ->where('project_id', '=', $project->id)
+                ->where('favorite', '=', 1)
+                ->first();
 
             $nbLikes = DB::table('project_user')
-            ->where('favorite', '=', 1)
-            ->where('project_id', '=', $project->id)
-            ->count();
+                ->where('favorite', '=', 1)
+                ->where('project_id', '=', $project->id)
+                ->count();
 
-            if(!empty($liked)){
+            if (!empty($liked)) {
                 $like = ["like" => true, "nbLike" => $nbLikes];
                 $project = json_decode(json_encode($project), true);
-                array_push($projects, ($like+$project));
+                array_push($projects, ($like + $project));
             }
         }
 
@@ -53,7 +53,8 @@ class FavoriteApiController extends Controller
      * @return \Illuminate\Http\Response
      * @param $id must be the chosen project's id
      */
-    public function add($id){
+    public function add($id)
+    {
 
         $user = auth()->user();
         $favorite = ProjectUser::firstOrCreate(
@@ -62,9 +63,9 @@ class FavoriteApiController extends Controller
         );
 
         $favorite->favorite = !$favorite->favorite;
-        if($favorite->save()){
+        if ($favorite->save()) {
             return response()->json(true, 200);
-        }else{
+        } else {
             return response()->json(false, 200);
         }
     }
@@ -75,16 +76,17 @@ class FavoriteApiController extends Controller
      * @return \Illuminate\Http\Response
      * @param $id must be the chosen project's id
      */
-    public function delete($id){
+    public function delete($id)
+    {
 
         $favorite = ProjectUser::where(
             ['project_id' =>  $id],
         )->first();
 
         $favorite->favorite = !$favorite->favorite;
-        if($favorite->delete()){
+        if ($favorite->delete()) {
             return response()->json(true, 200);
-        }else{
+        } else {
             return response()->json(false, 200);
         }
     }
@@ -99,9 +101,9 @@ class FavoriteApiController extends Controller
     {
         $user_id = auth()->user()->id;
         $like = ProjectUser::where('user_id', '=', $user_id)->where('project_id', '=', $id)->first();
-        if($like->favorite == 1){
+        if ($like->favorite == 1) {
             return response()->json(true, 200);
-        }else{
+        } else {
             return response()->json(false, 200);
         }
     }

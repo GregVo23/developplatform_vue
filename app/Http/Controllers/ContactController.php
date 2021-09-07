@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Mail;
@@ -11,8 +12,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
 
 
-class ContactController extends Controller {
-    
+class ContactController extends Controller
+{
+
     /**
      * Send the email.
      *
@@ -31,7 +33,7 @@ class ContactController extends Controller {
         );
         $validator = Validator::make($request->all(), $rules);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return Redirect()->route('welcome')
                 ->withErrors($validator);
         } else {
@@ -47,9 +49,9 @@ class ContactController extends Controller {
                 'texte' => $texte,
                 'email' => $email,
             ];
-    
+
             Mail::to($email)->send(new EmailContact($mailData));
-    
+
             $request->session()->regenerate();
             Session::flash('success', $message);
             return redirect()->route('welcome')->with($message);
