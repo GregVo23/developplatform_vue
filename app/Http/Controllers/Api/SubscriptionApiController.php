@@ -53,11 +53,11 @@ class SubscriptionApiController extends Controller
               $subscription = Subscription::where('user_id', '=' ,$user->id)->first();
               if ($session->amount_total == 1000){
                 $subscription->subscription = '10';
-                $subscription->nb_max_projet = '5';
+                $subscription->nb_max_projet = '10';
                 //return response()->json(1000);
               } elseif ($session->amount_total == 2500) {
                 $subscription->subscription = '25';
-                $subscription->nb_max_projet = '15';
+                $subscription->nb_max_projet = '25';
                 //return response()->json(2000);
               }
 

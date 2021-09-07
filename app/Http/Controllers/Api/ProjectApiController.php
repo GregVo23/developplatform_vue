@@ -182,49 +182,72 @@ class ProjectApiController extends Controller
     public function accept($id)
     {
         $user = auth()->user();
-        $project = ProjectUser::firstOrCreate(
-            ['project_id' =>  $id, 'user_id' => $user->id],
-            ['created_at' => Carbon::now(), 'project_id' =>  $id, 'user_id' => $user->id],
+
+        $subscription = Subscription::firstOrCreate(
+            [
+                'user_id' =>  $user->id,
+            ], [
+                'user_id' => $user->id,
+                'nb_max_projet' =>  "3"
+            ],
         );
-        if ($project->project->user_id != $user->id){
-            $project->proposal = today();
-            $result = $project->save();
-            if ($result){
+        $subscription = Subscription::where('user_id', '=', $user->id)->first();
+        if ($subscription->nb_max_projet - $subscription->nb_projet >= 1){
+            $subscription->nb_projet ++;
+            if($subscription->save()){
+                        
+                $project = ProjectUser::firstOrCreate(
+                    ['project_id' =>  $id, 'user_id' => $user->id],
+                    ['created_at' => Carbon::now(), 'project_id' =>  $id, 'user_id' => $user->id],
+                );
+                if ($project->project->user_id != $user->id){
+                    $project->proposal = today();
+                    $result = $project->save();
+                    if ($result){
 
-                $project = Project::find($id);
-                $owner = User::find($project->user_id);
+                        $project = Project::find($id);
+                        $owner = User::find($project->user_id);
 
-                    if ($project->notifications == true){
+                            if ($project->notifications == true){
 
-                        // Send notification email to the project's owner
-                        $message = "Votre projet a été accepté : '$project->name'. Vous pouvez réagir à cette acceptation, la confirmer ou la refuser. Nous vous remercions pour votre confiance et vous souhaitons beaucoup de succès sur Developplatform.";
-                        $title = "Vous avez reçu une offre pour votre projet.";
-                        $name = $owner->firstname;
-                        $email = $owner->email;
-                        $mailData = [
-                            'title' => $title,
-                            'name' => $name,
-                            'texte' => $message,
-                            'email' => $email,
-                        ];
-                        Mail::to($email)->send(new EmailNotification($mailData));
+                                // Send notification email to the project's owner
+                                $message = "Votre projet a été accepté : '$project->name'. Vous pouvez réagir à cette acceptation, la confirmer ou la refuser. Nous vous remercions pour votre confiance et vous souhaitons beaucoup de succès sur Developplatform.";
+                                $title = "Vous avez reçu une offre pour votre projet.";
+                                $name = $owner->firstname;
+                                $email = $owner->email;
+                                $mailData = [
+                                    'title' => $title,
+                                    'name' => $name,
+                                    'texte' => $message,
+                                    'email' => $email,
+                                ];
+                                Mail::to($email)->send(new EmailNotification($mailData));
 
-                    }
-                    Session::flash('success', 'Votre demande pour ce projet a été envoyée, attendez maintenant la confirmation');
-                    return response()->json(['success' => 'Votre demande a été envoyée, attendez maintenant la confirmation'], 200);
+                            }
+                            Session::flash('success', 'Votre demande pour ce projet a été envoyée, attendez maintenant la confirmation');
+                            return response()->json(['success' => 'Votre demande a été envoyée, attendez maintenant la confirmation'], 200);
+                            
                     
-            
-            } else {
-                Session::flash('message', 'Une erreur est survenue, veuillez réessayer plus tard !');
-                return response()->json(['error' => 'Vous ne pouvez pas accepter ce projet'], 500);
-            }
+                    } else {
+                        Session::flash('message', 'Une erreur est survenue, veuillez réessayer plus tard !');
+                        return response()->json(['error' => 'Vous ne pouvez pas accepter ce projet'], 500);
+                    }
 
+                } else {
+                    Session::flash('message', 'Vous ne pouvez pas accepter ce projet car vous en ête l\'auteur');
+                    return response()->json(['error' => 'Vous ne pouvez pas accepter ce projet car vous en ête l\'auteur'], 401);
+                }
+
+            } else {
+                Session::flash('message', 'Vous ne disposer plus d\'action pour effectuer cette requete, modifiez votre abonnement !');
+                return response()->json(['error' => "Un problème inatendu est survenu ! Désolé, revenez plus tard ..."], 500); 
+            }
         } else {
-            Session::flash('message', 'Vous ne pouvez pas accepter ce projet car vous en ête l\'auteur');
-            return response()->json(['error' => 'Vous ne pouvez pas accepter ce projet car vous en ête l\'auteur'], 401);
+            Session::flash('message', 'Vous ne disposer plus d\'action pour effectuer cette requete, modifiez votre abonnement !');
+            return response()->json(['error' => "Vous ne disposer plus d\'action pour effectuer cette requete, modifiez votre abonnement !"], 401); 
         }
     }
-    
+            
 
     /**
      * Make an offer for a specific project.
@@ -303,16 +326,19 @@ class ProjectApiController extends Controller
                                 }
                                 $request->session()->regenerate();
                                 Session::flash('success', "Votre proposition d'un montant de $request->amount € a été envoyée, attendez maintenant l'email de réponse");
+                                return response()->json(['success' => "Votre proposition d'un montant de $request->amount € a été envoyée, attendez maintenant l'email de réponse"], 200);
                             }
                         }else{
                             $request->session()->regenerate();
                             Session::flash('message', 'Une erreur est survenue, veuillez réessayer plus tard !');
+                            return response()->json(['errors' => "Une erreur est survenue, veuillez réessayer plus tard !"], 500);
                         }
                     }
                 }
             } else {
                 $request->session()->regenerate();
                 Session::flash('message', 'Vous ne disposer plus d\'action pour effectuer cette requete, modifiez votre abonnement !');
+                return response()->json(['errors' => "Vous ne disposer plus d\'action pour effectuer cette requete, modifiez votre abonnement !"], 401); 
             }
         }
 

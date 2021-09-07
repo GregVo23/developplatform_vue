@@ -23,6 +23,13 @@
                             <span v-else class="bg-indigo-500 py-1 px-2 rounded text-white text-sm">non</span>
                             </span>
                         </li>
+                        <li class="flex items-center py-3">
+                            <span>Status</span>
+                            <span class="ml-auto">
+                            <span v-if="(subscription != undefined)" class="bg-indigo-500 py-1 px-2 rounded text-white text-sm">{{ (subscription != false) ? subscription.nb_max_projet-subscription.nb_projet+" / "+subscription.nb_max_projet+" actions restantes" : "" }}</span>
+                            <span v-else class="bg-indigo-500 py-1 px-2 rounded text-white text-sm">non</span>
+                            </span>
+                        </li>
                         <li class="py-3">
                             <p>Devenu membre</p>
                             <span class="ml-auto">{{ sinds }}</span>

@@ -327,22 +327,45 @@ export default {
                         }
                     }
                 if(confirm("Etes vous sur d'accepter ce projet ?")){
-                    axios.post("/api/projet/accepter/"+project.id, config).then(({data}) => (this.data = data)).catch(error => {
-                        console.log('error', error);
-                        this.message="Une erreur est survenue !";
-                        this.type=false;
-                        this.showNotification();
-                        throw new Error("Une erreur est survenue lors de l'acceptProject de l'offre !");
-                        });
+                    axios.post("/api/projet/accepter/"+project.id, config)
+                        .then((res) => {
+                            if (res.data.success != undefined){
+                                console.log(res);
+                                console.log('okkkkkk');
+                                localStorage.setItem('success', res.data.success);
+                                this.message = res.data;
 
-                    this.message="Vous avez acceptez le projet, attendez désormais une réponse de l'auteur.";
-                    this.type=true;
-                    this.showNotification();
-                    this.offer = !this.offer;
-                    this.open = false;
-                    this.makeOffer = !this.makeOffer;
-                    this.offerProject = !this.offerProject;
-                    this.acceptProject = !this.acceptProject;
+                            } else if(res.data.error != undefined){
+                                console.log(res);
+                                console.log('ahhaha erreur cher amis');
+                                localStorage.setItem('error', res.data.error);
+                                this.message = res.data;
+                            } else {
+                                console.log('mouais bon');
+                            }
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                            //localStorage.setItem('error', res.data.error);
+                        });
+                            const error = localStorage.getItem('error');
+                            const success = localStorage.getItem('success');
+                            if(error){
+                                //this.message = error
+                                this.type=false;
+                                localStorage.removeItem('error');
+                            }
+                            if(success){
+                                //this.message = success;
+                                this.type=true;
+                                localStorage.removeItem('success');
+                            }
+                            this.showNotification();
+                            this.offer = !this.offer;
+                            this.open = false;
+                            this.makeOffer = !this.makeOffer;
+                            this.offerProject = !this.offerProject;
+                            this.acceptProject = !this.acceptProject;
                 } else {
                     this.message="Vous changer d'avis !";
                     this.type=false;
@@ -432,7 +455,7 @@ export default {
                         throw new Error("Une erreur est survenue lors de l'enregistrement de votre offre !");
                         });
 
-                    this.message="Merci pour votre offre, attendez désormais une réponse de l'auteur.";
+                    this.message=res.data;
                     this.type=true;
                     this.showNotification();
                     this.offer = !this.offer;
@@ -490,7 +513,7 @@ export default {
                         })
                     .catch(error => {
                         console.log('error', error);
-                        this.message="Une erreur est survenue !";
+                        this.message=res.data;
                         this.type=false;
                         this.open = false;
                         this.showNotification();
