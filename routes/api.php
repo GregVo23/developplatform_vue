@@ -28,11 +28,15 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::post('/store', [App\Http\Controllers\Api\ProjectApiController::class, 'store'])->name('project.store');
     Route::post('/projet/{id}', [App\Http\Controllers\Api\ProjectApiController::class, 'destroy'])->name('project.destroy');
     
-    /*  OFFERS  */
-    Route::get('/offres', [App\Http\Controllers\Api\ProjectApiController::class, 'proposal'])->name('project.proposal');
+    /*  MY OFFERS  */
     Route::post('/projet/accepter/{id}', [App\Http\Controllers\Api\ProjectApiController::class, 'accept'])->name('project.accept');
     Route::post('/projet/offre/{id}', [App\Http\Controllers\Api\ProjectApiController::class, 'offer'])->name('project.offer');
     Route::post('/projet/annuler/{id}', [App\Http\Controllers\Api\ProjectApiController::class, 'cancel'])->name('project.offer.cancel');
+    
+    /*  PROPOSAL  */
+    Route::get('/offres', [App\Http\Controllers\Api\ProjectApiController::class, 'showProposal'])->name('project.proposal');
+    Route::post('/offres/accepter/{id}', [App\Http\Controllers\Api\ProjectApiController::class, 'acceptProposal'])->name('offers.accept');
+    Route::post('/offres/refuser/{id}', [App\Http\Controllers\Api\ProjectApiController::class, 'refuseProposal'])->name('offers.accept');
 
     /*  FAVORITES  */
     Route::get('/favoris', [App\Http\Controllers\Api\FavoriteApiController::class, 'index'])->name('favorite.index');

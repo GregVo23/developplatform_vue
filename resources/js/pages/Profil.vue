@@ -14,7 +14,6 @@
                             enctype="multipart/form-data"
                             action="./api/avatar"
                         >
-
                             <label>
                                 <span
                                     className="relative"

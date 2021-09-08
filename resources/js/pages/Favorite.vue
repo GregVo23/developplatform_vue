@@ -1,7 +1,7 @@
 <template>
     <main class="mt-4 mb-4">
         <div v-show="loaded" class="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-full lg:px-8">
-
+        <h1 class="text-xl">Mes favoris</h1>
             <!-- Main 3 column grid -->
             <div
                 class="
@@ -603,7 +603,7 @@
                         <div class="rounded-lg bg-white overflow-hidden shadow">
                             <div class="p-4 text-center">
                                 <p class="pt-6 text-xl pb-6">
-                                    Vous n'avez pas de demandes
+                                    Vous n'avez pas de favoris
                                 </p>
                                 <router-link
                                     to="/projets"

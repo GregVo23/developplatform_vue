@@ -12,7 +12,7 @@
                     <div class="mt-4 flex">
                         <div class="flex mx-2">
                             <router-link
-                                to="/rechercher"
+                                to="/projets"
                                 class="
                                     flex
                                     items-center

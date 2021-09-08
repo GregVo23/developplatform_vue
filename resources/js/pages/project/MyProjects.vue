@@ -1,6 +1,7 @@
 <template>
     <main class="mt-4 mb-4">
         <div v-show="loaded" class="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-full lg:px-8">
+            <h1 class="text-xl">Mes projets</h1>
 
             <!-- Main 3 column grid -->
             <div
@@ -201,9 +202,7 @@
                                                 >
                                                     <a
                                                         :href="
-                                                            'http://localhost:8000/project/cover/' +
-                                                            this.user +
-                                                            '/' +
+                                                            'http://localhost:8000/storage/project/cover/' +
                                                             project.id +
                                                             '/' +
                                                             project.picture

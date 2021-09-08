@@ -31,6 +31,7 @@ class CreateUsersTable extends Migration
             $table->boolean('suspended')->default(false);
             $table->boolean('lost_password')->default(false);
             $table->integer('nb_project')->default(0);
+            $table->integer('rate')->nullable();
             $table->rememberToken()->nullable();
             $table->timestamps();
         });

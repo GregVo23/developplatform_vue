@@ -2,9 +2,9 @@
     <div class="sm-mx-10 md-mx-20 lg-mx-30">
         <div class="px-4 py-5 sm:px-6 flex">
             <div class="flex-grow">
-                <h2 class="mt-4 text-xl leading-6 font-medium text-gray-900">
+                <h1 class="mt-4 text-xl leading-6 font-medium text-gray-900">
                     {{ project.name }}
-                </h2>
+                </h1>
                 <h5 class="mt-8 max-w-2xl text-sm text-gray-500 font-bold">
                     Description:
                 </h5>
@@ -62,11 +62,127 @@
             </div>
         </div>
 
-        <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
+
+        <div v-if="user.id == project.user_id && offers.length > 0" class="border-t px-4 py-5 sm:px-6">
+            <span class="flex bg-grey-lighter">
+                        <span
+                            @click="openOffer = !openOffer"
+                            class="
+                                w-64
+                                flex flex-col
+                                items-center
+                                px-4
+                                py-6
+                                bg-white
+                                text-gray-700
+                                rounded-lg
+                                shadow-lg
+                                tracking-wide
+                                uppercase
+                                border border-blue
+                                cursor-pointer
+                                hover:bg-blue hover:text-gray-900
+                            "
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-8 w-8"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                            >
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z"
+                                    clip-rule="evenodd"
+                                />
+                                <path
+                                    d="M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z"
+                                />
+                            </svg>
+                            <span
+                                class="
+                                    mt-2
+                                    text-base
+                                    leading-normal
+                                    text-center
+                                "
+                                >Voir mes offres</span
+                            >
+                            <a href="#"></a>
+                        </span>
+                    </span>
+
+
+
+  <div v-show="openOffer" class="flex flex-col mt-2">
+    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Montant de offre
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Appréciation globale
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Message
+                </th>
+                <th scope="col" class="relative px-6 py-3">
+                  <span class="sr-only">Accept</span>
+                </th>
+                <th scope="col" class="relative px-6 py-3">
+                  <span class="sr-only">Refuse</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="offer in offers" :key="offer.id" class="bg-gray-50">
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  {{ offer.amount ? offer.amount+" €" : project.price+" €" }}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  {{ offer.rate ? offer.rate+" /5" : "aucune" }}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  {{ offer.information ? offer.information : "Pas de message" }}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <a @click="acceptProposal(offer)" class="text-indigo-600 hover:text-indigo-900">Accepter</a>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <a @click="refuseProposal(offer)" class="text-red-600 hover:text-red-900">Refuser</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+        </div>
+        <div v-else-if="user.id == project.user_id" class="px-6 text-sm font-medium text-gray-500">
+            <b>Offres reçues</b>
+            <p class="pt-1">Vous n'avez pas encore reçus d'offre</p>
+        </div>
+        <div v-else>
+        </div>
+
+
+
+
+
+
+
+        <div class="border-t px-4 py-5 sm:px-6">
             <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
                 <div class="sm:col-span-2">
                     <dt class="text-sm font-medium text-gray-500">
-                        Pièces-jointes
+                        <b>Pièces-jointes</b>
                     </dt>
                     <dd class="mt-1 text-sm text-gray-900">
                         <ul
@@ -79,9 +195,8 @@
                             <li
                                 v-if="!document"
                                 class="
-                                    pl-3
+                                  text-gray-500
                                     pr-4
-                                    py-3
                                     flex
                                     items-center
                                     justify-between
@@ -662,6 +777,8 @@ export default {
             type: "",
             show: false,
             offer: false,
+            offers: [],
+            openOffer: false,
             acceptProject: false,
             offerProject: false,
             makeOffer: false,
@@ -693,7 +810,8 @@ export default {
                         (this.subCategory = data[7]),
                         (this.categoryDescription = data[8]),
                         (this.subCategoryDescription = data[9]),
-                        (this.offer = data[10])
+                        (this.offer = data[10]),
+                        (this.offers = data[11])
                     )
                 )
                 .catch((error) => console.log("error", error));
@@ -931,6 +1049,54 @@ export default {
                 this.message = "Vous changer d'avis !";
                 this.type = false;
                 this.showNotification();
+            }
+        },
+        refuseProposal(offer){
+            console.log('refuse');
+            const config = {
+                headers: {
+                    "X-CSRF-TOKEN": document.querySelector(
+                        'meta[name="csrf-token"]'
+                    ).content,
+                },
+            };
+            if (
+                confirm(
+                    "Etes vous sur de refuser l'offre"
+                )
+            ) {
+                axios
+                    .post("/api/offres/refuser/" + offer.id, config)
+                    .then(function (res) {
+                        console.log(res);
+                    })
+                    .catch((error) => {
+                        console.log("error", error);
+                    });
+            }
+        },
+        acceptProposal(offer){
+            console.log('accept');
+                        const config = {
+                headers: {
+                    "X-CSRF-TOKEN": document.querySelector(
+                        'meta[name="csrf-token"]'
+                    ).content,
+                },
+            };
+            if (
+                confirm(
+                    "Etes vous sur d'accepter cette offre"
+                )
+            ) {
+                axios
+                    .post("/api/offres/accepter/" + offer.id, config)
+                    .then(function (res) {
+                        console.log(res);
+                    })
+                    .catch((error) => {
+                        console.log("error", error);
+                    });
             }
         },
         removeOffer(project) {

@@ -33,6 +33,7 @@ class User extends Authenticatable  implements MustVerifyEmail
         'about',
         'notification',
         'nb_project',
+        'rate',
         'lost_password',
         'suspended',
         'created_at',

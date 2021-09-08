@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Mail\EmailNotification;
+use App\Mail\EmailProject;
+use App\Mail\EmailConfirmation;
 use App\Models\Subscription;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Redirect;
@@ -63,13 +65,12 @@ class ProjectApiController extends Controller
         return json_encode([$projects, $categories,  $subCategories, $user_id]);
     }
 
-
     /**
-     * Display a listing of all the user's offers
+     * Display a listing of my offers
      *
      * @return \Illuminate\Http\Response
      */
-    public function proposal()
+    public function showProposal()
     {
         $categories = Category::all();
         $subCategories = SubCategory::all();
@@ -83,6 +84,94 @@ class ProjectApiController extends Controller
         return json_encode([$projects, $categories, $subCategories, $user_id]);
     }
 
+    /**
+     * Accept an offer for my project
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function acceptProposal($id)
+    {
+        $proposal = ProjectUser::find($id);
+        $amount = $proposal->amount;
+        $proposal->accepted = true;
+        $proposal->save();
+        $proposals = ProjectUser::where('project_id', '=', $proposal->project_id)->get();
+        foreach ($proposals as $prop){
+            if ($prop->id != $proposal->id){
+                $prop->proposal = null;
+                $prop->amount = null;
+                if ($prop->favorite != 1){
+                    $prop->delete();
+                }
+            }
+        }
+        $project = Project::find($proposal->project_id);
+        if (empty($amount)){
+            $amount = $project->price;
+        }
+        $deadline = $project->deadline;
+        $user = User::find($proposal->user_id);
+        $owner = User::find($project->user_id);
+        if ($user->notification == true) {
+
+            // Send notification email to the offer's owner
+            $message = "Votre offre de prix a été accepté, le titre du projet est : '$project->name'. Nous vous remercions pour votre confiance et vous souhaitons beaucoup de succès sur Developplatform.";
+            $title = "Félicitation, votre offre de prix a été accepté !";
+            $name = $user->firstname;
+            $email = $user->email;
+            $author = $owner->firstname;
+
+            $mailData = [
+                'title' => $title,
+                'name' => $name,
+                'texte' => $email,
+                'author' => $author,
+                'project' => $project->name,
+                'amount' => $amount,
+                'email' => $owner->email,
+                'phone' => $owner->phone,
+                'deadline' => $deadline,
+            ];
+            Mail::to($email)->send(new EmailProject($mailData));
+        }
+
+        if ($project->notifications == true) {
+
+            // Send notification email to the project's owner
+            $message = "Vous avez accepté l'offre de prix : '$project->name'. Nous vous remercions pour votre confiance et vous souhaitons beaucoup de succès sur Developplatform.";
+            $title = "Vous avez accepté l'offre de prix";
+            $name = $owner->firstname;
+            $email = $owner->email;
+            $mailData = [
+                'title' => $title,
+                'name' => $name,
+                'texte' => $message,
+                'email' => $email,
+                'author' => $user->lastname,
+                'project' => $project->name,
+                'deadline' => $deadline,
+                'amount' => $amount,
+            ];
+            Mail::to($email)->send(new EmailConfirmation($mailData));
+        }
+    }
+
+    /**
+     * Refuse an offer for my project
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function refuseProposal($id)
+    {
+        $proposal = ProjectUser::find($id);
+        $proposal->accepted = NULL;
+        $proposal->proposal = NULL;
+        if ($proposal->favorite == 1){
+            $proposal->save();
+        } else {
+            $proposal->delete();
+        }
+    }
 
     /**
      * Display a listing of the user's projects + categories + subcategories, and user's id
@@ -139,12 +228,20 @@ class ProjectApiController extends Controller
         $user = Auth()->user();
         $project = Project::find($id);
         $owner = User::find($project->user_id);
-        $offer = ProjectUser::where('user_id', '=', $user->id)->where('project_id', '=', $id)->where('proposal', '<>', NULL)->first();
-        if (!empty($offer->proposal)) {
+        $myOffer = ProjectUser::where('user_id', '=', $user->id)->where('project_id', '=', $id)->where('proposal', '<>', NULL)->first();
+        if (!empty($myOffer->proposal)) {
             $offer = true;
         } else {
             $offer = false;
         }
+
+        $offers = DB::table('project_user')
+        ->join('users', 'users.id', '=', 'project_user.user_id')
+        ->where('project_user.project_id', '=', $id)
+        ->where('project_user.proposal', '<>', NULL)
+        ->select('project_user.id', 'project_user.amount', 'project_user.information', 'project_user.user_id', 'users.rate')
+        ->get();
+
         $category = $project->category->name;
         $categoryDescription = $project->category->description;
         $subCategory = $project->sub_category->name;
@@ -168,7 +265,8 @@ class ProjectApiController extends Controller
             $subCategory,
             $categoryDescription,
             $subCategoryDescription,
-            $offer
+            $offer,
+            $offers
         ]);
     }
 
@@ -342,7 +440,7 @@ class ProjectApiController extends Controller
 
 
     /**
-     * Cancel an project's offer.
+     * Cancel my project's offer.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response

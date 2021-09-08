@@ -12,16 +12,12 @@
     <link rel="stylesheet" href="css/style.css" type="text/css" />
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
-    <link rel="stylesheet" href="css/dark.css" type="text/css" />
-    <link rel="stylesheet" href="css/font-icons.css" type="text/css" />
     <link rel="stylesheet" href="css/animate.css" type="text/css" />
-    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css" />
-
     <link rel="stylesheet" href="css/custom.css" type="text/css" />
 
     <!-- Specific Stylesheet -->
     <link rel="stylesheet" href="css/fonts.css" type="text/css" />
-    <link rel="stylesheet" href="css/freelancer.css" type="text/css" />
+    <link rel="stylesheet" href="css/developplatform.css" type="text/css" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
