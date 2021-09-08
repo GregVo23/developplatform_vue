@@ -5,13 +5,7 @@
             <div class="w-full md:w-3/12 md:mx-2">
                 <!-- Profile Card -->
                 <div class="bg-white p-3 border-t-4 border-indigo-400">
-                    <div class="image overflow-hidden">
-                        <img
-                            :src="user.avatar"
-                            :alt="'profile image de ' + user.firstname"
-                            style="object-fit: cover"
-                        />
-                    </div>
+                    <div class="hover:bg-indigo-700 cursor-pointer">
                         <form
                             @submit="formSubmit"
                             name="frmAvatar"
@@ -21,44 +15,23 @@
                             action="./api/avatar"
                         >
 
-                            <label
-                                class="
-                                    w-64
-                                    flex flex-col
-                                    items-center
-                                    px-4
-                                    py-6
-                                    bg-white
-                                    text-gray-700
-                                    rounded-lg
-                                    shadow-lg
-                                    tracking-wide
-                                    uppercase
-                                    border border-blue
-                                    cursor-pointer
-                                    hover:bg-blue hover:text-gray-900
-                                "
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    class="h-8 w-8"
-                                    viewBox="0 0 20 20"
-                                    fill="currentColor"
-                                >
-                                    <path
-                                        fill-rule="evenodd"
-                                        d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
-                                        clip-rule="evenodd"
-                                    />
-                                </svg>
+                            <label>
                                 <span
+                                    className="relative"
+                                    title="changer l'avatar"
                                     class="
-                                        mt-2
-                                        text-base
-                                        leading-normal
-                                        select-none
+                                        image overflow-hidden
+                                        cursor-pointer
                                     "
-                                    >Changer l'avatar</span
+                                    >
+                        <img
+                            className="hover:opacity-25 transition-opacity duration-1000 ease-out"
+                            :src="user.avatar"
+                            :alt="'profile image de ' + user.firstname"
+                            style="object-fit: cover"
+                        />
+                                                
+                        </span
                                 >
                                 <input
                                     v-on:change="onChange"
@@ -67,18 +40,9 @@
                                     id="avatar"
                                     name="avatar"
                                 />
-                                <input
-                                    type="submit"
-                                    value="Changer l'avatar"
-                                />
                             </label>
                         </form>
-
-
-
-
-
-
+                    </div>
 
                     <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">
                         {{ user.firstname }} {{ user.lastname }}
@@ -571,6 +535,7 @@ export default {
             subscription: "",
             rating: 3,
             avatar: '',
+            avatarName: ''
         };
     },
 
@@ -603,7 +568,10 @@ export default {
         },        
         onChange(e) {
             this.avatar = e.target.files[0];
+            this.avatarName = e.target.files[0].name;
             console.log("change");
+            this.formSubmit(e);
+            this.loadData();
         },
         formSubmit(e) {
             e.preventDefault();

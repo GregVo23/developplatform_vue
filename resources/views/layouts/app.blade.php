@@ -23,7 +23,6 @@
     </head>
     <body class="font-sans antialiased">
 
-
         <div class="min-h-screen bg-gray-200">
         <div class="bg-gray-200">
 
@@ -39,5 +38,5 @@
 
         <!-- Specific Scripts -->
         @stack('scripts')
-</body>
+    </body>
 </html>
