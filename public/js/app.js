@@ -41359,21 +41359,6 @@ var _hoisted_33 = {
 };
 
 var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("svg", {
-  xmlns: "http://www.w3.org/2000/svg",
-  "class": "\r\n                                                                        h-6\r\n                                                                        w-6\r\n                                                                        mr-1\r\n                                                                    ",
-  fill: "none",
-  viewBox: "0 0 24 24",
-  stroke: "currentColor"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("path", {
-  "stroke-linecap": "round",
-  "stroke-linejoin": "round",
-  "stroke-width": "2",
-  d: "M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-})], -1
-/* HOISTED */
-);
-
-var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("svg", {
   "class": "\r\n                                                                        h-5\r\n                                                                        w-5\r\n                                                                        fill-current\r\n                                                                        text-gray-400\r\n                                                                    ",
   viewBox: "0 0 24 24",
   fill: "text-gray-400"
@@ -41383,25 +41368,25 @@ var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 /* HOISTED */
 );
 
-var _hoisted_36 = {
+var _hoisted_35 = {
   "class": "\r\n                                                                        ml-2\r\n                                                                        text-sm\r\n                                                                        text-gray-600\r\n                                                                        dark:text-gray-300\r\n                                                                    "
 };
 
-var _hoisted_37 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+var _hoisted_36 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
   "class": "mt-1 text-sm"
 }, null, -1
 /* HOISTED */
 );
 
-var _hoisted_38 = {
+var _hoisted_37 = {
   "class": "\r\n                                                                mt-4\r\n                                                                flex\r\n                                                                justify-end\r\n                                                                flex-grow\r\n                                                            "
 };
-var _hoisted_39 = {
+var _hoisted_38 = {
   key: 0,
   "class": "\r\n                                                                    flex\r\n                                                                    items-center\r\n                                                                    ml-4\r\n                                                                    focus:outline-none\r\n                                                                    group\r\n                                                                    border\r\n                                                                    rounded-full\r\n                                                                    py-2\r\n                                                                    px-6\r\n                                                                    leading-none\r\n                                                                    border-indigo-700\r\n                                                                    dark:border-indigo-700\r\n                                                                    select-none\r\n                                                                    hover:bg-indigo-700\r\n                                                                    text-indigo-700\r\n                                                                    hover:text-white\r\n                                                                    dark-hover:text-gray-200\r\n                                                                "
 };
 
-var _hoisted_40 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("svg", {
+var _hoisted_39 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   "class": "\r\n                                                                        h-6\r\n                                                                        w-6\r\n                                                                    ",
   fill: "none",
@@ -41416,7 +41401,7 @@ var _hoisted_40 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 /* HOISTED */
 );
 
-var _hoisted_41 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("svg", {
+var _hoisted_40 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   "class": "\r\n                                                                        h-6\r\n                                                                        w-6\r\n                                                                    ",
   fill: "none",
@@ -41436,32 +41421,32 @@ var _hoisted_41 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 /* HOISTED */
 );
 
-var _hoisted_42 = {
+var _hoisted_41 = {
   key: 0,
+  "class": "\r\n                                                                        text-gray-700\r\n                                                                        group-hover:text-white\r\n                                                                    "
+};
+var _hoisted_42 = {
+  key: 1,
   "class": "\r\n                                                                        text-gray-700\r\n                                                                        group-hover:text-white\r\n                                                                    "
 };
 var _hoisted_43 = {
   key: 1,
-  "class": "\r\n                                                                        text-gray-700\r\n                                                                        group-hover:text-white\r\n                                                                    "
-};
-var _hoisted_44 = {
-  key: 1,
   "aria-labelledby": "section-1-title"
 };
-var _hoisted_45 = {
+var _hoisted_44 = {
   "class": "rounded-lg bg-white overflow-hidden shadow"
 };
-var _hoisted_46 = {
+var _hoisted_45 = {
   "class": "p-4 text-center"
 };
 
-var _hoisted_47 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+var _hoisted_46 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
   "class": "pt-6 text-xl pb-6"
 }, " Vous n'avez pas de favoris ", -1
 /* HOISTED */
 );
 
-var _hoisted_48 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("svg", {
+var _hoisted_47 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   "class": "h-6 w-6 mr-1",
   fill: "none",
@@ -41476,13 +41461,13 @@ var _hoisted_48 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 /* HOISTED */
 );
 
-var _hoisted_49 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
+var _hoisted_48 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
   "class": "\r\n                                            text-gray-700\r\n                                            group-hover:text-white\r\n                                        "
 }, " Rechercher un projet ", -1
 /* HOISTED */
 );
 
-var _hoisted_50 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+var _hoisted_49 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
   "class": "flex"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
   "class": "\r\n                                            flex-shrink\r\n                                            sm-w-3/4\r\n                                            xl-w-2/4\r\n                                            -mb-50\r\n                                            -pb-50\r\n                                        "
@@ -41495,44 +41480,44 @@ var _hoisted_50 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 /* HOISTED */
 );
 
-var _hoisted_51 = {
+var _hoisted_50 = {
   "class": "grid grid-cols-1 gap-4 wrap"
 };
-var _hoisted_52 = {
+var _hoisted_51 = {
   id: "sidebar",
   "aria-labelledby": "section-2-title"
 };
 
-var _hoisted_53 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h2", {
+var _hoisted_52 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h2", {
   "class": "sr-only",
   id: "section-2-title"
 }, " Section title ", -1
 /* HOISTED */
 );
 
-var _hoisted_54 = {
+var _hoisted_53 = {
   "class": "rounded-lg bg-white overflow-hidden shadow",
   id: "sidebar"
 };
-var _hoisted_55 = {
+var _hoisted_54 = {
   "class": "p-6"
 };
-var _hoisted_56 = {
+var _hoisted_55 = {
   "class": "space-y-1",
   "aria-label": "Sidebar"
 };
 
-var _hoisted_57 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h3", null, "Les catégories", -1
+var _hoisted_56 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h3", null, "Les catégories", -1
 /* HOISTED */
 );
 
-var _hoisted_58 = {
+var _hoisted_57 = {
   href: "#",
   "class": "\r\n                                                bg-gray-100\r\n                                                text-gray-900\r\n                                                group\r\n                                                flex\r\n                                                items-center\r\n                                                px-3\r\n                                                py-2\r\n                                                text-sm\r\n                                                font-medium\r\n                                                rounded-md\r\n                                            ",
   "aria-current": "page"
 };
 
-var _hoisted_59 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("svg", {
+var _hoisted_58 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("svg", {
   "class": "\r\n                                                    text-gray-400\r\n                                                    group-hover:text-gray-500\r\n                                                    flex-shrink-0\r\n                                                    -ml-1\r\n                                                    mr-3\r\n                                                    h-6\r\n                                                    w-6\r\n                                                ",
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
@@ -41548,11 +41533,11 @@ var _hoisted_59 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 /* HOISTED */
 );
 
-var _hoisted_60 = {
+var _hoisted_59 = {
   "class": "truncate"
 };
 
-var _hoisted_61 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
+var _hoisted_60 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
   href: "#",
   "class": "\r\n                                            text-gray-600\r\n                                            hover:bg-gray-50 hover:text-gray-900\r\n                                            group\r\n                                            flex\r\n                                            items-center\r\n                                            px-3\r\n                                            py-2\r\n                                            text-sm\r\n                                            font-medium\r\n                                            rounded-md\r\n                                        "
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Heroicon name: outline/users "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("svg", {
@@ -41656,9 +41641,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     /* TEXT */
     )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_30, [_hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(project.country), 1
     /* TEXT */
-    )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_33, [_hoisted_34, _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(project.deadline), 1
+    )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_33, [_hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(project.deadline), 1
     /* TEXT */
-    )])]), _hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_38, [project.user_id != $data.user.user_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("button", _hoisted_39, [_hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
+    )])]), _hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_37, [project.user_id != $data.user.user_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("button", _hoisted_38, [_hoisted_39, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
       onClick: function onClick($event) {
         return $options.removeFavorite(project);
       },
@@ -41670,7 +41655,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "class": "\r\n                                                                    flex\r\n                                                                    items-center\r\n                                                                    ml-4\r\n                                                                    focus:outline-none\r\n                                                                    group\r\n                                                                    border\r\n                                                                    rounded-full\r\n                                                                    py-2\r\n                                                                    px-6\r\n                                                                    leading-none\r\n                                                                    border-yellow\r\n                                                                    dark:border-yellow\r\n                                                                    select-none\r\n                                                                    hover:bg-yellow\r\n                                                                    text-yellow\r\n                                                                    hover:text-white\r\n                                                                    dark-hover:text-gray-200\r\n                                                                    transition\r\n                                                                    ease-in-out\r\n                                                                    duration-200\r\n                                                                    transform\r\n                                                                    hover:-translate-y-1\r\n                                                                    hover:translate-x-0.5\r\n                                                                "
     }, {
       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-        return [_hoisted_41, project.user_id != $data.user.user_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_42, " Voir le projet ")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_43, " Voir mon projet "))];
+        return [_hoisted_40, project.user_id != $data.user.user_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_41, " Voir le projet ")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_42, " Voir mon projet "))];
       }),
       _: 2
       /* DYNAMIC */
@@ -41684,25 +41669,25 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     )), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, project.like]]);
   }), 128
   /* KEYED_FRAGMENT */
-  ))])])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("section", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_46, [_hoisted_47, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+  ))])])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("section", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_45, [_hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: "/projets",
     "class": "\r\n                                        w-56\r\n                                        flex\r\n                                        items-center\r\n                                        m-auto\r\n                                        focus:outline-none\r\n                                        group\r\n                                        border\r\n                                        rounded-full\r\n                                        py-2\r\n                                        px-6\r\n                                        leading-none\r\n                                        border-yellow\r\n                                        dark:border-yellow\r\n                                        select-none\r\n                                        hover:bg-yellow\r\n                                        text-yellow\r\n                                        hover:text-white\r\n                                        dark-hover:text-gray-200\r\n                                        transition\r\n                                        ease-in-out\r\n                                        duration-200\r\n                                        transform\r\n                                        hover:-translate-y-1\r\n                                        hover:translate-x-0.5\r\n                                    "
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_48, _hoisted_49];
+      return [_hoisted_47, _hoisted_48];
     }),
     _: 1
     /* STABLE */
 
-  }), _hoisted_50])])]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Right column "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("section", _hoisted_52, [_hoisted_53, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Column Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" This example requires Tailwind CSS v2.0+ "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("nav", _hoisted_56, [_hoisted_57, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.categories, function (category) {
+  }), _hoisted_49])])]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Right column "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("section", _hoisted_51, [_hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Column Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" This example requires Tailwind CSS v2.0+ "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("nav", _hoisted_55, [_hoisted_56, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.categories, function (category) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("ul", {
       key: category.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\r\n        Heroicon name: outline/home\r\n\r\n        Current: \"text-gray-500\", Default: \"text-gray-400 group-hover:text-gray-500\"\r\n        "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Heroicon name: outline/folder "), _hoisted_59, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_60, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name), 1
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\r\n        Heroicon name: outline/home\r\n\r\n        Current: \"text-gray-500\", Default: \"text-gray-400 group-hover:text-gray-500\"\r\n        "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Heroicon name: outline/folder "), _hoisted_58, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_59, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name), 1
     /* TEXT */
     )])]);
   }), 128
   /* KEYED_FRAGMENT */
-  )), _hoisted_61])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Image publicity")])])], 512
+  )), _hoisted_60])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Image publicity")])])], 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.loaded]])]);
 }
