@@ -39538,19 +39538,14 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       open: false,
       project: project,
       validationErrors: "",
+      validationMessages: "",
       errors: [],
+      messages: [],
       alert: false,
+      success: false,
       nbErrors: 0,
       preview: ""
     };
-  },
-  computed: {
-    refresh: function refresh() {
-      this.alert = false;
-      this.validationErrors = "";
-      this.errors = [];
-      this.nbErrors = 0;
-    }
   },
   methods: {
     loadFormData: function loadFormData() {
@@ -39592,7 +39587,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       this.document = e.target.files; //console.log(this.document);
     },
     formSubmit: function formSubmit(e) {
-      var _this3 = this;
+      var _this4 = this;
 
       e.preventDefault(); // Take all id and email
 
@@ -39633,22 +39628,44 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       data.append("notifications", this.project.notifications);
       data.append("rules", this.project.rules);
       axios__WEBPACK_IMPORTED_MODULE_1___default().post("api/store", data, config).then(function (res) {
-        console.log(res);
+        var _this3 = this;
+
+        console.log(res.data);
+        this.validationMessages = res.data; //console.log(this.validationErrors);
+
+        this.success = true; //console.log(error.response.data.errors);
+
+        for (var _i = 0, _Object$entries = Object.entries(this.validationMessages); _i < _Object$entries.length; _i++) {
+          var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
+              key = _Object$entries$_i[0],
+              value = _Object$entries$_i[1];
+
+          this.messages.push(value);
+        }
+
+        document.getElementById("success").style.opacity = 100;
+        setTimeout(function () {
+          //document.getElementById('alert').style.display = "flex";
+          document.getElementById("success").style.opacity = 0;
+        }, 5000);
+        setTimeout(function () {
+          _this3.refresh();
+        }, 5550);
       })["catch"](function (error) {
-        if (error.response.status == 422) {
-          _this3.validationErrors = error.response.data.errors; //console.log(this.validationErrors);
+        if (error.response.status == 422 || error.response.status == 500) {
+          _this4.validationErrors = error.response.data.errors; //console.log(this.validationErrors);
 
-          _this3.alert = true;
+          _this4.alert = true; //console.log(error.response.data.errors);
 
-          for (var _i = 0, _Object$entries = Object.entries(_this3.validationErrors); _i < _Object$entries.length; _i++) {
-            var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
-                key = _Object$entries$_i[0],
-                value = _Object$entries$_i[1];
+          for (var _i2 = 0, _Object$entries2 = Object.entries(_this4.validationErrors); _i2 < _Object$entries2.length; _i2++) {
+            var _Object$entries2$_i = _slicedToArray(_Object$entries2[_i2], 2),
+                key = _Object$entries2$_i[0],
+                value = _Object$entries2$_i[1];
 
-            _this3.errors.push(value);
+            _this4.errors.push(value);
           }
 
-          _this3.nbErrors = _this3.errors.length;
+          _this4.nbErrors = _this4.errors.length;
           document.getElementById("alert").style.opacity = 100;
           setTimeout(function () {
             //document.getElementById('alert').style.display = "flex";
@@ -39657,15 +39674,15 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         }
 
         setTimeout(function () {
-          _this3.refresh();
+          _this4.refresh();
         }, 5550);
       });
 
-      if (errors) {
-        console.log(errors);
-      } else {
-        window.location.replace("/accueil");
-      }
+      if (this.errors.length > 0) {
+        console.log(this.errors);
+      } else if (this.messages.length > 0) {//window.location.replace("/accueil");
+      } else {//window.location.replace("/accueil");
+        }
     },
     RemoveImg: function RemoveImg() {
       document.getElementById("picture").value = "";
@@ -39674,6 +39691,14 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     removeDoc: function removeDoc() {
       document.getElementById("file").value = "";
       this.document = [];
+    },
+    refresh: function refresh() {
+      this.alert = false;
+      this.success = false;
+      this.validationErrors = "";
+      this.errors = [];
+      this.messages = [];
+      this.nbErrors = 0;
     }
   },
   created: function created() {
@@ -43064,6 +43089,33 @@ var _hoisted_84 = {
   role: "list",
   "class": "list-disc pl-5 space-y-1"
 };
+var _hoisted_85 = {
+  id: "success",
+  "class": "\r\n            rounded-md\r\n            bg-red-50\r\n            p-4\r\n            transition-opacity\r\n            duration-500\r\n            ease-in-out\r\n        "
+};
+var _hoisted_86 = {
+  "class": "flex"
+};
+var _hoisted_87 = {
+  "class": "flex-shrink-0"
+};
+var _hoisted_88 = {
+  "class": "ml-3"
+};
+
+var _hoisted_89 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h3", {
+  "class": "text-sm font-medium text-green-800"
+}, " Succès ! ", -1
+/* HOISTED */
+);
+
+var _hoisted_90 = {
+  "class": "mt-2 text-sm text-green-700"
+};
+var _hoisted_91 = {
+  role: "list",
+  "class": "list-disc pl-5 space-y-1"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_XCircleIcon = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("XCircleIcon");
 
@@ -43335,7 +43387,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* KEYED_FRAGMENT */
   ))])])])])], 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.alert]])], 64
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.alert]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_85, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_86, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_87, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_XCircleIcon, {
+    "class": "h-5 w-5 text-green-400",
+    "aria-hidden": "true"
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_88, [_hoisted_89, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_90, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ul", _hoisted_91, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(this.messages, function (message) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("li", {
+      key: message
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message), 1
+    /* TEXT */
+    );
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))])])])])], 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.success]])], 64
   /* STABLE_FRAGMENT */
   );
 }
@@ -45459,33 +45524,43 @@ var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_11__.createRouter)({
     redirect: '/accueil'
   }, {
     path: '/accueil',
+    name: 'accueil',
     component: _pages_HomePage_vue__WEBPACK_IMPORTED_MODULE_0__.default
   }, {
     path: '/message',
+    name: 'message',
     component: _pages_Message_vue__WEBPACK_IMPORTED_MODULE_1__.default
   }, {
     path: '/projets',
+    name: 'projets',
     component: _pages_project_Index_vue__WEBPACK_IMPORTED_MODULE_2__.default
   }, {
     path: '/demandes',
+    name: 'demandes',
     component: _pages_project_MyProjects_vue__WEBPACK_IMPORTED_MODULE_9__.default
   }, {
     path: '/projet/:id',
+    name: 'projet',
     component: _pages_project_Show_vue__WEBPACK_IMPORTED_MODULE_4__.default
   }, {
     path: '/nouveau',
+    name: 'nouveau',
     component: _pages_project_Create_vue__WEBPACK_IMPORTED_MODULE_3__.default
   }, {
     path: '/favoris',
+    name: 'favoris',
     component: _pages_Favorite_vue__WEBPACK_IMPORTED_MODULE_5__.default
   }, {
     path: '/offres',
+    name: 'offres',
     component: _pages_project_Offer_vue__WEBPACK_IMPORTED_MODULE_6__.default
   }, {
     path: '/profil',
+    name: 'profil',
     component: _pages_Profil_vue__WEBPACK_IMPORTED_MODULE_7__.default
   }, {
     path: '/abonnement',
+    name: 'abonnement',
     component: _pages_Subscription_vue__WEBPACK_IMPORTED_MODULE_8__.default
   }, {
     path: '/*',

@@ -832,6 +832,35 @@
             </div>
         </div>
     </div>
+
+        <div
+        v-show="success"
+        id="success"
+        class="
+            rounded-md
+            bg-red-50
+            p-4
+            transition-opacity
+            duration-500
+            ease-in-out
+        "
+    >
+        <div class="flex">
+            <div class="flex-shrink-0">
+                <XCircleIcon class="h-5 w-5 text-green-400" aria-hidden="true" />
+            </div>
+            <div class="ml-3">
+                <h3 class="text-sm font-medium text-green-800">
+                    Succès !
+                </h3>
+                <div class="mt-2 text-sm text-green-700">
+                    <ul role="list" class="list-disc pl-5 space-y-1">
+                        <li v-for="message in this.messages" :key="message">{{ message }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -875,19 +904,14 @@ export default {
             open: false,
             project,
             validationErrors: "",
+            validationMessages: "",
             errors: [],
+            messages: [],
             alert: false,
+            success: false,
             nbErrors: 0,
             preview: "",
         };
-    },
-    computed: {
-        refresh() {
-            this.alert = false;
-            this.validationErrors = "";
-            this.errors = [];
-            this.nbErrors = 0;
-        },
     },
     methods: {
         loadFormData() {
@@ -981,13 +1005,33 @@ export default {
             axios
                 .post("api/store", data, config)
                 .then(function (res) {
-                    console.log(res);
+                    console.log(res.data);
+                    this.validationMessages = res.data;
+                    //console.log(this.validationErrors);
+                    this.success = true;
+                    //console.log(error.response.data.errors);
+
+                    for (const [key, value] of Object.entries(
+                        this.validationMessages
+                    )) {
+                        this.messages.push(value);
+                    }
+                    document.getElementById("success").style.opacity = 100;
+                    setTimeout(() => {
+                        //document.getElementById('alert').style.display = "flex";
+                        document.getElementById("success").style.opacity = 0;
+                    }, 5000);
+
+                    setTimeout(() => {
+                        this.refresh();
+                    }, 5550);
                 })
                 .catch((error) => {
-                    if (error.response.status == 422) {
+                    if (error.response.status == 422 || error.response.status == 500) {
                         this.validationErrors = error.response.data.errors;
                         //console.log(this.validationErrors);
                         this.alert = true;
+                        //console.log(error.response.data.errors);
 
                         for (const [key, value] of Object.entries(
                             this.validationErrors
@@ -1001,15 +1045,18 @@ export default {
                             document.getElementById("alert").style.opacity = 0;
                         }, 5000);
                     }
+
                     setTimeout(() => {
                         this.refresh();
                     }, 5550);
                 });
 
-            if (errors) {
-                console.log(errors);
+            if (this.errors.length > 0) {
+                console.log(this.errors);
+            } else if(this.messages.length > 0) {
+                //window.location.replace("/accueil");
             } else {
-                window.location.replace("/accueil");
+                //window.location.replace("/accueil");
             }
         },
         RemoveImg() {
@@ -1020,6 +1067,14 @@ export default {
         removeDoc() {
             document.getElementById("file").value = "";
             this.document = [];
+        },
+        refresh() {
+            this.alert = false;
+            this.success = false;
+            this.validationErrors = "";
+            this.errors = [];
+            this.messages = [];
+            this.nbErrors = 0;
         },
     },
     created() {

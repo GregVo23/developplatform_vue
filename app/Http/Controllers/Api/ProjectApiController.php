@@ -480,7 +480,7 @@ class ProjectApiController extends Controller
             'document' => 'nullable|max:20000',
             'deadline' => 'nullable|date|after:tomorrow',
             'category_id' => 'required|numeric',
-            'sub_category_id' => 'nullable|numeric',
+            'sub_category_id' => 'required|nullable|numeric',
             'country' => 'nullable|string',
             'city' => 'nullable|string',
             'street' => 'nullable|string',
