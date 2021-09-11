@@ -28,7 +28,7 @@
                         Découvrez nos formules d'abonnement !
                     </p>
                     <p class="text-xl text-gray-700">
-                        Vous souhaitez demander et exécuter plus que 3 projets
+                        Vous souhaitez demander et exécuter plus que 5 projets
                         par mois ? Faites votre choix !
                     </p>
                 </div>

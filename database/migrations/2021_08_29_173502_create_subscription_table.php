@@ -18,7 +18,7 @@ class CreateSubscriptionTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->enum('subscription', [10, 25])->nullable();
             $table->integer('nb_projet')->default(0);
-            $table->enum('nb_max_projet', [3, 5, 15])->default(3);
+            $table->enum('nb_max_projet', [5, 10, 25])->default(5);
             $table->timestamps();
         });
     }

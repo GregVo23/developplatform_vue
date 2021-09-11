@@ -26,9 +26,11 @@ class ContactController extends Controller
         $email = env('MAIL_FROM_ADDRESS');
         $rules = array(
 
-            'name' => 'required|string|min:3',
+            'name' => 'required|string|min:3|max:60',
             'texte' => 'required|min:20|max:2000',
             'email' => 'required|string|email',
+            'complaint' => 'string|max:10',
+            'contact' => 'string|max:8',
 
         );
         $validator = Validator::make($request->all(), $rules);
@@ -38,19 +40,30 @@ class ContactController extends Controller
                 ->withErrors($validator);
         } else {
 
-            $message = "Votre demande à été envoyée aux administrateurs du site, nous vous répondrons dans les plus brefs délais.";
-            $title = "Message d'un membre de Developplatform";
+            $admin = "";
+            $message = "";
+            $title = "";
+
+            if (!empty($request->input('question')) && $request->input('question') == "question") {
+                $admin = env('APP_EMAIL');
+                $message = "Votre demande à été envoyée aux administrateurs du site, nous vous répondrons dans les plus brefs délais.";
+                $title = "Message d'un membre de Developplatform";
+            } elseif (!empty($request->input('complaint')) && $request->input('complaint') == "complaint") {
+                $admin = env('APP_POLICE_EMAIL');
+                $message = "Votre plainte à été envoyée aux administrateurs du site, nous vous répondrons dans les plus brefs délais.";
+                $title = "Plainte d'un membre de Developplatform";
+            }
             $name = ucfirst($request->input('name'));
             $texte = $request->input('texte');
-            $email = $request->input('email'); //TODO add email admin
+            $email = $request->input('email');
             $mailData = [
                 'title' => $title,
                 'name' => $name,
                 'texte' => $texte,
                 'email' => $email,
             ];
-
-            Mail::to($email)->send(new EmailContact($mailData));
+            dd($admin);
+            Mail::to($admin)->send(new EmailContact($mailData));
 
             $request->session()->regenerate();
             Session::flash('success', $message);

@@ -269,8 +269,6 @@
 
                                 <h3 class="h1 mb-5">Suivez-nous sur nos réseaux sociaux</h3>
                                 <span class="text-black-50">Nous sommes actif et postons régulièrement de nouvelles annonces.</span>
-                                <a href="mailto:info@developplatform" class="h4 text-gray-900 mt-5 mb-4 block"><u>info@developplatform
-                                    .com</u> <i class="icon-line-arrow-right relative ml-2" style="top: 3px"></i></a>
                                 <div class="flex">
                                     <a href="http://facebook.com/" target="_blank">
                                         <img src="{{ asset('images/facebook.png') }}" alt="facebook logo" class="object-cover h-14"/>
@@ -287,30 +285,46 @@
                                 </div>
 
                             </div>
+                            <a href="mailto:info@developplatform" class="h4 text-gray-900 mt-5 mb-4 block"><u>info@developplatform
+                                .com</u> <i class="icon-line-arrow-right relative ml-2" style="top: 3px"></i></a>
+                            <a class="mt-8 text-sm hover:text-yellow" href="{{ asset(env('APP_URL')."/reglement/reglement.pdf") }}">Mentions légales & réglement d'ordre intérieur</a>
                         </div>
-
-                        <div class="md:w-2/5 pr-4 pl-4">
-                            <h3 class="h1 mb-5">Vous avez une question ?</h3>
-
-                                <form class="flex flex-wrap  mb-0" action="{{ route('contact') }}" method="post" enctype="multipart/form-data">
+                        <div id="plainte">
+                            <div id="contact" class="md:w-2/5 pr-4 pl-4">
+                                <form action="{{ route('contact') }}" method="post" enctype="multipart/form-data">
                                     @csrf
-                                    <div class="w-full mb-4">
-                                        <label>Votre nom ?</label>
-                                        <input type="text" name="name" class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded border-form-control required" value="@auth{{ Auth()->user()->firstname ? Auth()->user()->firstname : '' }}  {{ Auth()->user()->lastname ? Auth()->user()->lastname : '' }}@endauth">
+                                    <div class="mb-5">
+                                        <input id="question" name="question" type="checkbox" value="question" class="focus:ring-yellow h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                        <label class="ml-5 text-sm" for="question">
+                                            <p class="text-gray-800">Vous avez une question ?</p>
+                                        </label>
                                     </div>
-                                    <div class="w-full mb-4">
-                                        <label>Votre adresse email ?</label>
-                                        <input type="email" name="email" class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded border-form-control required" value="@auth{{ Auth()->user()->email ? Auth()->user()->email : '' }}@endauth">
+                                    <div class="mb-5">
+                                        <input id="complaint" name="complaint" type="checkbox" value="complaint" class="focus:ring-yellow h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                        <label class="ml-5 text-sm" for="complaint">
+                                            <p class="text-gray-800">Vous avez une plainte ?</p>
+                                        </label>
                                     </div>
-                                    <div class="w-full mb-4">
-                                        <label>Votre question ?</label>
-                                        <textarea name="texte" class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded border-form-control" cols="10" rows="3"></textarea>
-                                    </div>
-                                    <div class="w-full">
-                                        <button type="submit" name="landing-enquiry-submit" class="button h-translatey-3 bg-gray-900 rounded-full py-4 px-8">Envoyer</button>
+                                    <div class="flex flex-wrap  mb-0">
+                                        <div class="w-full mb-4">
+                                            <label>Votre nom ?</label>
+                                            <input type="text" name="name" class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded border-form-control required" value="@auth{{ Auth()->user()->firstname ? Auth()->user()->firstname : '' }}  {{ Auth()->user()->lastname ? Auth()->user()->lastname : '' }}@endauth">
+                                        </div>
+                                        <div class="w-full mb-4">
+                                            <label>Votre adresse email ?</label>
+                                            <input type="email" name="email" class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded border-form-control required" value="@auth{{ Auth()->user()->email ? Auth()->user()->email : '' }}@endauth">
+                                        </div>
+                                        <div class="w-full mb-4">
+                                            <label>Votre question ? Votre plainte ?</label>
+                                            <textarea name="texte" class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded border-form-control" cols="10" rows="3"></textarea>
+                                        </div>
+                                        <div class="w-full">
+                                            <button type="submit" name="landing-enquiry-submit" class="text-white h-translatey-3 bg-gray-900 rounded-full py-4 px-8 hover:bg-yellow">Envoyer</button>
+                                        </div>
                                     </div>
                                 </form>
 
+                            </div>
                         </div>
 
                     </div>

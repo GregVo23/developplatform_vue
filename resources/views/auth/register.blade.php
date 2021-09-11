@@ -22,14 +22,14 @@
                 <input type="text" name="last_name" id="last_name" autocomplete="family-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
             </div>
 
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-6 sm:col-span-6">
                 <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
                 <input type="text" name="email" id="email" autocomplete="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
             </div>
 
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-6 sm:col-span-6">
                 <label for="phone" class="block text-sm font-medium text-gray-700">Téléphone</label>
-                <input type="text" name="phone" id="phone" autocomplete="phone" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                <input type="number" name="phone" id="phone" autocomplete="phone" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
             </div>
 
             <div class="col-span-6 sm:col-span-3">
@@ -39,6 +39,10 @@
                 <option>France</option>
                 <option>Luxembourg</option>
                 </select>
+            </div>
+            <div class="col-span-6 sm:col-span-3">
+                <label for="age" class="block text-sm font-medium text-gray-700">Age</label>
+                <input required type="number" name="age" id="age" autocomplete="age" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
             </div>
 
             <!-- Password -->
@@ -61,16 +65,16 @@
             </div>
 
             <div class="col-span-6">
-                <input id="notification" name="notification" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                <input id="notification" name="notification" type="checkbox" value="notification" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
                 <label class="ml-5 text-sm" for="notification">
                     <p class="text-gray-700">J'accepte de recevoir les notifications par email</p>
                 </label>
             </div>
 
             <div class="col-span-6">
-                <input id="rules" name="rules" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" required>
+                <input id="rules" name="rules" type="checkbox" value="rules" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" required>
                 <label class="ml-5 text-sm" for="rules">
-                    <p class="text-gray-700">J'accepte les Conditions <a href="#">générales d’utilisation</a></p>
+                    <p class="text-gray-700">J'accepte les Conditions <a class="hover:text-yellow" href="{{ asset(env('APP_URL')."/reglement/reglement.pdf") }}">générales d’utilisation</a></p>
                 </label>
             </div>
 

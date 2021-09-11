@@ -39,9 +39,9 @@
                 </label>
             </div>
 
-            <div class="flex items-center justify-end mt-4">
+            <div class="flex items-center justify-between mt-4">
                 @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
+                    <a class="underline text-sm text-gray-600 hover:text-yellow" href="{{ route('password.request') }}">
                         {{ __('Mot de passe perdu ?') }}
                     </a>
                 @endif
@@ -49,6 +49,9 @@
                 <x-button class="ml-3">
                     {{ __('Se connecter') }}
                 </x-button>
+            </div>
+            <div>
+                <a class="hover:text-yellow underline text-sm" href={{ route('register') }}>Je ne suis pas encore membre</a>
             </div>
         </form>
     </x-auth-card>

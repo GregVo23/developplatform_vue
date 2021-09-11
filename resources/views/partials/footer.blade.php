@@ -48,16 +48,16 @@
             <x-menu/>
           </div>
           <div>
-            <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">
-              Session
-            </h3>
-                <!-- Navigation Links -->
+              <!-- Navigation Links -->
               <ul class="mt-4 space-y-4">
                 <li><a class="text-gray-500 hover:text-indigo-500" href="/profil">
                     {{ __('profil') }}</a>
                 </li>
-                <li><a class="text-gray-500 hover:text-indigo-500" href="/projets">
+                <li><a class="text-gray-500 hover:text-indigo-500" href="/#contact">
                     {{ __('Contact') }}</a>
+                </li>
+                <li><a class="text-gray-500 hover:text-indigo-500" href="/#plainte">
+                    {{ __('Plainte') }}</a>
                 </li>
                 <li>
                   <form method="POST" action="{{ route('logout') }}">

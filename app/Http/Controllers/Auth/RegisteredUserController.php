@@ -40,15 +40,16 @@ class RegisteredUserController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|confirmed|min:8',
             'phone' => 'required|unique:users',
-            'rules' => 'required',
+            'rules' => 'required|string|max:6',
             'country' => 'string|max:255',
+            'notification' => 'string|max:13',
+            'age' => 'numeric|min:18',
         ]);
 
         $categories = Category::all();
         $message = "Vous êtes désormais membre sur Developplatform ! Bienvenue ".$request->first_name." !";
-        session(['categories' => $categories]);
 
-        if ($request->notification == "on"){
+        if ($request->notification == "notification"){
             $notification = true;
         } else {
             $notification = false;
