@@ -15,7 +15,6 @@ class Subscription extends Model
      * @var array
      */
     protected $fillable = [
-        'id',
         'user_id',
         'nb_projet',
         'subscription',
@@ -27,8 +26,13 @@ class Subscription extends Model
      *
      * @var string
      */
-    protected $table = 'subscription';
+    protected $table = 'subscriptions';
 
+    /**
+     * Relations with User.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     */
     public function user()
     {
         return $this->belongsTo(User::class);

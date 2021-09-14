@@ -16,21 +16,19 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('role_id')->unsigned()->nullable();
+            $table->bigInteger('status_id')->unsigned()->nullable()->default(1);
             $table->string('firstname',100)->nullable();
             $table->string('lastname',100)->nullable();
-            $table->string('name',100)->nullable();
+            $table->string('surname',100)->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('country')->nullable();
             $table->string('phone')->nullable()->unique();
-            $table->enum('level', ['expert','pro','advanced','novice','student'])->nullable();
+            $table->enum('level', ['expert','pro','advanced','novice'])->nullable();
             $table->text('about')->nullable();
             $table->string('avatar')->default("./images/profil.png");
             $table->boolean('notification')->default(false);
-            $table->boolean('suspended')->default(false);
-            $table->boolean('lost_password')->default(false);
-            $table->integer('nb_project')->default(0);
             $table->integer('rate')->nullable();
             $table->rememberToken()->nullable();
             $table->timestamps();

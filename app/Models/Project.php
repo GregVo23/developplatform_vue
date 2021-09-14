@@ -16,7 +16,6 @@ class Project extends Model
      * @var array
      */
     protected $fillable = [
-        'id',
         'user_id',
         'name',
         'document',
@@ -44,26 +43,11 @@ class Project extends Model
      */
     protected $table = 'projects';
 
-    public function rating()
-    {
-        return $this->hasOne(Rating::class);
-    }
-
-    public function category()
-    {
-        return $this->belongsTo(Category::class);
-    }
-
-    public function sub_category()
-    {
-        return $this->belongsTo(SubCategory::class);
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
+    /**
+     * Return the project's owner.
+     *
+     * @return collection
+     */
     public function owner()
     {
         $owner = $this->user_id;
@@ -71,11 +55,11 @@ class Project extends Model
         return $owner;
     }
 
-    public function favorites_projects()
-    {
-        return $this->hasMany(ProjectUser::class);
-    }
-
+    /**
+     * Return the project's deadline.
+     *
+     * @return number
+     */
     public function delay($deadline)
     {
         $date1 = strtotime(date('m/d/Y h:i:s', time()));
@@ -87,6 +71,11 @@ class Project extends Model
         return $days;
     }
 
+    /**
+     * Return the project's complete address.
+     *
+     * @return string
+     */
     public function address()
     {
         $address = $this->country . ", " . $this->number . ", " . $this->city;
@@ -94,6 +83,11 @@ class Project extends Model
         return $address;
     }
 
+    /**
+     * Return how many likes for this project.
+     *
+     * @return object
+     */
     public function liked()
     {
         $likes = DB::table('project_user')
@@ -102,5 +96,65 @@ class Project extends Model
             ->count();
 
         return $likes;
+    }
+
+    /**
+     * Relations with Rating.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasoOne
+     */
+    public function rating()
+    {
+        return $this->hasOne(Rating::class);
+    }
+
+    /**
+     * Relations with Category.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     */
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    /**
+     * Relations with SubCategory.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     */
+    public function sub_category()
+    {
+        return $this->belongsTo(SubCategory::class);
+    }
+
+    /**
+     * Relations with User.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Relations with Report.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
+    }
+
+    /**
+     * Relations with ProjectUser.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function favorites_projects()
+    {
+        return $this->hasMany(ProjectUser::class);
     }
 }

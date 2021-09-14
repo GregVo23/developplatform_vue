@@ -33,11 +33,21 @@ class Category extends Model
      */
     public $timestamps = false;
 
+    /**
+     * Relations with Project.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     */
     public function project()
     {
         return $this->belongsTo(Project::class);
     }
 
+    /**
+     * Relations with SubCategory.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
     public function sub_category()
     {
         return $this->hasMany(SubCategory::class);

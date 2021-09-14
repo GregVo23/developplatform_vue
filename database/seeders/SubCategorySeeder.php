@@ -23,12 +23,12 @@ class SubCategorySeeder extends Seeder
         //Define data
         $subCategories = [
             ['name'=>'réalisation de flyer',
-             'image'=>'http://localhost:8000/images/subcategories/s1.jpg',
+             'image'=> env('APP_URL').'/images/subcategories/s1.jpg',
              'category_id' => 1,
              'description'=> 'Toutes réalisations visuelles telle que l\'impression, le web, création de logo, flyers, carte de visite ...',
             ],  
             ['name'=>'carte de visite',
-             'image'=>'http://localhost:8000/images/subcategories/s1.jpg',
+             'image'=> env('APP_URL').'/images/subcategories/s1.jpg',
              'category_id' => 1,
              'description'=> 'Toutes réalisations visuelles telle que l\'impression, le web, création de logo, flyers, carte de visite ...',
             ],  

@@ -15,7 +15,7 @@ class CreateRolesTable extends Migration
     {
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
-            $table->enum('role', ['admin', 'user']);
+            $table->enum('role', ['admin', 'member']);
         });
     }
 
@@ -26,7 +26,6 @@ class CreateRolesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
         Schema::dropIfExists('roles');
     }
 }

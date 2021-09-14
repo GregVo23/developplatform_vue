@@ -41,22 +41,41 @@ class ProjectUser extends Pivot
      */
     public $incrementing = true;
 
-
+    /**
+     * Relations with User.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * Relations with Project.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     */
     public function project()
     {
         return $this->belongsTo(Project::class);
     }
 
+    /**
+     * Relations with Category.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     */
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
 
+    /**
+     * Relations with SubCategory.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     */
     public function sub_category()
     {
         return $this->belongsTo(SubCategory::class);

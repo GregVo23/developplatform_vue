@@ -33,7 +33,7 @@ class UserSeeder extends Seeder
                 'password'=>'epfcepfc',
                 'country'=>'Belgique',
                 'phone'=>'047236790',
-                'avatar'=>'http://localhost:8000/images/avatar/a17.jpg',
+                'avatar'=> env('APP_URL').'/images/avatar/a17.jpg',
                 'notification' => 0,
                 'level' => 3,
                 'about' => "Je suis Grégory, étudiant à l'EPFC en développement web. Je réalise ce site dans le cadre de mon travail de fin de formation via le Framework Laravel. Je suis Bruxellois en dehors de ma passion pour le web, je peins à l'aquarelle, je dessine et apprécie la bonne cuisine... :)",

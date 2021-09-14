@@ -15,7 +15,6 @@ class SubCategory extends Model
      * @var array
      */
     protected $fillable = [
-        'id',
         'category_id',
         'name',
         'description',
@@ -35,11 +34,21 @@ class SubCategory extends Model
      */
     public $timestamps = false;
 
+    /**
+     * Relations with Category.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     */
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
 
+    /**
+     * Relations with Project.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
     public function projects()
     {
         return $this->hasMany(Project::class);

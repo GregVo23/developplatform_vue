@@ -15,9 +15,12 @@ class CreateReportsTable extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('restrict')->onUpdate('cascade');
             $table->foreignId('project_id')->constrained()->onDelete('restrict')->onUpdate('cascade');
-            $table->string('report');
+            $table->string('email_reporter');
+            $table->string('email_accused');
+            $table->text('report')->nullable();
+            $table->boolean('done')->default(false);
+            $table->timestamps();
         });
     }
 

@@ -29,11 +29,21 @@ class Rating extends Model
      */
     protected $table = 'ratings';
 
+    /**
+     * Relations with User.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * Relations with Project.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     */
     public function project()
     {
         return $this->belongsTo(Project::class);

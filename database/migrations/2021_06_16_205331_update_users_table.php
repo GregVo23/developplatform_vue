@@ -16,6 +16,7 @@ class UpdateUsersTable extends Migration
         Schema::table('users', function (Blueprint $table) {
             //Contraintes de clés étrangères
             $table->foreign('role_id')->references('id')->on('roles');
+            $table->foreign('status_id')->references('id')->on('status');
         });
     }
 

@@ -354,16 +354,9 @@ class ProjectApiController extends Controller
     {
         $user = auth()->user();
 
-        $subscription = Subscription::firstOrCreate(
-            [
-                'user_id' =>  $user->id,
-            ],
-            [
-                'user_id' => $user->id,
-                'nb_max_projet' =>  "3"
-            ],
-        );
+        Subscription::firstOrCreate(['user_id' => $user->id]);
         $subscription = Subscription::where('user_id', '=', $user->id)->first();
+
         if ($subscription->nb_max_projet - $subscription->nb_projet >= 1) {
             $subscription->nb_projet++;
             if ($subscription->save()) {
@@ -466,121 +459,132 @@ class ProjectApiController extends Controller
      */
     public function store(Request $request)
     {
-        // validate
+        $user = Auth()->user();
+        
+        Subscription::firstOrCreate(['user_id' => $user->id]);
+        $subscription = Subscription::where('user_id', '=', $user->id)->first();
 
-        $rules = array(
+        if ($subscription->nb_max_projet - $subscription->nb_projet >= 1) {
+            $subscription->nb_projet++;
+            if ($subscription->save()) {
 
-            'name' => 'required|string|min:3',
-            'about' => 'required|min:20|max:2000',
-            'user_id' => 'required|numeric',
-            'price' => 'numeric|nullable',
-            'phone' => 'numeric|nullable',
-            'email' => 'required|string|email',
-            'picture' => 'nullable|image|mimes:jpeg,jpg,png',
-            'document' => 'nullable|max:20000',
-            'deadline' => 'nullable|date|after:tomorrow',
-            'category_id' => 'required|numeric',
-            'sub_category_id' => 'required|nullable|numeric',
-            'country' => 'nullable|string',
-            'city' => 'nullable|string',
-            'street' => 'nullable|string',
-            'number' => 'nullable|numeric',
-            'zipcode' => 'nullable|numeric',
-            'rules' => 'nullable',
-            'notifications' => 'nullable',
-        );
-        $validator = Validator::make($request->all(), $rules);
+                // validate
+                $rules = array(
 
-        // process
+                    'name' => 'required|string|min:3',
+                    'about' => 'required|min:20|max:2000',
+                    'user_id' => 'required|numeric',
+                    'price' => 'numeric|nullable',
+                    'phone' => 'numeric|nullable',
+                    'email' => 'required|string|email',
+                    'picture' => 'nullable|image|mimes:jpeg,jpg,png',
+                    'document' => 'nullable|max:20000',
+                    'deadline' => 'nullable|date|after:tomorrow',
+                    'category_id' => 'required|numeric',
+                    'sub_category_id' => 'required|nullable|numeric',
+                    'country' => 'nullable|string',
+                    'city' => 'nullable|string',
+                    'street' => 'nullable|string',
+                    'number' => 'nullable|numeric',
+                    'zipcode' => 'nullable|numeric',
+                    'rules' => 'nullable',
+                    'notifications' => 'nullable',
+                );
+                $validator = Validator::make($request->all(), $rules);
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        } else {
-            $user_id = $request->user_id;
+                // process
 
-            $project = new Project;
-            $project->user_id = $request->user_id;
-            $project->category_id = $request->category_id;
-            $project->sub_category_id = $request->sub_category_id;
-            $project->name = ucfirst($request->name);
-            $project->about = ucfirst($request->about);
-            $project->price = $request->price;
-            $project->phone = $request->phone;
-            $project->deadline = $request->deadline;
-            $project->email = $request->email;
-            $project->country = ucfirst($request->country);
-            $project->city = ucfirst($request->city);
-            $project->zipcode = $request->zipcode;
-            $project->number = $request->number;
-            $project->street = $request->street;
-            $project->notifications = $request->notifications ? true : false;
-            $project->rules = $request->rules ? true : false;
+                if ($validator->fails()) {
+                    return response()->json(['errors' => $validator->errors()], 422);
+                } else {
+                    $user_id = $request->user_id;
 
-            $result = $project->save();
+                    $project = new Project;
+                    $project->user_id = $request->user_id;
+                    $project->category_id = $request->category_id;
+                    $project->sub_category_id = $request->sub_category_id;
+                    $project->name = ucfirst($request->name);
+                    $project->about = ucfirst($request->about);
+                    $project->price = $request->price;
+                    $project->phone = $request->phone;
+                    $project->deadline = $request->deadline;
+                    $project->email = $request->email;
+                    $project->country = ucfirst($request->country);
+                    $project->city = ucfirst($request->city);
+                    $project->zipcode = $request->zipcode;
+                    $project->number = $request->number;
+                    $project->street = $request->street;
+                    $project->notifications = $request->notifications ? true : false;
+                    $project->rules = $request->rules ? true : false;
 
-            $project = Project::find($project->id);
+                    $result = $project->save();
 
-            if ($request->hasFile('picture')) {
+                    $project = Project::find($project->id);
 
-                $file = $request->file('picture');
-                // Get filename with the extension
-                $filenameWithExt = $file->getClientOriginalName();
-                // Get just filename
-                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-                // Get just ext
-                $extension = $file->extension();
-                // here is the current date time timestamp
-                $time = date("d-m-Y") . "-" . time();
-                // Filename to store
-                $fileNameToStore = $filename . '_' . $time . '.' . $extension;
-                // Upload Image
+                    if ($request->hasFile('picture')) {
 
-                // Save XL Project image
-                $path = 'public/project/cover/' . $project->id;
-                $file->storeAs($path, $fileNameToStore);
-
-                $cover = Image::make($file);
-                // resize image to fixed size
-                $cover->resize(null, 300, function ($constraint) {
-                    $constraint->aspectRatio();
-                });
-                // Save small project image
-                $cover->save(public_path('/project/cover/' . $fileNameToStore));
-
-                $project->picture = $fileNameToStore;
-                $project->save();
-            }
-
-            //return response()->json($request->file('document'));
-
-            if (!empty($request->file('document'))) {
-
-                $documents = [];
-                foreach ($request->file('document') as $file) {
-                    if (is_object($file) && $file->isValid()) {
-
-
+                        $file = $request->file('picture');
+                        // Get filename with the extension
                         $filenameWithExt = $file->getClientOriginalName();
                         // Get just filename
                         $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
                         // Get just ext
                         $extension = $file->extension();
+                        // here is the current date time timestamp
+                        $time = date("d-m-Y") . "-" . time();
                         // Filename to store
-                        $fileNameToStore = $filename . '_' . $project->id . '.' . $extension;
-                        // Save link
-                        $path = $file->storeAs('public/project/doc/' . $project->id, $fileNameToStore);
+                        $fileNameToStore = $filename . '_' . $time . '.' . $extension;
+                        // Upload Image
 
-                        array_push($documents, $fileNameToStore);
+                        // Save XL Project image
+                        $path = 'public/project/cover/' . $project->id;
+                        $file->storeAs($path, $fileNameToStore);
+
+                        $cover = Image::make($file);
+                        // resize image to fixed size
+                        $cover->resize(null, 300, function ($constraint) {
+                            $constraint->aspectRatio();
+                        });
+                        // Save small project image
+                        $cover->save(public_path('/project/cover/' . $fileNameToStore));
+
+                        $project->picture = $fileNameToStore;
+                        $project->save();
+                    }
+
+                    //return response()->json($request->file('document'));
+
+                    if (!empty($request->file('document'))) {
+
+                        $documents = [];
+                        foreach ($request->file('document') as $file) {
+                            if (is_object($file) && $file->isValid()) {
+
+
+                                $filenameWithExt = $file->getClientOriginalName();
+                                // Get just filename
+                                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                                // Get just ext
+                                $extension = $file->extension();
+                                // Filename to store
+                                $fileNameToStore = $filename . '_' . $project->id . '.' . $extension;
+                                // Save link
+                                $path = $file->storeAs('public/project/doc/' . $project->id, $fileNameToStore);
+
+                                array_push($documents, $fileNameToStore);
+                            }
+                        }
+                        $project->document = json_encode($documents);
+                        $project->save();
+                    }
+
+                    if ($result) {
+                        
+                        return true;
+                    } else {
+                        return response()->json(['errors' => 'Un problème est survenu, veuillez réessayer plus tard.'], 500);
                     }
                 }
-                $project->document = json_encode($documents);
-                $project->save();
-            }
-
-            if ($result) {
-                return true;
-            } else {
-                return response()->json(['errors' => 'Un problème est survenu, veuillez réessayer plus tard.'], 500);
             }
         }
     }

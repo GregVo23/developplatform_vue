@@ -26,7 +26,7 @@ class ProjectSeeder extends Seeder
             [
                 'user_id' => 1,
                 'name' => 'Design interface de gestion',
-                //'document' => $this->faker->url,
+                //'document'
                 'picture' => "1.jpg",
                 'about' => "Je suis a la recherche d'un design pour une interface de gestion d'entreprise. Ce projet consiste à réaliser un template de base ainsi qu'une page d'accueil pour une application de gestion de stock. Le thème est la construction et nous disposons déjà de quelques idées mais restons ouvert à toute créativité.",
                 'price' => 300,
@@ -49,7 +49,7 @@ class ProjectSeeder extends Seeder
             [
                 'user_id' => 2,
                 'name' => 'Réalisation d\'un coupon de promotion',
-                //'document' => $this->faker->url,
+                //'document' 
                 'picture' => "2.jpg",
                 'about' => "Je souhaiterai une réalisation d'un coupon pour faire la promotion de parfum. Je suis propriétaire d'un magain de parfumerie et je souhaiterai réaliser des coupons promotionnels qui seraient offert dans un magazine de mode. Je recherche un graphiste sérieux et dispose de quelques exemples à votre disposition. Nous sommes situés sur Charleroi si vous souhaitez directement me rencontrer. N'hésitez pas à me contacter.",
                 'price' => 120,
@@ -72,7 +72,7 @@ class ProjectSeeder extends Seeder
             [
                 'user_id' => 3,
                 'name' => 'Mascotte restaurant italien',
-                //'document' => $this->faker->url,
+                //'document' 
                 'picture' => "3.jpg",
                 'about' => "Plus qu'un logo, nous souhaiterions une mascotte qui représente une boule de riz italienne, l'Arancini. Un personnage en forme de boule de riz farcie qui donne faim et donne envie de renter dans notre éttablissement. Nous disposons d'un restaurant spécialisé dans l'Arancini sur Bruxelles. Nous sommes ouvert à toute créativité et ne sommes pas pressés... L'idéal serait d'avoir un projet sérieux pour l'année prochaine afin de pouvoir réaliser une nouvelle enseigne et toutes l'identité visuelle du restaurant autour de ce personnage. Merci d'avance.",
                 'price' => 850,
@@ -95,7 +95,7 @@ class ProjectSeeder extends Seeder
             [
                 'user_id' => 4,
                 'name' => 'Flyer combat d\'art-martiaux',
-                //'document' => $this->faker->url,
+                //'document' 
                 'picture' => "4.jpg",
                 'about' => "Benthner, le célèbre combattant d'art-martiaux va organiser une rencontre et donc un combat, il aurait besoin d'un flyer afin d'annoncer le prochain évènement. Spécialisé dans les art-martiaux, nous organisons des combats entre célébrités de ce milieu. Merci de nous contacter, personnes sérieuses uniquement ! C'est assez URGENT !",
                 'price' => 200,
@@ -118,7 +118,7 @@ class ProjectSeeder extends Seeder
             [
                 'user_id' => 5,
                 'name' => 'Flyer tournoi d\'art-martiaux',
-                //'document' => $this->faker->url,
+                //'document'
                 'picture' => "5.jpg",
                 'about' => "Le célèbre tournoi d'art-martiaux aurait besoin d'un flyer afin d'annoncer le prochain évènement. Spécialisé dans les art-martiaux, nous développons un tournois pour enfant dont voici le projet de flyer pour les cours. L'idée serait de faire un flyer/poster que nous pourrions réutiliser chaque année. Merci de nous contacter, personnes sérieuses uniquement !",
                 'price' => 150,
@@ -141,7 +141,7 @@ class ProjectSeeder extends Seeder
             [
                 'user_id' => 6,
                 'name' => 'Recherche graphiste web',
-                //'document' => $this->faker->url,
+                //'document'
                 'picture' => "6.jpg",
                 'about' => "Biblioweb a besoin d'un designer afin de réaliser le design de notre e-shop. Nous sommes une célèbre bibliotheque en ligne connue en europe pour son sérieux et sommes a la recherche d'un rafraichissement de notre enseigne et design. Nous recherchons une personne qualifié uniquement et prete a travailler de concert avec nos développeurs afin de mener ce projet au mieux. A bon entendeur, n'hésitez pas à nous écrire, nous sommes pressés de vous lire ;) Et surtout de vous rencontrer avant de lancer une coopération.",
                 'price' => 200,
@@ -164,7 +164,7 @@ class ProjectSeeder extends Seeder
             [
                 'user_id' => 7,
                 'name' => 'Réalisation d\'un site web',
-                //'document' => $this->faker->url,
+                //'document'
                 'picture' => "7.jpg",
                 'about' => "Notre dojo se fait connaitre cependant afin de franchir un nouveau pallier, nous aurions besoins d'un site web ! Nous attendons des propositions sérieuses et pas trop chères ;) Merci de nous contacter ... Voici notre logo pour vous donner une idéee quant au design et couleur de notre futur site ...",
                 'price' => 450,
@@ -187,7 +187,7 @@ class ProjectSeeder extends Seeder
             [
                 'user_id' => 8,
                 'name' => 'Référencement site web centre médical',
-                //'document' => $this->faker->url,
+                //'document'
                 'picture' => "8.jpg",
                 'about' => "Notre centre médical dispose d'un site web réalisé avec le CMS Drupal et est mal placé dans Google. Nous recherchons des personnes qualifiées afin d'être présent dans la première page car actuellement en deuxième. Nous disposons de moyens et souhaiterions travailler sur le long terme ensemble car disposons également d'un autre site. A bon entendeur, nous voulons aussi avoir des résultats rapidement. Merci de nous contacter.",
                 'price' => 1500,
@@ -210,7 +210,7 @@ class ProjectSeeder extends Seeder
             [
                 'user_id' => 9,
                 'name' => 'Application de réservation mobile de croisière',
-                //'document' => $this->faker->url,
+                //'document'
                 'picture' => "9.jpg",
                 'about' => "Nous organisons des croisières de luxe. Besoin d'une app de réservation de places pour compléter nos cruises incomplets. Nous aurions besoin de cette application pour l'année à venir. Vous pouvez toujours vous rendre sur notre site web : www.levezlancre.be pour avoir une idée de notre design et notre standing.",
                 'price' => 4000,
@@ -233,7 +233,7 @@ class ProjectSeeder extends Seeder
             [
                 'user_id' => 10,
                 'name' => 'Réalisation carte de visite',
-                //'document' => $this->faker->url,
+                //'document'
                 'picture' => "10.jpg",
                 'about' => "Besoin d'une carte de visite pour notre entreprise. Nous comptons 9 personnes au total et aurions besoin d'une carte devisite pour chacune d'entre elle. Vous pouvez consulter notre site web pour vous procurer notre logo et avoir une idéee de nos réalistations sur : www.mvc.com. Rien ne presse pour ce projet mais nous souhaiterions avoir notre mot à dire sur le design afin de guider au mieux le graphiste.",
                 'price' => 150,
@@ -256,7 +256,7 @@ class ProjectSeeder extends Seeder
             [
                 'user_id' => 11,
                 'name' => 'Réalisation d\'un livre media',
-                //'document' => $this->faker->url,
+                //'document'
                 'picture' => "11.jpg",
                 'about' => "Ensemble de projets au choix, rejoingnez nos équipes de designers au plus vite. Nous sommes installés sur Paris et Bruxelles.",
                 'price' => 200,
@@ -279,7 +279,7 @@ class ProjectSeeder extends Seeder
             [
                 'user_id' => 12,
                 'name' => 'Réalisation d\'un livre media',
-                //'document' => $this->faker->url,
+                //'document'
                 'picture' => "12.jpg",
                 'about' => "Ensemble de projets au choix, rejoingnez nos équipes de designers au plus vite. Nous sommes installés sur Paris et Bruxelles.",
                 'price' => 200,
@@ -302,7 +302,7 @@ class ProjectSeeder extends Seeder
             [
                 'user_id' => 13,
                 'name' => 'Réalisation d\'un livre media',
-                //'document' => $this->faker->url,
+                //'document'
                 'picture' => "13.jpg",
                 'about' => "Ensemble de projets au choix, rejoingnez nos équipes de designers au plus vite. Nous sommes installés sur Paris et Bruxelles.",
                 'price' => 200,
@@ -325,7 +325,7 @@ class ProjectSeeder extends Seeder
             [
                 'user_id' => 14,
                 'name' => 'Réalisation d\'un livre media',
-                //'document' => $this->faker->url,
+                //'document'
                 'picture' => "14.jpg",
                 'about' => "Ensemble de projets au choix, rejoingnez nos équipes de designers au plus vite. Nous sommes installés sur Paris et Bruxelles.",
                 'price' => 200,
@@ -348,7 +348,7 @@ class ProjectSeeder extends Seeder
             [
                 'user_id' => 15,
                 'name' => 'Réalisation d\'un livre media',
-                //'document' => $this->faker->url,
+                //'document'
                 'picture' => "15.jpg",
                 'about' => "Ensemble de projets au choix, rejoingnez nos équipes de designers au plus vite. Nous sommes installés sur Paris et Bruxelles.",
                 'price' => 200,
@@ -371,7 +371,7 @@ class ProjectSeeder extends Seeder
             [
                 'user_id' => 16,
                 'name' => 'Réalisation d\'un livre media',
-                //'document' => $this->faker->url,
+                //'document'
                 'picture' => "16.jpg",
                 'about' => "Ensemble de projets au choix, rejoingnez nos équipes de designers au plus vite. Nous sommes installés sur Paris et Bruxelles.",
                 'price' => 200,
@@ -394,7 +394,7 @@ class ProjectSeeder extends Seeder
             [
                 'user_id' => 16,
                 'name' => 'Réalisation d\'un livre media',
-                //'document' => $this->faker->url,
+                //'document'
                 'picture' => "17.jpg",
                 'about' => "Ensemble de projets au choix, rejoingnez nos équipes de designers au plus vite. Nous sommes installés sur Paris et Bruxelles.",
                 'price' => 200,
@@ -417,7 +417,7 @@ class ProjectSeeder extends Seeder
             [
                 'user_id' => 1,
                 'name' => 'Réalisation d\'un livre media',
-                //'document' => $this->faker->url,
+                //'document'
                 'picture' => "18.jpg",
                 'about' => "Ensemble de projets au choix, rejoingnez nos équipes de designers au plus vite. Nous sommes installés sur Paris et Bruxelles.",
                 'price' => 200,
@@ -440,7 +440,7 @@ class ProjectSeeder extends Seeder
             [
                 'user_id' => 2,
                 'name' => 'Réalisation d\'un livre media',
-                //'document' => $this->faker->url,
+                //'document'
                 'picture' => "19.jpg",
                 'about' => "Ensemble de projets au choix, rejoingnez nos équipes de designers au plus vite. Nous sommes installés sur Paris et Bruxelles.",
                 'price' => 200,
@@ -463,7 +463,7 @@ class ProjectSeeder extends Seeder
             [
                 'user_id' => 11,
                 'name' => 'Réalisation d\'un livre media',
-                //'document' => $this->faker->url,
+                //'document'
                 'picture' => "20.jpg",
                 'about' => "Ensemble de projets au choix, rejoingnez nos équipes de designers au plus vite. Nous sommes installés sur Paris et Bruxelles.",
                 'price' => 200,
@@ -486,7 +486,7 @@ class ProjectSeeder extends Seeder
             [
                 'user_id' => 1,
                 'name' => 'Réalisation d\'un livre media',
-                //'document' => $this->faker->url,
+                //'document'
                 'picture' => "21.jpg",
                 'about' => "Ensemble de projets au choix, rejoingnez nos équipes de designers au plus vite. Nous sommes installés sur Paris et Bruxelles.",
                 'price' => 200,
@@ -509,7 +509,7 @@ class ProjectSeeder extends Seeder
             [
                 'user_id' => 6,
                 'name' => 'Réalisation d\'un livre media',
-                //'document' => $this->faker->url,
+                //'document'
                 'picture' => "22.jpg",
                 'about' => "Ensemble de projets au choix, rejoingnez nos équipes de designers au plus vite. Nous sommes installés sur Paris et Bruxelles.",
                 'price' => 200,
@@ -532,7 +532,7 @@ class ProjectSeeder extends Seeder
             [
                 'user_id' => 15,
                 'name' => 'Réalisation d\'un livre media',
-                //'document' => $this->faker->url,
+                //'document'
                 'picture' => "23.jpg",
                 'about' => "Ensemble de projets au choix, rejoingnez nos équipes de designers au plus vite. Nous sommes installés sur Paris et Bruxelles.",
                 'price' => 200,
@@ -555,7 +555,7 @@ class ProjectSeeder extends Seeder
             [
                 'user_id' => 16,
                 'name' => 'Réalisation d\'un livre media',
-                //'document' => $this->faker->url,
+                //'document'
                 'picture' => "24.jpg",
                 'about' => "Ensemble de projets au choix, rejoingnez nos équipes de designers au plus vite. Nous sommes installés sur Paris et Bruxelles.",
                 'price' => 200,
@@ -578,7 +578,7 @@ class ProjectSeeder extends Seeder
             [
                 'user_id' => 13,
                 'name' => 'Réalisation d\'un livre media',
-                //'document' => $this->faker->url,
+                //'document'
                 'picture' => "25.jpg",
                 'about' => "Ensemble de projets au choix, rejoingnez nos équipes de designers au plus vite. Nous sommes installés sur Paris et Bruxelles.",
                 'price' => 200,

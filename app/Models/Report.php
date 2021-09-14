@@ -17,7 +17,10 @@ class Report extends Model
     protected $fillable = [
         'user_id',
         'project_id',
+        'email_reporter',
+        'email_accused',
         'report',
+        'done',
     ];
 
     /**
@@ -27,7 +30,22 @@ class Report extends Model
      */
     protected $table = 'reports';
 
+    /**
+     * Relations with User.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     */
     public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Relations with Project.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     */
+    public function project()
     {
         return $this->belongsTo(User::class);
     }

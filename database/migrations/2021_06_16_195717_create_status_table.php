@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBannedsTable extends Migration
+class CreateStatusTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateBannedsTable extends Migration
      */
     public function up()
     {
-        Schema::create('banneds', function (Blueprint $table) {
+        Schema::create('status', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('restrict')->onUpdate('cascade');
-            $table->string('email');
-            $table->boolean('confirmed')->default(false);
+            $table->enum('status', ['actif', 'suspended', 'banned']);
+            $table->integer('nb_report')->nullable();
+            $table->string('email')->nullable();
         });
     }
 
@@ -28,6 +28,6 @@ class CreateBannedsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('banneds');
+        Schema::dropIfExists('status');
     }
 }

@@ -112,7 +112,7 @@ class UserApiController extends Controller
         $myProjects = Project::where('user_id', '=', $user->id)->where('done', '=', NULL)->get();
         $myProjectsDone = Project::where('user_id', '=', $user->id)->where('done', '!=', NULL)->get();
         $sinds = $user->created_at->diffForHumans();
-        $subscribtion = DB::table('subscription')->where('user_id', '=', $user->id)->first();
+        $subscribtion = DB::table('subscriptions')->where('user_id', '=', $user->id)->first();
 
         return json_encode([$myProjectsDone, $myProjects, $user, $sinds, $subscribtion]);
     }

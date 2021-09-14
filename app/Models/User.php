@@ -19,7 +19,7 @@ class User extends Authenticatable  implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'id',
+        'role_id',
         'firstname',
         'lastname',
         'name',
@@ -28,17 +28,14 @@ class User extends Authenticatable  implements MustVerifyEmail
         'role_id',
         'country',
         'phone',
-        'level',
         'avatar',
         'about',
-        'notification',
-        'nb_project',
+        'level',
         'rate',
-        'lost_password',
-        'suspended',
+        'notification',
+        'rules',
         'created_at',
         'updated_at',
-        'rules',
     ];
 
     /**
@@ -52,7 +49,6 @@ class User extends Authenticatable  implements MustVerifyEmail
     ];
 
     protected $table = 'users';
-
 
     /**
      * The attributes that should be cast to native types.
@@ -70,28 +66,78 @@ class User extends Authenticatable  implements MustVerifyEmail
      */
     public function sendEmailVerificationNotification()
     {
-        $this->notify(new VerifyEmail); // my notification
+        $this->notify(new VerifyEmail);
     }
 
-    public function projects()
-    {
-        return $this->hasMany(Project::class);
-    }
-
-    public function favorites_projects()
-    {
-        return $this->belongsToMany(Project::class)->wherePivot('favorite', true);
-    }
-
-    public function subscription()
-    {
-        return $this->hasOne(Subscription::class);
-    }
-
+    /**
+     * Return combinaison of first and lastname
+     *
+     * @return string
+     */
     public function name()
     {
         $name = $this->firstname . " " . $this->lastname;
 
         return $name;
+    }
+
+    /**
+     * Return favorite projects
+     *
+     * @return collection
+     */
+    public function favorites_projects()
+    {
+        return $this->belongsToMany(Project::class)->wherePivot('favorite', true);
+    }
+
+    /**
+     * Relations with Project.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
+    }
+
+    /**
+     * Relations with Subscription.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     */
+    public function subscription()
+    {
+        return $this->hasOne(Subscription::class);
+    }
+
+    /**
+     * Relations with Role.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     */
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    /**
+     * Relations with Status.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     */
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
+    }
+
+    /**
+     * Relations with Report.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
     }
 }

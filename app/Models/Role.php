@@ -32,8 +32,13 @@ class Role extends Model
      */
     public $timestamps = false;
 
-    public function user()
+    /**
+     * Relations with User.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(User::class);
     }
 }

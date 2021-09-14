@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Banned extends Model
+class Status extends Model
 {
     use HasFactory;
 
@@ -15,9 +15,8 @@ class Banned extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id',
         'email',
-        'confirmed',
+        'status',
     ];
 
     /**
@@ -25,10 +24,15 @@ class Banned extends Model
      *
      * @var string
      */
-    protected $table = 'categories';
+    protected $table = 'status';
 
-    public function user()
+    /**
+     * Relations with User.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(User::class);
     }
 }

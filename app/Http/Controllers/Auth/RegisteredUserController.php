@@ -58,6 +58,7 @@ class RegisteredUserController extends Controller
         if($request->has('rules')){
             Auth::login($user = User::create([
                 'role_id' => 1,
+                'status_id' => 1,
                 'firstname' => ucfirst($request->first_name),
                 'lastname' => ucfirst($request->last_name),
                 'email' => $request->email,
