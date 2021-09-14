@@ -244,12 +244,6 @@
           >Abonnement
         </router-link>
 
-        <router-link
-          to="/message"
-          class="pt-8 text-base font-medium text-gray-500 hover:text-gray-900"
-          >Message
-        </router-link>
-
         <Popover class="relative pl-52" v-slot="{ open }">
           <PopoverButton
             :class="[

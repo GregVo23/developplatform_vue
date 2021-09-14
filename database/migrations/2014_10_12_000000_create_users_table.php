@@ -25,7 +25,6 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('country')->nullable();
             $table->string('phone')->nullable()->unique();
-            $table->enum('level', ['expert','pro','advanced','novice'])->nullable();
             $table->text('about')->nullable();
             $table->string('avatar')->default("./images/profil.png");
             $table->boolean('notification')->default(false);

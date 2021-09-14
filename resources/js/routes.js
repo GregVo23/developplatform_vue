@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 import HomePage from './pages/HomePage.vue';
-import Message from './pages/Message.vue';
 import Index from './pages/project/Index.vue';
 import Create from './pages/project/Create.vue';
 import Show from './pages/project/Show.vue';
@@ -18,7 +17,6 @@ const router = createRouter({
     routes: [
         { path: '/dashboard', redirect: '/accueil' },
         { path: '/accueil', name: 'accueil', component: HomePage },
-        { path: '/message', name: 'message', component: Message },
         { path: '/projets', name: 'projets', component: Index },
         { path: '/demandes', name: 'demandes', component: MyProjects },
         { path: '/projet/:id', name: 'projet', component: Show },

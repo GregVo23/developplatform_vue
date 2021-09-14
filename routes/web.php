@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 // Homepage
 Route::get('/', [App\Http\Controllers\ProjectController::class, 'welcome'])->name('welcome');
+Route::get('/prestataire', [App\Http\Controllers\ProjectController::class, 'maker'])->name('maker');
+Route::get('/demandeur', [App\Http\Controllers\ProjectController::class, 'customer'])->name('customer');
 
 // Where connected
 Route::get('/dashboard', function () {

@@ -27,7 +27,7 @@ class ProjectController extends Controller
     public function welcome()
     {
         // 3 examples of project
-        $projects = Project::take(3)->get();   //TODO only project with a picture
+        $projects = Project::take(3)->get();
 
         // offers/projects
         $nbProjects = Project::where('done', '=', NULL)->get()->count();
@@ -42,6 +42,36 @@ class ProjectController extends Controller
             'projects' => $projects,
             'withoutOffer' => $nbProjects,
             'pourcentage' => $pourcentage,
+        ]);
+    }
+
+    /**
+     * Display 3 project on the maker's page.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function maker()
+    {
+        // 3 examples of project
+        $projects = Project::take(3)->get();
+
+        return view('maker', [
+            'projects' => $projects,
+        ]);
+    }
+
+    /**
+     * Display 3 project on the maker's page.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function customer()
+    {
+        // 3 examples of project
+        $projects = Project::take(3)->get();
+
+        return view('customer', [
+            'projects' => $projects,
         ]);
     }
 }

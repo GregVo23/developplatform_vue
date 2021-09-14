@@ -63,7 +63,6 @@ class UserApiController extends Controller
                 $file_name = time() . '_' . $request->file->getClientOriginalName();
                 $file_path = $request->file('file')->storeAs('avatar/' . $user->id, $file_name, 'public');
 
-                $user->name = time() . '_' . $request->file->getClientOriginalName();
                 $user->avatar = '/storage/' . $file_path;
                 $result = $user->save();
                 if ( $result){
