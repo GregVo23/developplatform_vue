@@ -281,15 +281,7 @@ class ProjectApiController extends Controller
     {
         $user = auth()->user();
 
-        $subscription = Subscription::firstOrCreate(
-            [
-                'user_id' =>  $user->id,
-            ],
-            [
-                'user_id' => $user->id,
-                'nb_max_projet' =>  "3"
-            ],
-        );
+        $subscription = Subscription::firstOrCreate(['user_id' =>  $user->id]);
         $subscription = Subscription::where('user_id', '=', $user->id)->first();
         if ($subscription->nb_max_projet - $subscription->nb_projet >= 1) {
             $subscription->nb_projet++;
