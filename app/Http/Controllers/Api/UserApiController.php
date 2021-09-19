@@ -62,7 +62,10 @@ class UserApiController extends Controller
             if ($request->file()) {
                 $file_name = time() . '_' . $request->file->getClientOriginalName();
                 $file_path = $request->file('file')->storeAs('avatar/' . $user->id, $file_name, 'public');
-
+                
+                if (File::exists($user->avatar)) {
+                    File::delete($user->avatar);
+                }
                 $user->avatar = '/storage/' . $file_path;
                 $result = $user->save();
                 if ( $result){
@@ -166,8 +169,8 @@ class UserApiController extends Controller
      */
     public function destroy($id)
     {
-        $userId = Auth()->user()->id;
-        if ($userId == $id){
+        $userConnected = Auth()->user();
+        if ($userConnected->id == $id || $userConnected->role === 2 ){
             $user = User::findOrFail($id);
 
             $projects = $user->projects;
@@ -202,14 +205,11 @@ class UserApiController extends Controller
                 $project->delete();
 
                 //Avatar
-                if (File::exists(public_path($user->avatar))) {
-                    //Delete small project image
-                    File::delete(public_path($user->avatar));
-                    //Delete all directories
-                    File::deleteDirectory(public_path($user->avatar. '/' . $user->id));
+                if (File::exists($user->avatar)) {
+                    File::delete($user->avatar);
                 }
             }
-            
+            $user->tokens()->delete();
             $result = $user->delete();
             if ($result){
                 Session::flash('success', "L'utilisateur est désormais supprimé avec succés.");

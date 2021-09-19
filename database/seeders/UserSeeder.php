@@ -26,6 +26,7 @@ class UserSeeder extends Seeder
         $users = [
             [
                 'role_id'=>'2',
+                'status_id'=>'1',
                 'firstname'=>'Gregory',
                 'lastname'=>'Van Ossel',
                 'name' => 'JefBezos',
@@ -39,6 +40,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'role_id'=>'1',
+                'status_id'=>'1',
                 'firstname'=>'Bob',
                 'lastname'=>'Morane',
                 'name' => 'Bobby',
@@ -52,6 +54,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'role_id'=>'1',
+                'status_id'=>'1',
                 'firstname'=>'Bob',
                 'lastname'=>'Sull',
                 'name' => 'Simba',
@@ -65,6 +68,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'role_id'=>'1',
+                'status_id'=>'1',
                 'firstname'=>'Julie',
                 'lastname'=>'Van dermeulen',
                 'name' => 'SuperMaker',
@@ -78,6 +82,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'role_id'=>'1',
+                'status_id'=>'1',
                 'firstname'=>'Xin',
                 'lastname'=>'Beijiong',
                 'name' => 'Xiiiing',
@@ -91,6 +96,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'role_id'=>'1',
+                'status_id'=>'1',
                 'firstname'=>'Jules',
                 'lastname'=>'Verne',
                 'name' => 'JV235',
@@ -104,6 +110,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'role_id'=>'1',
+                'status_id'=>'1',
                 'firstname'=>'Henri',
                 'lastname'=>'Bambel',
                 'name' => 'Ad256',
@@ -117,6 +124,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'role_id'=>'1',
+                'status_id'=>'1',
                 'firstname'=>'Sammy',
                 'lastname'=>'Rite',
                 'name' => 'Nick56',
@@ -130,6 +138,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'role_id'=>'1',
+                'status_id'=>'1',
                 'firstname'=>'John',
                 'lastname'=>'Doe',
                 'name' => 'JCVD2',
@@ -143,6 +152,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'role_id'=>'1',
+                'status_id'=>'1',
                 'firstname'=>'Ellie',
                 'lastname'=>'Copter',
                 'name' => 'tournicoti',
@@ -156,6 +166,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'role_id'=>'1',
+                'status_id'=>'1',
                 'firstname'=>'Julienne',
                 'lastname'=>'Delegum',
                 'name' => 'Mamarion',
@@ -169,6 +180,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'role_id'=>'1',
+                'status_id'=>'1',
                 'firstname'=>'Lucie',
                 'lastname'=>'Roberta',
                 'name' => 'SuperWoman',
@@ -182,6 +194,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'role_id'=>'1',
+                'status_id'=>'1',
                 'firstname'=>'Yasmine',
                 'lastname'=>'Bellaissia',
                 'name' => 'Yayas',
@@ -195,6 +208,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'role_id'=>'1',
+                'status_id'=>'1',
                 'firstname'=>'Christian',
                 'lastname'=>'Godearts',
                 'name' => 'ChriGoo',
@@ -208,6 +222,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'role_id'=>'1',
+                'status_id'=>'1',
                 'firstname'=>'Mohamed',
                 'lastname'=>'Ben Albanne',
                 'name' => 'Momooo',
@@ -221,6 +236,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'role_id'=>'1',
+                'status_id'=>'1',
                 'firstname'=>'Romelu',
                 'lastname'=>'Lukaku',
                 'name' => 'Georgio',

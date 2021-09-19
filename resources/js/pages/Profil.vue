@@ -610,7 +610,7 @@ export default {
             };
             if (
                 confirm(
-                    ""+user.firstname+", êtes vous sur de supprimer votre compte ? Ceci est irréversible même en cas d'abonnement ..."  
+                    "Attention, "+user.firstname+", êtes vous sur de supprimer votre compte ? Ceci est irréversible même en cas d'abonnement ..."  
                 )
             ) {
                 axios

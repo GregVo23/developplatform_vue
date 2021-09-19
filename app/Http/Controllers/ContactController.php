@@ -16,7 +16,8 @@ class ContactController extends Controller
 {
 
     /**
-     * Send the email.
+     * Send an email to the administration.
+     * There are 3 possibilities of subject chosen by the user: a question, a complaint or a normal e-mail mesage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -26,18 +27,18 @@ class ContactController extends Controller
         $email = env('MAIL_FROM_ADDRESS');
         $rules = array(
 
-            'name' => 'required|string|min:3|max:60',
+            'name' => 'required|string|min:3|max:80',
             'texte' => 'required|min:20|max:2000',
-            'email' => 'required|string|email',
+            'email' => 'required|string|email|max:100',
             'complaint' => 'string|max:10',
-            'contact' => 'string|max:8',
+            'question' => 'string|max:8',
 
         );
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
             return Redirect()->route('welcome')
-                ->withErrors($validator);
+                ->withErrors($validator)->withInput();
         } else {
 
             $admin = "";
@@ -47,11 +48,15 @@ class ContactController extends Controller
             if (!empty($request->input('question')) && $request->input('question') == "question") {
                 $admin = env('APP_EMAIL');
                 $message = "Votre demande à été envoyée aux administrateurs du site, nous vous répondrons dans les plus brefs délais.";
-                $title = "Message d'un membre de Developplatform";
+                $title = "Question d'un membre de Developplatform";
             } elseif (!empty($request->input('complaint')) && $request->input('complaint') == "complaint") {
                 $admin = env('APP_POLICE_EMAIL');
-                $message = "Votre plainte à été envoyée aux administrateurs du site, nous vous répondrons dans les plus brefs délais.";
+                $message = "Votre plainte à été envoyée aux personnes en charge des litiges du site, nous vous répondrons dans les plus brefs délais.";
                 $title = "Plainte d'un membre de Developplatform";
+            } else {
+                $admin = env('APP_EMAIL');
+                $message = "Votre message à été envoyée aux administrateurs du site, nous vous répondrons dans les plus brefs délais.";
+                $title = "Message d'un membre de Developplatform";
             }
             $name = ucfirst($request->input('name'));
             $texte = $request->input('texte');

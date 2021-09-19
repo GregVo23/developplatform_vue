@@ -484,8 +484,6 @@ class ProjectApiController extends Controller
                 );
                 $validator = Validator::make($request->all(), $rules);
 
-                // process
-
                 if ($validator->fails()) {
                     return response()->json(['errors' => $validator->errors()], 422);
                 } else {
@@ -543,8 +541,6 @@ class ProjectApiController extends Controller
                         $project->picture = $fileNameToStore;
                         $project->save();
                     }
-
-                    //return response()->json($request->file('document'));
 
                     if (!empty($request->file('document'))) {
 
