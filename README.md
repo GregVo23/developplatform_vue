@@ -5,14 +5,14 @@
 ## Introduction
 
 Ce projet est une réalisation dans le cadre de mon travail de fin de formation à l'EPFC dans la section Web Developer.
-Il a été réalisé durant la période Aout - Septembre 2021.
+Il a été réalisé durant la période Août - Septembre 2021.
 
 ## A propos
 
 Developplatform est un site web d’appel d’offres pour des projets divers, mais essentiellement à caractère visuel, destinés à des graphistes, designers, développeurs ou artistes.
 
-<b>L’internaute</b> peut consulter la page d'accueil et avoir un bref appercu de 3 demandes, il peut également contacter l'administration du site au moyen d'un formulaire. 
-<b>Le membre</b> peut souscrire à deux types d'abonnements. (en passant notamment par une plateforme de paiement en ligne comme Stripe)
+<b>L’internaute</b> peut consulter la page d'accueil et avoir un bref apperçu de 3 demandes, il peut également contacter l'administration du site au moyen d'un formulaire. 
+<b>Le membre</b> peut souscrire à deux types d'abonnements. (en passant notamment par une plateforme de paiement en ligne comme Stripe)</br>
 <b>Le membre </b> peut déposer des projets, leur attribuer un prix, donner un exemple du résultat attendu. Une communauté, enregistrée préalablement, pourra y répondre en proposant leurs tarifs, ou simplement accepter l’offre. Les notifications e-mail sont proposées et permettent de bénéficier d’avertissements par e-mail en cas d’offre ou d’acceptation.
 De plus, quand un projet est mené à terme, celui-ci se verra attribué une appréciation qui déteindra sur l’auteur de la réalisation.
 
@@ -29,6 +29,7 @@ Pour ce qui est de la partie paiement, elle est prise en charge par Stripe.
 -   **[Stripe](/https://stripe.com/fr-be/)**
 
 ### Ce projet requiert PHP version 7.4 < 8.
+### Ce projet requiert NODE JS version 12.
 
 ![Tables relations](https://www.vanossel.be/images/db.jpg)
 
