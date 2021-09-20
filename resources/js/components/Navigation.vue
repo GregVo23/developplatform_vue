@@ -208,7 +208,7 @@
                   >
                     <div class="flex items-center">
                       <div class="text-base font-medium text-gray-900">
-                        Enterprise
+                        Abonnement
                       </div>
                       <span
                         class="
@@ -225,11 +225,11 @@
                           text-indigo-800
                         "
                       >
-                        New
+                        Aucun
                       </span>
                     </div>
                     <p class="mt-1 text-sm text-gray-500">
-                      Empower your entire team with even more advanced tools.
+                      L'abonnement vous permets d'éffectuer plus d'actions
                     </p>
                   </a>
                 </div>

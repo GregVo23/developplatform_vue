@@ -41793,11 +41793,11 @@ var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
   "class": "flex items-center"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "text-base font-medium text-gray-900"
-}, " Enterprise "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+}, " Abonnement "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "\r\n                          ml-3\r\n                          inline-flex\r\n                          items-center\r\n                          px-3\r\n                          py-0.5\r\n                          rounded-full\r\n                          text-xs\r\n                          font-medium\r\n                          leading-5\r\n                          bg-indigo-100\r\n                          text-indigo-800\r\n                        "
-}, " New ")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+}, " Aucun ")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
   "class": "mt-1 text-sm text-gray-500"
-}, " Empower your entire team with even more advanced tools. ")])], -1
+}, " L'abonnement vous permets d'éffectuer plus d'actions ")])], -1
 /* HOISTED */
 );
 
