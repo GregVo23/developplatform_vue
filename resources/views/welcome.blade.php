@@ -359,14 +359,14 @@
                                 <form action="{{ route('contact') }}" method="post" enctype="application/x-www-form-urlencoded">
                                     @csrf
                                     <div class="mb-5">
-                                        <input id="question" name="question" type="checkbox" value="question"
+                                        <input id="question" name="contact" type="radio" value="question"
                                             class="focus:ring-yellow h-4 w-4 text-indigo-600 border-gray-300 rounded">
                                         <label class="ml-5 text-sm" for="question">
                                             <p class="text-gray-800">Vous avez une question ?</p>
                                         </label>
                                     </div>
                                     <div class="mb-5">
-                                        <input id="complaint" name="complaint" type="checkbox" value="complaint"
+                                        <input id="complaint" name="contact" type="radio" value="complaint"
                                             class="focus:ring-yellow h-4 w-4 text-indigo-600 border-gray-300 rounded">
                                         <label class="ml-5 text-sm" for="complaint">
                                             <p class="text-gray-800">Vous avez une plainte ?</p>

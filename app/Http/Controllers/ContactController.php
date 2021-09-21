@@ -30,9 +30,7 @@ class ContactController extends Controller
             'name' => 'required|string|min:3|max:80',
             'texte' => 'required|min:20|max:2000',
             'email' => 'required|string|email|max:100',
-            'complaint' => 'string|max:10',
-            'question' => 'string|max:8',
-
+            'contact' => 'string|max:10',
         );
         $validator = Validator::make($request->all(), $rules);
 
@@ -45,11 +43,11 @@ class ContactController extends Controller
             $message = "";
             $title = "";
 
-            if (!empty($request->input('question')) && $request->input('question') == "question") {
+            if (!empty($request->input('contact')) && $request->input('contact') == "question") {
                 $admin = env('APP_EMAIL');
                 $message = "Votre demande à été envoyée aux administrateurs du site, nous vous répondrons dans les plus brefs délais.";
                 $title = "Question d'un membre de Developplatform";
-            } elseif (!empty($request->input('complaint')) && $request->input('complaint') == "complaint") {
+            } elseif (!empty($request->input('contact')) && $request->input('contact') == "complaint") {
                 $admin = env('APP_POLICE_EMAIL');
                 $message = "Votre plainte à été envoyée aux personnes en charge des litiges du site, nous vous répondrons dans les plus brefs délais.";
                 $title = "Plainte d'un membre de Developplatform";
@@ -67,6 +65,7 @@ class ContactController extends Controller
                 'texte' => $texte,
                 'email' => $email,
             ];
+            //dd($admin);
             Mail::to($admin)->send(new EmailContact($mailData));
 
             $request->session()->regenerate();
