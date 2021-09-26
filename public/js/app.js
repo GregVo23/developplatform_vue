@@ -40113,7 +40113,8 @@ var resources = [{
   data: function data() {
     return {
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
-      user: {}
+      user: {},
+      open: false
     };
   },
   commputed: function commputed() {
@@ -40703,13 +40704,15 @@ function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArra
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 
 
@@ -40719,42 +40722,44 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   },
   data: function data() {
     var project = {
-      user_id: "",
-      category_id: "",
-      sub_category_id: "",
-      titleName: "",
-      about: "",
-      price: "",
-      document: "",
-      picture: "",
-      phone: "",
-      deadline: "",
-      email: "",
-      country: "",
-      city: "",
-      zipcode: "",
-      number: "",
-      street: "",
-      notifications: "",
-      rules: "",
+      user_id: null,
+      category_id: null,
+      sub_category_id: null,
+      titleName: null,
+      about: null,
+      price: null,
+      document: null,
+      picture: null,
+      phone: null,
+      deadline: null,
+      email: null,
+      country: null,
+      city: null,
+      zipcode: null,
+      number: null,
+      street: null,
+      notifications: null,
+      rules: null,
       fileshow: true
     };
     return {
       categories: {},
       subcategories: {},
       user: {},
-      categoryselected: "",
-      subcategoryselected: "",
+      categoryselected: null,
+      subcategoryselected: null,
       open: false,
       project: project,
-      validationErrors: "",
-      validationMessages: "",
+      validationErrors: null,
+      validationMessages: null,
       errors: [],
       messages: [],
       alert: false,
       success: false,
       nbErrors: 0,
-      preview: ""
+      preview: null,
+      // Prohibited words
+      words: ["connard", "sexe", "salaud", "enculé", "salope", "pute", "fuck", "baise", "cul", "penis"]
     };
   },
   methods: {
@@ -40796,102 +40801,183 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     getFiles: function getFiles(e) {
       this.document = e.target.files; //console.log(this.document);
     },
+    checkForm: function checkForm(e) {
+      this.messages = [];
+
+      if (!this.project.rules && this.project.rules != true) {
+        this.messages.push("Vous devez accepter les conditions");
+      }
+
+      if (!this.categoryselected) {
+        this.messages.push("Vous devez choisir une catégorie");
+      }
+
+      if (!this.subcategoryselected) {
+        this.messages.push("Vous devez choisir une sous catégorie");
+      }
+
+      if (this.project.price) {
+        if (isNaN(this.project.price)) {
+          this.messages.push("Le prix doit ête un nombre");
+        }
+      }
+
+      if (this.project.deadline) {
+        this.validDate(this.project.deadline);
+      }
+
+      if (!this.project.titleName) {
+        this.messages.push("Un titre est obligatoire");
+      } else {
+        this.validText(this.project.titleName, this.words);
+      }
+
+      if (!this.project.about) {
+        this.messages.push("Une description est obligatoire");
+      } else {
+        this.validText(this.project.about, this.words);
+      }
+
+      if (!this.user.email) {
+        this.messages.push('Une adressse e-mail est obligatoire');
+      } else if (!this.validEmail(this.user.email)) {
+        this.messages.push('Cette adresse e-mail :' + this.user.email + ' n\'est pas valide');
+      }
+
+      if (!this.messages.length) {
+        return true;
+      } else {
+        this.nbErrors = this.messages.length;
+      }
+
+      e.preventDefault();
+    },
+    validEmail: function validEmail(email) {
+      var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email);
+    },
+    validText: function validText(text, words) {
+      var _iterator = _createForOfIteratorHelper(words),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var element = _step.value;
+
+          if (text.includes(element)) {
+            console.log("error", "Votre texte contient un vocabulaire interdit comme : " + element);
+            this.messages.push("Le texte contient un vocabulaire interdit comme : " + element);
+          }
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+
+      return true;
+    },
+    validDate: function validDate(dateString) {
+      // First check for the pattern
+      if (!/^\d{4}\/\d{1,2}\/\d{1,2}$/.test(dateString)) return false; // Parse the date parts to integers
+
+      var parts = dateString.split("/");
+      var day = parseInt(parts[1], 10);
+      var month = parseInt(parts[0], 10);
+      var year = parseInt(parts[2], 10); // Check the ranges of month and year
+
+      if (year < 1000 || year > 3000 || month == 0 || month > 12) return false;
+      var monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]; // Adjust for leap years
+
+      if (year % 400 == 0 || year % 100 != 0 && year % 4 == 0) monthLength[1] = 29; // Check the range of the day
+
+      return day > 0 && day <= monthLength[month - 1];
+    },
     formSubmit: function formSubmit(e) {
-      var _this4 = this;
+      var _this3 = this;
 
-      e.preventDefault(); // Take all id and email
+      e.preventDefault();
 
-      this.project.user_id = this.user.id;
-      this.project.category_id = this.categoryselected;
-      this.project.sub_category_id = this.subcategoryselected;
-      this.project.email = this.user.email;
-      var config = {
-        headers: {
-          "content-type": "multipart/form-data",
-          "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
-        }
-      };
-      var data = new FormData();
+      if (this.checkForm(e)) {
+        // Take all id and email
+        this.project.user_id = this.user.id;
+        this.project.category_id = this.categoryselected;
+        this.project.sub_category_id = this.subcategoryselected;
+        this.project.email = this.user.email;
+        var config = {
+          headers: {
+            "content-type": "multipart/form-data",
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+          }
+        };
+        var data = new FormData();
 
-      if (this.document != undefined) {
-        for (var i = 0; i < this.document.length; i++) {
-          data.append("document[]", this.document[i], this.document[i].name);
-        }
-      } //data.append('project', this.project);
+        if (this.document != undefined) {
+          for (var i = 0; i < this.document.length; i++) {
+            data.append("document[]", this.document[i], this.document[i].name);
+          }
+        } //data.append('project', this.project);
 
 
-      data.append("picture", this.picture);
-      data.append("user_id", this.project.user_id);
-      data.append("category_id", this.project.category_id);
-      data.append("sub_category_id", this.project.sub_category_id);
-      data.append("name", this.project.titleName);
-      data.append("about", this.project.about);
-      data.append("price", this.project.price);
-      data.append("phone", this.project.phone);
-      data.append("deadline", this.project.deadline);
-      data.append("email", this.project.email);
-      data.append("country", this.project.country);
-      data.append("city", this.project.city);
-      data.append("zipcode", this.project.zipcode);
-      data.append("number", this.project.number);
-      data.append("street", this.project.street);
-      data.append("notifications", this.project.notifications);
-      data.append("rules", this.project.rules);
-      axios__WEBPACK_IMPORTED_MODULE_1___default().post("api/store", data, config).then(function (res) {
-        var _this3 = this;
+        data.append("picture", this.picture);
+        data.append("user_id", this.project.user_id);
+        data.append("category_id", this.project.category_id);
+        data.append("sub_category_id", this.project.sub_category_id);
+        data.append("name", this.project.titleName);
+        data.append("about", this.project.about);
+        data.append("price", this.project.price);
+        data.append("phone", this.project.phone);
+        data.append("deadline", this.project.deadline);
+        data.append("email", this.project.email);
+        data.append("country", this.project.country);
+        data.append("city", this.project.city);
+        data.append("zipcode", this.project.zipcode);
+        data.append("number", this.project.number);
+        data.append("street", this.project.street);
+        data.append("notifications", this.project.notifications);
+        data.append("rules", this.project.rules);
+        axios__WEBPACK_IMPORTED_MODULE_1___default().post("api/store", data, config).then(function (res) {
+          console.log(res.data.message);
 
-        console.log(res.data);
-        this.validationMessages = res.data; //console.log(this.validationErrors);
+          if (res.data.type == 'success') {
+            _this3.alert = false;
+            _this3.success = true;
+          } else {
+            _this3.success = false;
+            _this3.alert = true;
+          } //this.messages.push(res.data.message);
 
-        this.success = true; //console.log(error.response.data.errors);
 
-        for (var _i = 0, _Object$entries = Object.entries(this.validationMessages); _i < _Object$entries.length; _i++) {
-          var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
-              key = _Object$entries$_i[0],
-              value = _Object$entries$_i[1];
+          if (typeof res.data.message === 'string' || res.data.message instanceof String) {
+            _this3.messages.push(res.data.message);
+          } else {
+            for (var _i = 0, _Object$entries = Object.entries(res.data.message); _i < _Object$entries.length; _i++) {
+              var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
+                  key = _Object$entries$_i[0],
+                  value = _Object$entries$_i[1];
 
-          this.messages.push(value);
-        }
+              _this3.messages.push(value);
+            }
+          }
 
-        document.getElementById("success").style.opacity = 100;
-        setTimeout(function () {
-          //document.getElementById('alert').style.display = "flex";
-          document.getElementById("success").style.opacity = 0;
-        }, 5000);
-        setTimeout(function () {
-          _this3.refresh();
-        }, 5550);
-      })["catch"](function (error) {
-        if (error.response.status == 422 || error.response.status == 500) {
-          _this4.validationErrors = error.response.data.errors; //console.log(this.validationErrors);
-
-          _this4.alert = true; //console.log(error.response.data.errors);
-
-          for (var _i2 = 0, _Object$entries2 = Object.entries(_this4.validationErrors); _i2 < _Object$entries2.length; _i2++) {
+          _this3.nbErrors = _this3.messages.length;
+        })["catch"](function (error) {
+          //console.log(error);
+          //this.messages = error;
+          for (var _i2 = 0, _Object$entries2 = Object.entries(error.response.data.errors); _i2 < _Object$entries2.length; _i2++) {
             var _Object$entries2$_i = _slicedToArray(_Object$entries2[_i2], 2),
                 key = _Object$entries2$_i[0],
                 value = _Object$entries2$_i[1];
 
-            _this4.errors.push(value);
+            _this3.messages.push(value);
           }
 
-          _this4.nbErrors = _this4.errors.length;
-          document.getElementById("alert").style.opacity = 100;
-          setTimeout(function () {
-            //document.getElementById('alert').style.display = "flex";
-            document.getElementById("alert").style.opacity = 0;
-          }, 5000);
-        }
-
-        setTimeout(function () {
-          _this4.refresh();
-        }, 5550);
-      });
-
-      if (this.errors.length > 0) {
-        console.log(this.errors);
-      } else if (this.messages.length > 0) {//window.location.replace("/accueil");
-      } else {//window.location.replace("/accueil");
+          _this3.nbErrors = _this3.messages.length;
+        });
+      } else {
+        console.log("pas valide");
+        this.success = false;
+        this.alert = true;
       }
     },
     RemoveImg: function RemoveImg() {
@@ -41373,14 +41459,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_Notification_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/Notification.vue */ "./resources/js/components/Notification.vue");
+/* harmony import */ var _components_Rating_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/Rating.vue */ "./resources/js/components/Rating.vue");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Show",
   components: {
-    Notification: _components_Notification_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    Notification: _components_Notification_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    Rating: _components_Rating_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   data: function data() {
     var _ref;
@@ -41403,7 +41492,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       amount: "",
       message: "",
       type: ""
-    }, _defineProperty(_ref, "show", false), _defineProperty(_ref, "offer", false), _defineProperty(_ref, "offers", []), _defineProperty(_ref, "openOffer", false), _defineProperty(_ref, "acceptProject", false), _defineProperty(_ref, "offerProject", false), _defineProperty(_ref, "makeOffer", false), _defineProperty(_ref, "deadline", false), _defineProperty(_ref, "url", "http://localhost:8000/"), _ref;
+    }, _defineProperty(_ref, "show", false), _defineProperty(_ref, "offer", false), _defineProperty(_ref, "offers", []), _defineProperty(_ref, "openOffer", false), _defineProperty(_ref, "acceptProject", false), _defineProperty(_ref, "offerProject", false), _defineProperty(_ref, "makeOffer", false), _defineProperty(_ref, "deadline", false), _defineProperty(_ref, "url", "http://localhost:8000/"), _defineProperty(_ref, "raing", 5), _ref;
   },
   methods: {
     loadFormData: function loadFormData() {
@@ -41443,13 +41532,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (confirm("Etes vous sur d'accepter ce projet ?")) {
         axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/projet/accepter/" + project.id, config).then(function (res) {
           if (res.data.success != undefined) {
-            console.log(res);
-            console.log("okkkkkk");
+            console.log(res.data.success);
             localStorage.setItem("success", res.data.success);
             _this2.message = res.data;
           } else if (res.data.error != undefined) {
-            console.log(res);
-            console.log("ahhaha erreur cher amis");
+            console.log(res.data.error);
             localStorage.setItem("error", res.data.error);
             _this2.message = res.data;
           } else {
@@ -42003,6 +42090,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         /* PROPS */
                         , ["to", "onClick"]))])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [item.blade ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_router_link, {
                           key: 0,
+                          onClick: function onClick($event) {
+                            return open = !open;
+                          },
                           to: item.href,
                           "class": "\r\n                          text-base\r\n                          font-medium\r\n                          text-gray-500\r\n                          hover:text-gray-900\r\n                        "
                         }, {
@@ -42021,7 +42111,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
                         }, 1032
                         /* PROPS, DYNAMIC_SLOTS */
-                        , ["to"])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
+                        , ["onClick", "to"])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
                           key: 1,
                           href: item.href
                         }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.name), 1
@@ -42271,9 +42361,23 @@ var _hoisted_8 = {
 var _hoisted_9 = {
   "class": "flex justify-center"
 };
-var _hoisted_10 = {
+
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "flex-shrink-0"
-};
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
+  "class": "h-5 w-5 text-red-400",
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 20 20",
+  fill: "currentColor",
+  "aria-hidden": "true"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
+  "fill-rule": "evenodd",
+  d: "M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z",
+  "clip-rule": "evenodd"
+})])], -1
+/* HOISTED */
+);
+
 var _hoisted_11 = {
   "class": "ml-3"
 };
@@ -42292,14 +42396,9 @@ var _hoisted_14 = {
   "class": "list-disc pl-5 space-y-1"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_XCircleIcon = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("XCircleIcon");
-
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [$data.show ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.notification), 1
   /* TEXT */
-  )])])])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_XCircleIcon, {
-    "class": "h-5 w-5 text-red-400",
-    "aria-hidden": "true"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.notification), 1
+  )])])])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.notification), 1
   /* TEXT */
   )])])])])]))]);
 }
@@ -44130,7 +44229,7 @@ var _hoisted_84 = {
   "class": "\r\n            rounded-md\r\n            bg-red-50\r\n            p-4\r\n            transition-opacity\r\n            duration-500\r\n            ease-in-out\r\n        "
 };
 var _hoisted_85 = {
-  "class": "flex"
+  "class": "flex justify-center"
 };
 var _hoisted_86 = {
   "class": "flex-shrink-0"
@@ -44150,10 +44249,10 @@ var _hoisted_90 = {
 };
 var _hoisted_91 = {
   id: "success",
-  "class": "\r\n            rounded-md\r\n            bg-red-50\r\n            p-4\r\n            transition-opacity\r\n            duration-500\r\n            ease-in-out\r\n        "
+  "class": "\r\n            rounded-md\r\n            bg-green-50\r\n            p-4\r\n            transition-opacity\r\n            duration-500\r\n            ease-in-out\r\n        "
 };
 var _hoisted_92 = {
-  "class": "flex"
+  "class": "flex justify-center"
 };
 var _hoisted_93 = {
   "class": "flex-shrink-0"
@@ -44436,7 +44535,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-hidden": "true"
   })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_87, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_88, " Il y a " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.nbErrors) + " erreur" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.nbErrors > 0 ? "s" : "") + " à corriger dans le formulaire ", 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_89, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_90, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(this.errors, function (er) {
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_89, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_90, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(this.messages, function (er) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: er
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(er), 1
@@ -46274,6 +46373,8 @@ var _hoisted_98 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 
 var _hoisted_99 = [_hoisted_97, _hoisted_98];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_Rating = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Rating");
+
   var _component_Notification = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Notification");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.project.name), 1
@@ -46431,7 +46532,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.open]])])], 32
   /* HYDRATE_EVENTS */
-  )])]), $data.show ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Notification, {
+  )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Rating, {
+    modelValue: _ctx.rating,
+    "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
+      return _ctx.rating = $event;
+    })
+  }, null, 8
+  /* PROPS */
+  , ["modelValue"]), $data.show ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Notification, {
     key: 0,
     message: $data.message,
     type: $data.type

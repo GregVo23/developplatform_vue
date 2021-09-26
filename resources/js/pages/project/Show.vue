@@ -743,17 +743,20 @@
             </form>
         </section>
     </div>
+    <Rating v-model="rating" />
     <Notification v-if="show" :message="message" :type="type" />
 </template>
 
 <script>
 import axios from "axios";
 import Notification from "../../components/Notification.vue";
+import Rating from "../../components/Rating.vue";
 
 export default {
     name: "Show",
     components: {
         Notification,
+        Rating,
     },
 
     data() {
@@ -784,6 +787,7 @@ export default {
             makeOffer: false,
             deadline: false,
             url: "http://localhost:8000/",
+            raing: 5,
         };
     },
 
@@ -840,13 +844,11 @@ export default {
                     .post("/api/projet/accepter/" + project.id, config)
                     .then((res) => {
                         if (res.data.success != undefined) {
-                            console.log(res);
-                            console.log("okkkkkk");
+                            console.log(res.data.success);
                             localStorage.setItem("success", res.data.success);
                             this.message = res.data;
                         } else if (res.data.error != undefined) {
-                            console.log(res);
-                            console.log("ahhaha erreur cher amis");
+                            console.log(res.data.error);
                             localStorage.setItem("error", res.data.error);
                             this.message = res.data;
                         } else {

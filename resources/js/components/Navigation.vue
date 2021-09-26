@@ -170,6 +170,7 @@
                     </div>
                     <div class="ml-4">
                       <router-link
+                        @click="open = !open"
                         v-if="item.blade"
                         :to="item.href"
                         class="
@@ -570,6 +571,7 @@ export default {
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content"),
       user: {},
+      open: false,
     };
   },
   commputed() {

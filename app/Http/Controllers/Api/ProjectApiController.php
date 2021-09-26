@@ -466,14 +466,14 @@ class ProjectApiController extends Controller
                     'name' => 'required|string|min:3',
                     'about' => 'required|min:20|max:2000',
                     'user_id' => 'required|numeric',
-                    'price' => 'numeric|nullable',
-                    'phone' => 'numeric|nullable',
+                    'price' => 'nullable|numeric',
+                    'phone' => 'nullable|numeric',
                     'email' => 'required|string|email',
                     'picture' => 'nullable|image|mimes:jpeg,jpg,png',
                     'document' => 'nullable|max:20000',
                     'deadline' => 'nullable|date|after:tomorrow',
                     'category_id' => 'required|numeric',
-                    'sub_category_id' => 'required|nullable|numeric',
+                    'sub_category_id' => 'required||numeric',
                     'country' => 'nullable|string',
                     'city' => 'nullable|string',
                     'street' => 'nullable|string',
@@ -485,7 +485,10 @@ class ProjectApiController extends Controller
                 $validator = Validator::make($request->all(), $rules);
 
                 if ($validator->fails()) {
-                    return response()->json(['errors' => $validator->errors()], 422);
+                    return response()->json([
+                        'message' => $validator->errors(),
+                        'type' => 'error',
+                    ]);
                 } else {
                     $user_id = $request->user_id;
 
@@ -567,13 +570,20 @@ class ProjectApiController extends Controller
                     }
 
                     if ($result) {
-                        
-                        return true;
+                        return response()->json([
+                            'message' => 'Votre projet est bien enregistré',
+                            'type' => 'success',
+                        ]);
                     } else {
                         return response()->json(['errors' => 'Un problème est survenu, veuillez réessayer plus tard.'], 500);
                     }
                 }
             }
+        } else {
+            return response()->json([
+                'message' => 'Vous n\'avez plus assez d\'action disponible',
+                'type' => 'error',
+            ]);
         }
     }
 

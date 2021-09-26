@@ -815,7 +815,7 @@
             ease-in-out
         "
     >
-        <div class="flex">
+        <div class="flex justify-center">
             <div class="flex-shrink-0">
                 <XCircleIcon class="h-5 w-5 text-red-400" aria-hidden="true" />
             </div>
@@ -826,7 +826,7 @@
                 </h3>
                 <div class="mt-2 text-sm text-red-700">
                     <ul role="list" class="list-disc pl-5 space-y-1">
-                        <li v-for="er in this.errors" :key="er">{{ er }}</li>
+                        <li v-for="er in this.messages" :key="er">{{ er }}</li>
                     </ul>
                 </div>
             </div>
@@ -838,14 +838,14 @@
         id="success"
         class="
             rounded-md
-            bg-red-50
+            bg-green-50
             p-4
             transition-opacity
             duration-500
             ease-in-out
         "
     >
-        <div class="flex">
+        <div class="flex justify-center">
             <div class="flex-shrink-0">
                 <XCircleIcon class="h-5 w-5 text-green-400" aria-hidden="true" />
             </div>
@@ -874,43 +874,56 @@ export default {
 
     data() {
         const project = {
-            user_id: "",
-            category_id: "",
-            sub_category_id: "",
-            titleName: "",
-            about: "",
-            price: "",
-            document: "",
-            picture: "",
-            phone: "",
-            deadline: "",
-            email: "",
-            country: "",
-            city: "",
-            zipcode: "",
-            number: "",
-            street: "",
-            notifications: "",
-            rules: "",
+            user_id: null,
+            category_id: null,
+            sub_category_id: null,
+            titleName: null,
+            about: null,
+            price: null,
+            document: null,
+            picture: null,
+            phone: null,
+            deadline: null,
+            email: null,
+            country: null,
+            city: null,
+            zipcode: null,
+            number: null,
+            street: null,
+            notifications: null,
+            rules: null,
             fileshow: true,
-        };
+        };            
 
         return {
             categories: {},
             subcategories: {},
             user: {},
-            categoryselected: "",
-            subcategoryselected: "",
+            categoryselected: null,
+            subcategoryselected: null,
             open: false,
             project,
-            validationErrors: "",
-            validationMessages: "",
+            validationErrors: null,
+            validationMessages: null,
             errors: [],
             messages: [],
             alert: false,
             success: false,
             nbErrors: 0,
-            preview: "",
+            preview: null,
+            // Prohibited words
+            words: [
+                "connard",
+                "sexe",
+                "salaud",
+                "enculé",
+                "salope",
+                "pute",
+                "fuck",
+                "baise",
+                "cul",
+                "penis",
+            ],
         };
     },
     methods: {
@@ -955,108 +968,183 @@ export default {
             this.document = e.target.files;
             //console.log(this.document);
         },
-        formSubmit(e) {
+        checkForm(e) {
+            this.messages = [];
+
+            if (!this.project.rules && this.project.rules != true) {
+                this.messages.push("Vous devez accepter les conditions");
+            }
+            if (!this.categoryselected) {
+                this.messages.push("Vous devez choisir une catégorie");
+            }
+            if (!this.subcategoryselected) {
+                this.messages.push("Vous devez choisir une sous catégorie");
+            }
+            if (this.project.price) {
+                if (isNaN(this.project.price)){
+                    this.messages.push("Le prix doit ête un nombre");
+                }
+            }
+            if (this.project.deadline) {
+                this.validDate(this.project.deadline);
+            }
+            if (!this.project.titleName) {
+                this.messages.push("Un titre est obligatoire");
+            } else {
+                this.validText(this.project.titleName, this.words);
+            }
+            if (!this.project.about) {
+                this.messages.push("Une description est obligatoire");
+            } else {
+                this.validText(this.project.about, this.words);
+            }
+            if (!this.user.email) {
+                this.messages.push('Une adressse e-mail est obligatoire');
+            } else if (!this.validEmail(this.user.email)) {
+                this.messages.push('Cette adresse e-mail :' + this.user.email + ' n\'est pas valide');
+            }
+
+            if (!this.messages.length) {
+                return true;
+            } else {
+                this.nbErrors = this.messages.length;
+            }
+
             e.preventDefault();
+            },
+        validEmail: function (email) {
+            let re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
+            },
+        validText: function (text, words) {
 
-            // Take all id and email
-            this.project.user_id = this.user.id;
-            this.project.category_id = this.categoryselected;
-            this.project.sub_category_id = this.subcategoryselected;
-            this.project.email = this.user.email;
-
-            const config = {
-                headers: {
-                    "content-type": "multipart/form-data",
-                    "X-CSRF-TOKEN": document.querySelector(
-                        'meta[name="csrf-token"]'
-                    ).content,
-                },
-            };
-
-            let data = new FormData();
-            if (this.document != undefined) {
-                for (let i = 0; i < this.document.length; i++) {
-                    data.append(
-                        "document[]",
-                        this.document[i],
-                        this.document[i].name
+            for (const element of words) {
+                if (text.includes(element)) {
+                    console.log(
+                        "error",
+                        "Votre texte contient un vocabulaire interdit comme : " +
+                        element
+                    );
+                    this.messages.push(
+                        "Le texte contient un vocabulaire interdit comme : " +
+                        element
                     );
                 }
             }
-            //data.append('project', this.project);
-            data.append("picture", this.picture);
-            data.append("user_id", this.project.user_id);
-            data.append("category_id", this.project.category_id);
-            data.append("sub_category_id", this.project.sub_category_id);
-            data.append("name", this.project.titleName);
-            data.append("about", this.project.about);
-            data.append("price", this.project.price);
-            data.append("phone", this.project.phone);
-            data.append("deadline", this.project.deadline);
-            data.append("email", this.project.email);
-            data.append("country", this.project.country);
-            data.append("city", this.project.city);
-            data.append("zipcode", this.project.zipcode);
-            data.append("number", this.project.number);
-            data.append("street", this.project.street);
-            data.append("notifications", this.project.notifications);
-            data.append("rules", this.project.rules);
+            return true;
+        },
+        validDate: function (dateString)
+            {
+                // First check for the pattern
+                if(!/^\d{4}\/\d{1,2}\/\d{1,2}$/.test(dateString))
+                    return false;
 
-            axios
-                .post("api/store", data, config)
-                .then(function (res) {
-                    console.log(res.data);
-                    this.validationMessages = res.data;
-                    //console.log(this.validationErrors);
-                    this.success = true;
-                    //console.log(error.response.data.errors);
+                // Parse the date parts to integers
+                var parts = dateString.split("/");
+                var day = parseInt(parts[1], 10);
+                var month = parseInt(parts[0], 10);
+                var year = parseInt(parts[2], 10);
 
-                    for (const [key, value] of Object.entries(
-                        this.validationMessages
-                    )) {
-                        this.messages.push(value);
+                // Check the ranges of month and year
+                if(year < 1000 || year > 3000 || month == 0 || month > 12)
+                    return false;
+
+                var monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
+
+                // Adjust for leap years
+                if(year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
+                    monthLength[1] = 29;
+
+                // Check the range of the day
+                return day > 0 && day <= monthLength[month - 1];
+            },
+        formSubmit(e) {
+            e.preventDefault();
+            if (this.checkForm(e)){
+
+                // Take all id and email
+                this.project.user_id = this.user.id;
+                this.project.category_id = this.categoryselected;
+                this.project.sub_category_id = this.subcategoryselected;
+                this.project.email = this.user.email;
+
+                const config = {
+                    headers: {
+                        "content-type": "multipart/form-data",
+                        "X-CSRF-TOKEN": document.querySelector(
+                            'meta[name="csrf-token"]'
+                        ).content,
+                    },
+                };
+
+                let data = new FormData();
+                if (this.document != undefined) {
+                    for (let i = 0; i < this.document.length; i++) {
+                        data.append(
+                            "document[]",
+                            this.document[i],
+                            this.document[i].name
+                        );
                     }
-                    document.getElementById("success").style.opacity = 100;
-                    setTimeout(() => {
-                        //document.getElementById('alert').style.display = "flex";
-                        document.getElementById("success").style.opacity = 0;
-                    }, 5000);
+                }
+                //data.append('project', this.project);
+                data.append("picture", this.picture);
+                data.append("user_id", this.project.user_id);
+                data.append("category_id", this.project.category_id);
+                data.append("sub_category_id", this.project.sub_category_id);
+                data.append("name", this.project.titleName);
+                data.append("about", this.project.about);
+                data.append("price", this.project.price);
+                data.append("phone", this.project.phone);
+                data.append("deadline", this.project.deadline);
+                data.append("email", this.project.email);
+                data.append("country", this.project.country);
+                data.append("city", this.project.city);
+                data.append("zipcode", this.project.zipcode);
+                data.append("number", this.project.number);
+                data.append("street", this.project.street);
+                data.append("notifications", this.project.notifications);
+                data.append("rules", this.project.rules);
 
-                    setTimeout(() => {
-                        this.refresh();
-                    }, 5550);
-                })
-                .catch((error) => {
-                    if (error.response.status == 422 || error.response.status == 500) {
-                        this.validationErrors = error.response.data.errors;
-                        //console.log(this.validationErrors);
-                        this.alert = true;
-                        //console.log(error.response.data.errors);
+                axios
+                    .post("api/store", data, config)
+                    .then((res) => {
+                        console.log(res.data.message);
+                        if (res.data.type == 'success'){
+                            this.alert = false;
+                            this.success = true;
+                        } else {
+                            this.success = false;
+                            this.alert = true;
+                        }
+                        //this.messages.push(res.data.message);
+                        if (typeof res.data.message === 'string' || res.data.message instanceof String){
+                            this.messages.push(res.data.message);      
+                        } else {
+
+                            for (const [key, value] of Object.entries(
+                                res.data.message
+                            )) {
+                                this.messages.push(value);
+                            }
+                        }
+                        this.nbErrors = this.messages.length;
+                    })
+                    .catch((error) => {
+                        //console.log(error);
+                        //this.messages = error;
 
                         for (const [key, value] of Object.entries(
-                            this.validationErrors
+                            error.response.data.errors
                         )) {
-                            this.errors.push(value);
+                            this.messages.push(value);
                         }
-                        this.nbErrors = this.errors.length;
-                        document.getElementById("alert").style.opacity = 100;
-                        setTimeout(() => {
-                            //document.getElementById('alert').style.display = "flex";
-                            document.getElementById("alert").style.opacity = 0;
-                        }, 5000);
-                    }
-
-                    setTimeout(() => {
-                        this.refresh();
-                    }, 5550);
-                });
-
-            if (this.errors.length > 0) {
-                console.log(this.errors);
-            } else if(this.messages.length > 0) {
-                //window.location.replace("/accueil");
+                        this.nbErrors = this.messages.length;
+                    });
             } else {
-                //window.location.replace("/accueil");
+                console.log("pas valide")
+                this.success = false;
+                this.alert = true;
             }
         },
         RemoveImg() {
