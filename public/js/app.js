@@ -46612,6 +46612,9 @@ __webpack_require__.r(__webpack_exports__);
 var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_10__.createRouter)({
   history: (0,vue_router__WEBPACK_IMPORTED_MODULE_10__.createWebHistory)(),
   routes: [{
+    path: '/',
+    redirect: '/accueil'
+  }, {
     path: '/dashboard',
     redirect: '/accueil'
   }, {

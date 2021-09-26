@@ -15,6 +15,7 @@ import axios from 'axios'
 const router = createRouter({
     history: createWebHistory(),
     routes: [
+        { path: '/', redirect: '/accueil' },
         { path: '/dashboard', redirect: '/accueil' },
         { path: '/accueil', name: 'accueil', component: HomePage },
         { path: '/projets', name: 'projets', component: Index },
