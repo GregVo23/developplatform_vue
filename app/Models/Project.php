@@ -151,10 +151,15 @@ class Project extends Model
     /**
      * Relations with ProjectUser.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
-    public function favorites_projects()
+    public function haveOffer($user_id)
     {
-        return $this->hasMany(ProjectUser::class);
+        $offer = DB::table('project_user')
+            ->where('proposal', '!=', NULL)
+            ->where('project_id', $this->id)
+            ->where('user_id', $user_id)
+            ->first();
+
+        return $offer;
     }
 }

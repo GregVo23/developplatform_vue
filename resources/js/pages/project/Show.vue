@@ -290,7 +290,7 @@
             </p>
         </div>
 
-        <section class="mb-6">
+        <section v-if="charged === true" class="mb-6">
             <div v-if="!makeOffer" class="flex justify-evenly">
                 <button
                     v-if="user.id !== owner.id"
@@ -401,7 +401,7 @@
                     </span>
                 </div>
 
-                <div v-if="user.id === owner.id" class="flex justify-center">
+                <div v-cloak v-if="user.id === owner.id" class="flex justify-center">
                     <span class="flex bg-grey-lighter">
                         <span
                             class="
@@ -451,6 +451,7 @@
                 </div>
 
                 <button
+                    v-cloak
                     v-if="user.id === owner.id"
                     class="flex justify-center"
                     @click="removeProject(project)"
@@ -499,7 +500,7 @@
                 </button>
             </div>
             <div v-else>
-                <div class="flex justify-center">
+                <div v-on="charged" class="flex justify-center">
                     <span class="flex bg-grey-lighter">
                         <span
                             @click="removeOffer(project)"
@@ -778,6 +779,7 @@ export default {
             message: "",
             type: "",
             show: false,
+            charged: false,
             offer: false,
             offers: [],
             openOffer: false,
@@ -814,21 +816,12 @@ export default {
                         (this.categoryDescription = data[8]),
                         (this.subCategoryDescription = data[9]),
                         (this.offer = data[10]),
-                        (this.offers = data[11])
+                        (this.offers = data[11]),
+                        (this.offer ? this.makeOffer = true : this.makeOffer = false ),
+                        (this.charged = true)
                     )
                 )
                 .catch((error) => console.log("error", error));
-
-            this.isOfferte();
-        },
-        isOfferte() {
-            if (this.offer == false) {
-                this.makeOffer = false;
-                return false;
-            } else {
-                this.makeOffer = true;
-                return true;
-            }
         },
         accept(project) {
             const config = {
@@ -982,7 +975,7 @@ export default {
             data.append("amount", this.amount);
             data.append("information", this.information);
 
-            if (confirm("Etes vous sur d'accepter ce projet ?")) {
+            if (confirm("Etes vous sur de faire cette offre de "+this.amount+"€ pour ce projet ?")) {
                 axios
                     .post("/api/projet/offre/" + this.id, data, config)
                     .then(function (res) {

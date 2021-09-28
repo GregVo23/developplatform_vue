@@ -228,12 +228,7 @@ class ProjectApiController extends Controller
         $user = Auth()->user();
         $project = Project::find($id);
         $owner = User::find($project->user_id);
-        $myOffer = ProjectUser::where('user_id', '=', $user->id)->where('project_id', '=', $id)->where('proposal', '<>', NULL)->first();
-        if (!empty($myOffer->proposal)) {
-            $offer = true;
-        } else {
-            $offer = false;
-        }
+        $myOffer = $project->haveOffer($user->id);
 
         $offers = DB::table('project_user')
         ->join('users', 'users.id', '=', 'project_user.user_id')
@@ -250,9 +245,7 @@ class ProjectApiController extends Controller
         $picture_path = 'storage/project/cover/' . $project->id . '/';
         $document_path = 'storage/project/doc/' . $project->id . '/';
 
-        //$file = File::get(public_path($picture_path.'/'.$project->picture));
         $documents = Json_decode($project->document);
-        //$file = Storage::get('file.jpg');
 
         return json_encode([
             $project,
@@ -265,7 +258,7 @@ class ProjectApiController extends Controller
             $subCategory,
             $categoryDescription,
             $subCategoryDescription,
-            $offer,
+            $myOffer,
             $offers
         ]);
     }

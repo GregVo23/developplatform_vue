@@ -41498,7 +41498,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       amount: "",
       message: "",
       type: ""
-    }, _defineProperty(_ref, "show", false), _defineProperty(_ref, "offer", false), _defineProperty(_ref, "offers", []), _defineProperty(_ref, "openOffer", false), _defineProperty(_ref, "acceptProject", false), _defineProperty(_ref, "offerProject", false), _defineProperty(_ref, "makeOffer", false), _defineProperty(_ref, "deadline", false), _defineProperty(_ref, "url", "http://localhost:8000/"), _defineProperty(_ref, "raing", 5), _ref;
+    }, _defineProperty(_ref, "show", false), _defineProperty(_ref, "charged", false), _defineProperty(_ref, "offer", false), _defineProperty(_ref, "offers", []), _defineProperty(_ref, "openOffer", false), _defineProperty(_ref, "acceptProject", false), _defineProperty(_ref, "offerProject", false), _defineProperty(_ref, "makeOffer", false), _defineProperty(_ref, "deadline", false), _defineProperty(_ref, "url", "http://localhost:8000/"), _defineProperty(_ref, "raing", 5), _ref;
   },
   methods: {
     loadFormData: function loadFormData() {
@@ -41511,20 +41511,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       };
       axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/projet/" + this.id, config).then(function (_ref2) {
         var data = _ref2.data;
-        return _this.project = data[0], _this.user = data[1], _this.owner = data[2], _this.picturePath = data[3], _this.documentPath = data[4], _this.document = data[5], _this.category = data[6], _this.subCategory = data[7], _this.categoryDescription = data[8], _this.subCategoryDescription = data[9], _this.offer = data[10], _this.offers = data[11];
+        return _this.project = data[0], _this.user = data[1], _this.owner = data[2], _this.picturePath = data[3], _this.documentPath = data[4], _this.document = data[5], _this.category = data[6], _this.subCategory = data[7], _this.categoryDescription = data[8], _this.subCategoryDescription = data[9], _this.offer = data[10], _this.offers = data[11], _this.offer ? _this.makeOffer = true : _this.makeOffer = false, _this.charged = true;
       })["catch"](function (error) {
         return console.log("error", error);
       });
-      this.isOfferte();
-    },
-    isOfferte: function isOfferte() {
-      if (this.offer == false) {
-        this.makeOffer = false;
-        return false;
-      } else {
-        this.makeOffer = true;
-        return true;
-      }
     },
     accept: function accept(project) {
       var _this2 = this;
@@ -41647,7 +41637,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       data.append("amount", this.amount);
       data.append("information", this.information);
 
-      if (confirm("Etes vous sur d'accepter ce projet ?")) {
+      if (confirm("Etes vous sur de faire cette offre de " + this.amount + "€ pour ce projet ?")) {
         axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/projet/offre/" + this.id, data, config).then(function (res) {
           console.log(res);
         })["catch"](function (error) {
@@ -46205,6 +46195,7 @@ var _hoisted_62 = {
   "class": "text-gray-400 text-sm mt-2"
 };
 var _hoisted_63 = {
+  key: 3,
   "class": "mb-6"
 };
 var _hoisted_64 = {
@@ -46277,19 +46268,16 @@ var _hoisted_81 = {
   key: 1
 };
 var _hoisted_82 = {
-  "class": "flex justify-center"
-};
-var _hoisted_83 = {
   "class": "flex bg-grey-lighter"
 };
 
-var _hoisted_84 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"h-8 w-8\" viewBox=\"0 0 20 20\" fill=\"currentColor\"><path fill-rule=\"evenodd\" d=\"M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z\" clip-rule=\"evenodd\"></path><path d=\"M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z\"></path></svg><span class=\"\r\n                                    mt-2\r\n                                    text-base\r\n                                    leading-normal\r\n                                    text-center\r\n                                \">Retirer mon offre</span><a href=\"#\"></a>", 3);
+var _hoisted_83 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"h-8 w-8\" viewBox=\"0 0 20 20\" fill=\"currentColor\"><path fill-rule=\"evenodd\" d=\"M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z\" clip-rule=\"evenodd\"></path><path d=\"M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z\"></path></svg><span class=\"\r\n                                    mt-2\r\n                                    text-base\r\n                                    leading-normal\r\n                                    text-center\r\n                                \">Retirer mon offre</span><a href=\"#\"></a>", 3);
 
-var _hoisted_87 = [_hoisted_84];
-var _hoisted_88 = {
+var _hoisted_86 = [_hoisted_83];
+var _hoisted_87 = {
   "class": "mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6"
 };
-var _hoisted_89 = {
+var _hoisted_88 = {
   "class": "col-span-6 sm:col-span-6",
   "x-transition:enter": "ease-in-out duration-500",
   "x-transition:enter-start": "opacity-0",
@@ -46299,18 +46287,18 @@ var _hoisted_89 = {
   "x-transition:leave-end": "opacity-0"
 };
 
-var _hoisted_90 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+var _hoisted_89 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "for": "amount",
   "class": "block text-sm font-medium text-gray-700"
 }, "Proposition de prix", -1
 /* HOISTED */
 );
 
-var _hoisted_91 = {
+var _hoisted_90 = {
   "class": "mt-1 relative rounded-md shadow-sm"
 };
 
-var _hoisted_92 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_91 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "\r\n                                        absolute\r\n                                        inset-y-0\r\n                                        left-0\r\n                                        pl-3\r\n                                        flex\r\n                                        items-center\r\n                                        pointer-events-none\r\n                                    "
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "text-gray-500 sm:text-sm"
@@ -46318,7 +46306,7 @@ var _hoisted_92 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_93 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_92 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "\r\n                                        absolute\r\n                                        inset-y-0\r\n                                        right-0\r\n                                        pr-3\r\n                                        flex\r\n                                        items-center\r\n                                        pointer-events-none\r\n                                    "
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "text-gray-500 sm:text-sm",
@@ -46327,7 +46315,7 @@ var _hoisted_93 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_94 = {
+var _hoisted_93 = {
   "class": "col-span-6 sm:col-span-6",
   "x-transition:enter": "ease-in-out duration-500",
   "x-transition:enter-start": "opacity-0",
@@ -46337,7 +46325,7 @@ var _hoisted_94 = {
   "x-transition:leave-end": "opacity-0"
 };
 
-var _hoisted_95 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_94 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "flex justify-between"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "for": "information",
@@ -46349,11 +46337,11 @@ var _hoisted_95 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_96 = {
+var _hoisted_95 = {
   "class": "mt-1"
 };
 
-var _hoisted_97 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
+var _hoisted_96 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   "class": "h-6 w-6",
   fill: "none",
@@ -46373,13 +46361,13 @@ var _hoisted_97 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_98 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+var _hoisted_97 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "text-gray-700 group-hover:text-white"
 }, " Faire la proposition ", -1
 /* HOISTED */
 );
 
-var _hoisted_99 = [_hoisted_97, _hoisted_98];
+var _hoisted_98 = [_hoisted_96, _hoisted_97];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Rating = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Rating");
 
@@ -46465,7 +46453,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* TEXT */
   )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_62, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.subCategoryDescription), 1
   /* TEXT */
-  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_63, [!$data.makeOffer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_64, [$data.user.id !== $data.owner.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  )]), $data.charged === true ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_63, [!$data.makeOffer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_64, [$data.user.id !== $data.owner.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     onClick: _cache[1] || (_cache[1] = function ($event) {
       return $options.accept($data.project);
@@ -46486,12 +46474,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[3] || (_cache[3] = function ($event) {
       return $options.removeProject($data.project);
     })
-  }, _hoisted_80)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_81, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_82, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_83, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, _hoisted_80)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_81, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", (0,vue__WEBPACK_IMPORTED_MODULE_0__.mergeProps)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toHandlers)($data.charged), {
+    "class": "flex justify-center"
+  }), [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_82, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     onClick: _cache[4] || (_cache[4] = function ($event) {
       return $options.removeOffer($data.project);
     }),
     "class": "\r\n                                w-64\r\n                                flex flex-col\r\n                                items-center\r\n                                px-4\r\n                                py-6\r\n                                bg-white\r\n                                text-gray-700\r\n                                rounded-lg\r\n                                shadow-lg\r\n                                tracking-wide\r\n                                uppercase\r\n                                border border-blue\r\n                                cursor-pointer\r\n                                hover:bg-blue hover:text-gray-900\r\n                            "
-  }, _hoisted_87)])])])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+  }, _hoisted_86)])], 16
+  /* FULL_PROPS */
+  )])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     onSubmit: _cache[8] || (_cache[8] = function () {
       return $options.formSubmit && $options.formSubmit.apply($options, arguments);
     }),
@@ -46501,7 +46493,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     method: "POST",
     enctype: "multipart/form-data",
     action: "./api/projet/offre"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_88, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_89, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_hoisted_90, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_91, [_hoisted_92, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_87, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_88, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_hoisted_89, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_90, [_hoisted_91, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
       return $data.amount = $event;
     }),
@@ -46514,9 +46506,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-describedby": "amount-currency"
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.amount]]), _hoisted_93])])], 512
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.amount]]), _hoisted_92])])], 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.open]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_94, [_hoisted_95, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_96, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.open]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_93, [_hoisted_94, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_95, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
     "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
       return $data.information = $event;
     }),
@@ -46536,11 +46528,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return _ctx.submit && _ctx.submit.apply(_ctx, arguments);
     }),
     "class": "\r\n                            flex\r\n                            items-center\r\n                            ml-4\r\n                            focus:outline-none\r\n                            group\r\n                            border\r\n                            rounded-full\r\n                            py-2\r\n                            px-8\r\n                            leading-none\r\n                            border-yellow\r\n                            dark:border-yellow\r\n                            select-none\r\n                            hover:bg-yellow\r\n                            text-yellow\r\n                            hover:text-white\r\n                            dark-hover:text-gray-200\r\n                            transition\r\n                            ease-in-out\r\n                            duration-200\r\n                            transform\r\n                            hover:-translate-y-1 hover:translate-x-0.5\r\n                        "
-  }, _hoisted_99, 512
+  }, _hoisted_98, 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.open]])])], 32
   /* HYDRATE_EVENTS */
-  )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Rating, {
+  )])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Rating, {
     modelValue: _ctx.rating,
     "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
       return _ctx.rating = $event;
