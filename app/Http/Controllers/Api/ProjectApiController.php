@@ -463,22 +463,22 @@ class ProjectApiController extends Controller
                 // validate
                 $rules = array(
 
-                    'name' => 'required|string|min:3',
+                    'name' => 'required|string|min:3|max:100',
                     'about' => 'required|min:20|max:2000',
                     'user_id' => 'required|numeric',
-                    'price' => 'nullable|numeric',
-                    'phone' => 'nullable|numeric',
+                    'price' => 'nullable|min:2|max:4',
+                    'phone' => 'nullable|numeric|regex:/^([0-9\s\-\+\(\)]*)$/|min:8',
                     'email' => 'required|string|email',
                     'picture' => 'nullable|image|mimes:jpeg,jpg,png',
                     'document' => 'nullable|max:20000',
                     'deadline' => 'nullable|date|after:tomorrow',
                     'category_id' => 'required|numeric',
-                    'sub_category_id' => 'required||numeric',
+                    'sub_category_id' => 'required|numeric',
                     'country' => 'nullable|string',
                     'city' => 'nullable|string',
                     'street' => 'nullable|string',
-                    'number' => 'nullable|numeric',
-                    'zipcode' => 'nullable|numeric',
+                    'number' => 'nullable',
+                    'zipcode' => 'nullable',
                     'rules' => 'nullable',
                     'notifications' => 'nullable',
                 );
@@ -542,6 +542,9 @@ class ProjectApiController extends Controller
                         $cover->save(public_path('/project/cover/' . $fileNameToStore));
 
                         $project->picture = $fileNameToStore;
+                        $project->save();
+                    } else {
+                        $project->picture = 'base'.$project->category_id.''.$project->sub_category_id.'.jpg';
                         $project->save();
                     }
 

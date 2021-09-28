@@ -322,12 +322,13 @@
                                                                     "
                                                                 >
                                                                     {{
-                                                                        project.price
+                                                                        project.price ? project.price : "Inéfini"
                                                                     }}
                                                                 </span>
                                                             </div>
 
                                                             <div
+                                                                v-if="project.country != 'Null'"
                                                                 class="
                                                                     flex
                                                                     ml-6
@@ -362,7 +363,7 @@
                                                                     "
                                                                 >
                                                                     {{
-                                                                        project.country
+                                                                        project.country ? project.country : "Indéfini"
                                                                     }}
                                                                 </span>
                                                             </div>
@@ -414,7 +415,7 @@
                                                                     "
                                                                 >
                                                                     {{
-                                                                        project.deadline
+                                                                        project.deadline ? project.deadline : "Pas de deadline"
                                                                     }}
                                                                 </span>
                                                             </div>

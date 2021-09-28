@@ -177,6 +177,7 @@
                                                             </div>
 
                                                             <div
+                                                                v-if="project.country != 'Null'"
                                                                 class="
                                                                     flex
                                                                     ml-6
@@ -263,7 +264,7 @@
                                                                     "
                                                                 >
                                                                     {{
-                                                                        project.deadline
+                                                                        project.deadline ? project.deadline : "Pas de deadline"
                                                                     }}
                                                                 </span>
                                                             </div>

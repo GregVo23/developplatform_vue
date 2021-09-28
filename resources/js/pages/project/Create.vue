@@ -3,7 +3,7 @@
         @submit="formSubmit"
         name="frmProjet"
         id="frmProjet"
-        class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-8"
+        class="max-w-5xl mx-auto px-6 sm:px-8 lg:px-10 mt-8"
         method="POST"
         enctype="multipart/form-data"
         action="./api/nouveau"
@@ -477,11 +477,10 @@
                         >Téléphone</label
                     >
                     <input
-                        v-model="project.phone"
                         type="text"
                         name="phone"
                         id="phone"
-                        autocomplete="phone"
+                        :value="user.phone"
                         class="
                             mt-1
                             focus:ring-indigo-500 focus:border-indigo-500
@@ -821,8 +820,7 @@
             </div>
             <div class="ml-3">
                 <h3 class="text-sm font-medium text-red-800">
-                    Il y a {{ nbErrors }} erreur{{ nbErrors > 0 ? "s" : "" }} à
-                    corriger dans le formulaire
+                    Il y a {{ nbErrors }} erreur{{ nbErrors > 0 ? "s" : "" }} !
                 </h3>
                 <div class="mt-2 text-sm text-red-700">
                     <ul role="list" class="list-disc pl-5 space-y-1">
@@ -1088,20 +1086,20 @@ export default {
                     }
                 }
                 //data.append('project', this.project);
-                data.append("picture", this.picture);
+                data.append("picture", this.picture ? this.picture : '');
                 data.append("user_id", this.project.user_id);
                 data.append("category_id", this.project.category_id);
                 data.append("sub_category_id", this.project.sub_category_id);
                 data.append("name", this.project.titleName);
                 data.append("about", this.project.about);
-                data.append("price", this.project.price);
-                data.append("phone", this.project.phone);
-                data.append("deadline", this.project.deadline);
+                data.append("price", this.project.price ? this.project.price : '');
+                data.append("phone", this.user.phone);
+                data.append("deadline", this.project.deadline ? this.project.deadline : '');
                 data.append("email", this.project.email);
                 data.append("country", this.project.country);
                 data.append("city", this.project.city);
-                data.append("zipcode", this.project.zipcode);
-                data.append("number", this.project.number);
+                data.append("zipcode", this.project.zipcode ? this.project.zipcode : '');
+                data.append("number", this.project.number ? this.project.number : '');
                 data.append("street", this.project.street);
                 data.append("notifications", this.project.notifications);
                 data.append("rules", this.project.rules);
@@ -1122,10 +1120,14 @@ export default {
                             this.messages.push(res.data.message);      
                         } else {
 
-                            for (const [key, value] of Object.entries(
+                            for (const [key, values] of Object.entries(
                                 res.data.message
                             )) {
-                                this.messages.push(value);
+                                    for (const [key, value] of Object.entries(
+                                    values
+                                )) {
+                                    this.messages.push(value);
+                                }
                             }
                         }
                         this.nbErrors = this.messages.length;

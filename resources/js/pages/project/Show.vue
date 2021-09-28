@@ -22,10 +22,9 @@
                         <dd class="mt-1 text-sm text-gray-900">
                             {{
                                 project.price
-                                    ? project.price
+                                    ? project.price+" €"
                                     : "Pas de prix annoncé"
                             }}
-                            €
                         </dd>
                     </div>
 
