@@ -43269,7 +43269,7 @@ var _hoisted_26 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 );
 
 var _hoisted_27 = {
-  "class": "w-full md:w-9/12 mx-2"
+  "class": "w-full md:w-9/12 sm:mx-2"
 };
 var _hoisted_28 = {
   "class": "bg-white p-3 shadow-sm rounded-xl"

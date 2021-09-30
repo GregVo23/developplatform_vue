@@ -151,7 +151,7 @@
                 <div class="my-4"></div>
             </div>
             <!-- Right Side -->
-            <div class="w-full md:w-9/12 mx-2">
+            <div class="w-full md:w-9/12 sm:mx-2">
                 <!-- Profile tab -->
                 <!-- About Section -->
                 <div class="bg-white p-3 shadow-sm rounded-xl">
