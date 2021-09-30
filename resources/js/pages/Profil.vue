@@ -367,7 +367,7 @@
                         sm:px-6
                     "
                 >
-                    <div class="grid grid-cols-2">
+                    <div class="sm:grid sm:grid-cols-2">
                         <div>
                             <div
                                 class="
@@ -434,7 +434,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div>
+                        <div class="pt-6 sm:pt-0">
                             <div
                                 class="
                                     flex

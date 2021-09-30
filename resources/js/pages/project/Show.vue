@@ -1,11 +1,11 @@
 <template>
-    <div v-if="charged == true" class="sm-mx-10 md-mx-20 lg-mx-30">
-        <div class="px-4 py-5 sm:px-6 flex">
+    <div v-if="charged == true" class="sm:mx-8 md:mx-20 lg:mx-40">
+        <div class="px-4 py-5 sm:px-6 xl:flex">
             <div class="flex-grow">
                 <h1 class="mt-4 text-xl leading-6 font-medium text-gray-900">
                     {{ project.name }}
                 </h1>
-                <h5 class="mt-8 max-w-2xl text-sm text-gray-500 font-bold">
+                <h5 class="mt-8 max-w-2xl text-sm text-gray-600 font-bold">
                     Description:
                 </h5>
                 <p class="mt-1 text-sm text-gray-900">
@@ -16,7 +16,7 @@
                     class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 mt-6"
                 >
                     <div class="sm:col-span-1">
-                        <dt class="text-sm font-medium text-gray-500">
+                        <dt class="text-sm font-medium text-gray-600">
                             <b>Prix annoncé</b>
                         </dt>
                         <dd class="mt-1 text-sm text-gray-900">
@@ -29,7 +29,7 @@
                     </div>
 
                     <div class="sm:col-span-1">
-                        <dt class="text-sm font-medium text-gray-500">
+                        <dt class="text-sm font-medium text-gray-600">
                             <b>Date de réalisation</b>
                         </dt>
                         <dd class="mt-1 text-sm text-gray-900">
@@ -43,13 +43,13 @@
                 </dl>
             </div>
 
-            <div class="flex-shrink-0 ml-4">
+            <div class="md:flex-shrink-0 xl:ml-4">
                 <a
                     :href="url + '' + picturePath + '' + project.picture"
                     target="about_blank"
                 >
                     <img
-                        class="h-56 w-56 rounded object-cover"
+                        class="md:h-100 md:w-100 lg:h-150 lg:w-150 rounded object-cover"
                         title="Voir en grand"
                         :src="
                             'http://localhost:8000/project/cover/' +
@@ -120,13 +120,13 @@
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
               <tr>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                   Montant de offre
                 </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                   Appréciation globale
                 </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                   Message
                 </th>
                 <th scope="col" class="relative px-6 py-3">
@@ -142,10 +142,10 @@
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                   {{ offer.amount ? offer.amount+" €" : project.price+" €" }}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                   {{ offer.rate ? offer.rate+" /5" : "aucune" }}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                   {{ offer.information ? offer.information : "Pas de message" }}
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -164,7 +164,7 @@
 
 
         </div>
-        <div v-else-if="user.id == project.user_id" class="px-6 text-sm font-medium text-gray-500">
+        <div v-else-if="user.id == project.user_id" class="px-6 sm:text-sm sm:font-medium text-gray-600">
             <b>Offres reçues</b>
             <p class="pt-1">Vous n'avez pas encore reçus d'offre</p>
         </div>
@@ -180,7 +180,7 @@
         <div class="border-t px-4 py-5 sm:px-6">
             <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
                 <div class="sm:col-span-2">
-                    <dt class="text-sm font-medium text-gray-500">
+                    <dt class="text-sm font-medium text-gray-600">
                         <b>Pièces-jointes</b>
                     </dt>
                     <dd class="mt-1 text-sm text-gray-900">
@@ -194,7 +194,7 @@
                             <li
                                 v-if="!document"
                                 class="
-                                  text-gray-500
+                                  text-gray-600
                                     pr-4
                                     flex
                                     items-center
@@ -270,22 +270,22 @@
         </div>
 
         <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
-            <p class="text-sm font-medium text-gray-500">
+            <p class="text-sm font-medium text-gray-600">
                 <b>Notifications</b>:
                 {{ project.notifications ? "Autorisées" : "Refusées " }}
             </p>
         </div>
 
         <div class="mt-1 px-4 py-5 sm:px-6">
-            <p class="mt-8 max-w-2xl text-sm text-gray-500">
+            <p class="mt-8 max-w-2xl text-sm text-gray-700">
                 <b>Catégorie:</b> {{ category }}
             </p>
-            <p class="text-gray-400 text-sm mt-2">{{ categoryDescription }}</p>
+            <p class="text-gray-600 text-sm mt-2">{{ categoryDescription }}</p>
 
-            <p class="mt-2 max-w-2xl text-sm text-gray-500">
+            <p class="mt-2 max-w-2xl text-sm text-gray-700">
                 <b>Sous-Catégorie:</b> {{ subCategory }}
             </p>
-            <p class="text-gray-400 text-sm mt-2">
+            <p class="text-gray-600 text-sm mt-2">
                 {{ subCategoryDescription }}
             </p>
         </div>
@@ -300,11 +300,11 @@
         <Rating v-model="rating" />
 
         <section v-if="subscription.nb_max_projet - subscription.nb_projet > 0" class="mb-6">
-            <div v-if="!makeOffer" class="flex justify-evenly">
+            <div v-if="!makeOffer" class="sm:flex sm:justify-evenly">
                 <button
                     v-if="user.id !== owner.id"
                     @click="accept(project)"
-                    class="flex justify-center"
+                    class="flex mx-auto"
                 >
                     <span class="flex bg-grey-lighter">
                         <span
@@ -349,7 +349,7 @@
                     </span>
                 </button>
 
-                <div v-if="user.id !== owner.id" class="flex justify-center">
+                <div v-if="user.id !== owner.id" class="flex mx-auto justify-center">
                     <span
                         class="flex bg-grey-lighter"
                         @click.prevent="open = !open"
@@ -599,7 +599,7 @@
                                         pointer-events-none
                                     "
                                 >
-                                    <span class="text-gray-500 sm:text-sm">
+                                    <span class="text-gray-600 sm:text-sm">
                                         €
                                     </span>
                                 </div>
@@ -635,7 +635,7 @@
                                     "
                                 >
                                     <span
-                                        class="text-gray-500 sm:text-sm"
+                                        class="text-gray-600 sm:text-sm"
                                         id="amount-currency"
                                     >
                                         EUR
@@ -759,7 +759,7 @@
             <p class="text-xl my-2">Un abonnement, peut-être ?</p>
             <router-link
                 to="/abonnement"
-                class="pt-8 text-base font-medium text-yellow hover:text-gray-500"
+                class="pt-8 text-base font-medium text-yellow hover:text-gray-600"
                 >Vers les abonnements
             </router-link>
         </section>

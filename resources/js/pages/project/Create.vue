@@ -32,7 +32,7 @@
                 <div
                     class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6"
                 >
-                    <div class="sm:col-span-6">
+                    <div class="col-span-6 lg:col-span-3">
                         <label
                             for="category"
                             class="block text-sm font-medium text-gray-700"
@@ -75,7 +75,7 @@
                         </select>
                     </div>
 
-                    <div class="sm:col-span-6">
+                    <div class="col-span-6 lg:col-span-3">
                         <label
                             for="subCategory"
                             class="block text-sm font-medium text-gray-700"
@@ -243,15 +243,15 @@
                         />
                     </div>
                 </div>
-                <div class="mt-8 flex justify-between">
+                <div class="mt-8 sm:flex sm:justify-between mx-auto">
                     <div>
                         <label
                             for="picture"
-                            class="block text-sm font-medium text-gray-700"
+                            class="block text-sm font-medium text-gray-700 text-center"
                         >
                             Photo de couverture
                         </label>
-                        <div class="flex bg-grey-lighter">
+                        <div class="flex bg-grey-lighter justify-center">
                             <label
                                 class="
                                     w-64
@@ -306,6 +306,7 @@
                                 text-yellow
                                 hover:text-indigo-700
                                 cursor-pointer
+                                text-center
                             "
                             title="Supprimer"
                         >
@@ -320,11 +321,11 @@
                     <div>
                         <label
                             for="document"
-                            class="block text-sm font-medium text-gray-700"
+                            class="block text-sm font-medium text-gray-700 text-center"
                         >
                             Fichiers (PDF, Jpeg, PNG, txt, Word ...)
                         </label>
-                        <div class="flex bg-grey-lighter">
+                        <div class="flex bg-grey-lighter justify-center">
                             <label
                                 class="
                                     w-64
@@ -381,6 +382,7 @@
                                 text-yellow
                                 hover:text-indigo-700
                                 cursor-pointer
+                                text-center
                             "
                             title="Supprimer"
                         >
@@ -393,10 +395,10 @@
 
         <div class="pt-8">
             <div>
-                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                <h3 class="text-lg leading-6 font-medium text-gray-900 text-center">
                     Informations supplémentaires
                 </h3>
-                <p class="mt-1 text-sm text-gray-500">
+                <p class="mt-1 text-sm text-gray-500 text-center">
                     Ces informations seront communiqués au prestataire de votre
                     projet.
                 </p>
