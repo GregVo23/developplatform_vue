@@ -1,5 +1,5 @@
 <template>
-    <div class="mx-auto my-5 p-5">
+    <div v-if="charged == true" class="mx-auto my-5 p-5">
         <div class="md:flex md:-mx-2">
             <!-- Left Side -->
             <div class="w-full md:w-3/12 md:mx-2">
@@ -86,7 +86,7 @@
                                     "
                                     >{{
                                         (subscription != false || subscription != null)
-                                            ? subscription.subscription
+                                            ? subscription.nb_max_projet
                                             : "non"
                                     }}
                                     {{
@@ -534,7 +534,8 @@ export default {
             subscription: "",
             rating: 3,
             avatar: '',
-            avatarName: ''
+            avatarName: '',
+            charged: false,
         };
     },
 
@@ -560,7 +561,8 @@ export default {
                         (this.myProjects = data[1]),
                         (this.user = data[2]),
                         (this.sinds = data[3]),
-                        (this.subscription = data[4])
+                        (this.subscription = data[4]),
+                        (this.charged = true)
                     )
                 )
                 .catch((error) => console.log("error", error));

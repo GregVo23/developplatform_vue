@@ -3,7 +3,12 @@
     <div class="bg-gray-200">
         <div class="pt-12 sm:pt-16 lg:pt-24">
             <div class="max-w-7xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-                <div class="max-w-3xl mx-auto space-y-2 lg:max-w-none">
+                <div v-if="charged == true" class="bg-white rounded-lg px-6 py-4">
+                    <p v-if="abonnement == '5'" class="text-xl text-indigo-800">Vous n'avez toujours pas d'<b>abonnement</b>, vous disposez néanmoins de <b>5</b> actions par mois.</p>
+                    <p v-if="abonnement == '10'" class="text-xl text-indigo-800">Vous avez l'<b>abonnement 10</b>, vous disposez de <b>10</b> actions par mois.</p>
+                    <p v-if="abonnement == '25'" class="text-xl text-indigo-800">Vous avez l'<b>abonnement 25</b>, vous disposez de <b>25</b> actions par mois.</p>
+                </div>
+                <div class="mt-20 max-w-3xl mx-auto space-y-2 lg:max-w-none">
                     <h2
                         class="
                             text-lg
@@ -102,7 +107,7 @@
                                     </span>
                                 </div>
                                 <p class="mt-5 text-lg text-gray-500">
-                                    description
+                                    10 actions par mois
                                 </p>
                             </div>
                             <div
@@ -232,7 +237,7 @@
                                     </span>
                                 </div>
                                 <p class="mt-5 text-lg text-gray-500">
-                                    description
+                                    25 actions par mois
                                 </p>
                             </div>
                             <div
@@ -333,6 +338,8 @@ export default {
             user: {},
             subscribtions: {},
             subscribtion: {},
+            abonnement: null,
+            charged: false
         };
     },
 
@@ -348,8 +355,15 @@ export default {
 
             axios
                 .get("/api/abonnement", config)
-                .then(({ data }) => (this.user = data[0]))
-                .catch((error) => console.log("error", error));
+                .then(({ data }) => (
+                        (this.user = data[0]),
+                        (this.subscribtions = data[1]),
+                        (this.subscribtion = data[2]),
+                        (this.abonnement = data[3]),
+                        (this.charged = true)
+                    )
+                )
+                .catch((error) => console.log(error));
         },
 
         loadStripe10() {

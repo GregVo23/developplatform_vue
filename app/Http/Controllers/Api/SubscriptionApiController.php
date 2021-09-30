@@ -29,8 +29,9 @@ class SubscriptionApiController extends Controller
     $user = Auth()->user();
     $subscriptions = Subscription::all();
     $subscribtion = DB::table('subscriptions')->where('user_id', '=', $user->id)->first();
+    $abonnement = $subscribtion->nb_max_projet;
 
-    return json_encode([$user, $subscriptions, $subscribtion]);
+    return json_encode([$user, $subscriptions, $subscribtion, $abonnement]);
   }
 
   /**

@@ -1,5 +1,5 @@
 <template>
-    <div class="sm-mx-10 md-mx-20 lg-mx-30">
+    <div v-if="charged == true" class="sm-mx-10 md-mx-20 lg-mx-30">
         <div class="px-4 py-5 sm:px-6 flex">
             <div class="flex-grow">
                 <h1 class="mt-4 text-xl leading-6 font-medium text-gray-900">
@@ -290,10 +290,16 @@
             </p>
         </div>
         <div v-if="makeOffer" class="mt-1 px-4 py-5 sm:px-6">
-            <p v-if="offer.amount" >Vous avez fait une offre pour ce projet de : {{ offer.amount ? offer.amount+" €" : 'Pas d\'offre' }}</p>
-            <p v-else>Vous avez accepté ce projet</p>
+            <p v-if="!isNaN(offer) && offer != null && offer != true" class="text-indigo-800">Vous avez fait une offre pour ce projet de : {{ offer ? offer+" €" : 'Pas d\'offre' }}</p>
+            <p v-else class="text-indigo-800">Vous avez accepté ce projet</p>
         </div>
-        <section v-if="charged === true" class="mb-6">
+        <div v-else class="mt-1 px-4 py-5 sm:px-6">
+            <p class="text-indigo-800">Vous n'avez toujours fait d'offres pour ce projet</p>
+        </div>
+
+        <Rating v-model="rating" />
+
+        <section v-if="subscription.nb_max_projet - subscription.nb_projet > 0" class="mb-6">
             <div v-if="!makeOffer" class="flex justify-evenly">
                 <button
                     v-if="user.id !== owner.id"
@@ -745,9 +751,20 @@
                 </div>
             </form>
         </section>
+        <section v-else v-cloak class="mt-1 px-4 py-5 sm:px-6 text-center bg-indigo-700 text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 m-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <p class="mt-2">Hélas vous n'avez plus assez d'actions disponible ce mois-ci...</p>
+            <p class="text-xl my-2">Un abonnement, peut-être ?</p>
+            <router-link
+                to="/abonnement"
+                class="pt-8 text-base font-medium text-yellow hover:text-gray-500"
+                >Vers les abonnements
+            </router-link>
+        </section>
     </div>
     <Notification v-if="show" :message="message" :type="type" />
-    <Rating v-model="rating" />
 </template>
 
 <script>
@@ -792,6 +809,7 @@ export default {
             deadline: false,
             url: "http://localhost:8000/",
             raing: 5,
+            subscription: {},
         };
     },
 
@@ -820,7 +838,8 @@ export default {
                         (this.subCategoryDescription = data[9]),
                         (this.offer = data[10]),
                         (this.offers = data[11]),
-                        (this.offer ? this.makeOffer = true : this.makeOffer = false ),
+                        (this.subscription = data[12]),
+                        (this.offer ? this.makeOffer = true : this.makeOffer = false),
                         (this.charged = true)
                     )
                 )
@@ -981,7 +1000,8 @@ export default {
                         console.log(error);
                     });
                 this.showNotification();
-                this.offer = !this.offer;
+                this.offer = parseInt(this.amount);
+                console.log(typeof(this.offer));
                 this.open = false;
                 this.makeOffer = !this.makeOffer;
                 this.offerProject = !this.offerProject;

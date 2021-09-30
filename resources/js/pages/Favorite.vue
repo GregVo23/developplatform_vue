@@ -22,8 +22,8 @@
                                 <!-- Content -->
 
                                 <div class="flex mt-2 flex-col">
-                                    <div class="flex justify-items-stretch">
-                                        <div class="flex-col w-1/3 mx-1">
+                                    <div class="lg:flex lg:justify-items-stretch">
+                                        <div class="block lg:flex-col lg:w-1/3 mx-1">
                                             <select
                                                 @change="onCategory($event)"
                                                 id="Selectcategory"
@@ -63,7 +63,7 @@
                                             </select>
                                         </div>
 
-                                        <div class="flex-col w-1/3 mx-1">
+                                        <div class="block lg:flex-col lg:w-1/3 mx-1">
                                             <select
                                                 @change="onSubCategory($event)"
                                                 id="SelectSubCategory"
@@ -103,7 +103,7 @@
                                             </select>
                                         </div>
 
-                                        <div class="flex-col w-1/3 mx-1">
+                                        <div class="block lg:flex-col lg:w-1/3 mx-1">
                                             <input
                                                 class="
                                                     mt-1
@@ -192,8 +192,10 @@
                                                     justify-between
                                                     bg-white
                                                     dark:bg-gray-800
-                                                    px-8
-                                                    py-6
+                                                    px-6
+                                                    py-4
+                                                    lg:px-8
+                                                    lg:py-6
                                                     border-l-2 border-indigo-700
                                                     dark:border-indigo-300
                                                 "
@@ -211,6 +213,7 @@
                                                             '/' +
                                                             project.picture
                                                         "
+                                                        class="hidden md:block"
                                                     >
                                                         <div class="flex-none">
                                                             <img
@@ -231,7 +234,7 @@
                                                         </div>
                                                     </a>
 
-                                                    <div class="flex-grow ml-6">
+                                                    <div class="flex-grow ml-2 lg:ml-6">
                                                         <span
                                                             class="
                                                                 text-lg
@@ -255,8 +258,8 @@
                                                             }}
                                                         </p>
 
-                                                        <div class="mt-4 flex">
-                                                            <div class="flex">
+                                                        <div class="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-6">
+                                                            <div class="flex ml-6">
                                                                 <svg
                                                                     class="
                                                                         flex-shrink-0

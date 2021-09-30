@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\Category;
 use App\Models\ProjectUser;
 use App\Models\SubCategory;
+use App\Models\Subscription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -21,7 +22,6 @@ use Illuminate\Support\Facades\Validator;
 use App\Mail\EmailNotification;
 use App\Mail\EmailProject;
 use App\Mail\EmailConfirmation;
-use App\Models\Subscription;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Redirect;
 
@@ -227,6 +227,7 @@ class ProjectApiController extends Controller
     {
         $user = Auth()->user();
         $project = Project::find($id);
+        $subscription = Subscription::where('user_id', $user->id)->first();
         $owner = User::find($project->user_id);
         $myOffer = $project->haveOffer($user->id);
 
@@ -259,7 +260,8 @@ class ProjectApiController extends Controller
             $categoryDescription,
             $subCategoryDescription,
             $myOffer,
-            $offers
+            $offers,
+            $subscription,
         ]);
     }
 
@@ -296,7 +298,7 @@ class ProjectApiController extends Controller
 
                             // Send notification email to the project's owner
                             $message = "Votre projet a été accepté : '$project->name'. Vous pouvez réagir à cette acceptation, la confirmer ou la refuser. Nous vous remercions pour votre confiance et vous souhaitons beaucoup de succès sur Developplatform.";
-                            $title = "Vous avez reçu une offre pour votre projet.";
+                            $title = "Votre projet a été accepté.";
                             $name = $owner->firstname;
                             $email = $owner->email;
                             $mailData = [

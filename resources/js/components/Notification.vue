@@ -15,7 +15,7 @@
                     <h3 class="text-sm font-medium text-green-800">
                     Succès
                     </h3>
-                    <div class="mt-2 text-sm text-green-700">
+                    <div class="text-sm text-green-700">
                     <p>
                         {{ notification }}
                     </p>
