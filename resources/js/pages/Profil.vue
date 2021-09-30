@@ -192,7 +192,7 @@
                         </div>
                     </div>
 
-                    <div class="mt-8 flex">
+                    <div class="mt-8 sm:flex">
                         <button
                             class="
                                 flex
@@ -202,8 +202,10 @@
                                 group
                                 border
                                 rounded-full
-                                py-2
-                                px-8
+                                py-1
+                                px-4
+                                sm:py-2
+                                sm:px-8
                                 leading-none
                                 border-indigo-600
                                 dark:border-yellow
@@ -240,7 +242,7 @@
                                 />
                             </svg>
                             <span class="text-gray-700 group-hover:text-white">
-                                Modifier mon profil
+                                Modifier profil
                             </span>
                         </button>
 
@@ -254,8 +256,10 @@
                                 group
                                 border
                                 rounded-full
-                                py-2
-                                px-8
+                                py-1
+                                px-4
+                                sm:py-2
+                                sm:px-8
                                 leading-none
                                 border-yellow
                                 dark:border-yellow
@@ -292,7 +296,7 @@
                                 />
                             </svg>
                             <span class="text-gray-700 group-hover:text-white">
-                                Supprimer mon profil
+                                Supprimer profil
                             </span>
                         </button>
                     </div>
