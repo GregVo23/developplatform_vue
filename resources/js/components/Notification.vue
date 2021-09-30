@@ -1,9 +1,9 @@
 <template>
-        <div class="z-50 absolute inset-x-0 top-50 shadow-xl bg-white mx-auto rounded-lg rounded-t-none">
+        <div v-if="charged == true" class="z-50 absolute inset-x-0 top-50 shadow-xl bg-white mx-auto rounded-lg rounded-t-none">
 
 
 
-            <div v-if="show" class="rounded-md bg-green-50 p-4">
+            <div v-if="show == true" class="rounded-md bg-green-50 p-4">
                 <div class="flex justify-center">
                 <div class="flex-shrink-0">
                     <!-- Heroicon name: solid/check-circle -->
@@ -59,21 +59,44 @@
 
         data() {
             return {
-                show: false,
-                notification: this.message,
-                type: this.type,
-                hideTimeout: false
+                show: null,
+                notification: (this.message != null) ? this.message : localStorage.getItem("message"),
+                status: (this.type != null) ? this.type : localStorage.getItem("type"),
+                charged: false,
             }
         },
 
         created () {
-                if (this.notification) {
-                    if (this.type){
-                        this.show = true;
-                    } else {
-                        this.show = false;
-                    }
-                }
+            this.charged = false;
+            console.log("Notification: "+this.message);
+            console.log("Type: "+this.type);
+            this.notification = (this.notification != null) ? this.message : localStorage.getItem("message");
+            this.status = (this.type != null) ? this.type : localStorage.getItem("type");
+            console.log("composant notif: "+this.notification+" status "+this.status);
+            this.show = this.status;
+        },
+        mounted() {
+            if(this.notification != null && this.notification != "" && this.notification != undefined){
+                this.charged = true;
+            }
+            window.addEventListener('message-localstorage-changed', (event) => {
+                this.notification = localStorage.getItem("message");
+                //this.type = localStorage.getItem("type");
+                this.status = localStorage.getItem("type");
+                this.status = (this.status == "success") ? true : false;
+                this.show = this.status;
+                console.log("composant notif2: "+this.notification+" status2 "+this.status);
+            });
+        },
+        updated () {
+            console.log("Notification3: "+this.message);
+            console.log("Type3: "+this.type);
+            this.notification = (this.notification != null) ? this.message : localStorage.getItem("message");
+            this.status = (this.type != null) ? this.type : localStorage.getItem("type");
+            this.status = (this.status == "success") ? true : false;
+            console.log("composant notif3: "+this.notification+" status3 "+this.status);
+            this.show = this.status;
+            this.charged = true;
         },
     }
 </script>

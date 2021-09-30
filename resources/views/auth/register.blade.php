@@ -9,7 +9,7 @@
         <!-- Validation Errors -->
         <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
-    <form class="mt-4" method="POST" action="{{ route('register') }}">
+    <form class="my-4" method="POST" action="{{ route('register') }}">
         @csrf
         <div class="grid grid-cols-6 gap-6">
             <div class="col-span-6 sm:col-span-3">

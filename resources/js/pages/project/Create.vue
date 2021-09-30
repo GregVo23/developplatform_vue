@@ -1115,7 +1115,6 @@ export default {
                             this.success = false;
                             this.alert = true;
                         }
-                        //this.messages.push(res.data.message);
                         if (typeof res.data.message === 'string' || res.data.message instanceof String){
                             this.messages.push(res.data.message);      
                         } else {

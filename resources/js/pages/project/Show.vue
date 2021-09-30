@@ -289,7 +289,10 @@
                 {{ subCategoryDescription }}
             </p>
         </div>
-
+        <div v-if="makeOffer" class="mt-1 px-4 py-5 sm:px-6">
+            <p v-if="offer.amount" >Vous avez fait une offre pour ce projet de : {{ offer.amount ? offer.amount+" €" : 'Pas d\'offre' }}</p>
+            <p v-else>Vous avez accepté ce projet</p>
+        </div>
         <section v-if="charged === true" class="mb-6">
             <div v-if="!makeOffer" class="flex justify-evenly">
                 <button
@@ -743,8 +746,8 @@
             </form>
         </section>
     </div>
-    <Rating v-model="rating" />
     <Notification v-if="show" :message="message" :type="type" />
+    <Rating v-model="rating" />
 </template>
 
 <script>
@@ -835,44 +838,27 @@ export default {
                 axios
                     .post("/api/projet/accepter/" + project.id, config)
                     .then((res) => {
-                        if (res.data.success != undefined) {
-                            console.log(res.data.success);
-                            localStorage.setItem("success", res.data.success);
-                            this.message = res.data;
-                        } else if (res.data.error != undefined) {
-                            console.log(res.data.error);
-                            localStorage.setItem("error", res.data.error);
-                            this.message = res.data;
-                        } else {
-                            console.log("mouais bon");
-                        }
+                            //console.log(res.data.message);
+                            //console.log(res.data.type);
+                        localStorage.setItem("message", res.data.message);
+                        localStorage.setItem("type", res.data.type);
+                        this.message = res.data.message;
+                        this.type = res.data.type;
                     })
                     .catch((error) => {
-                        console.log(error);
-                        //localStorage.setItem('error', res.data.error);
+                        //console.log(error.response.data.errors);
+                        this.type = false;
                     });
-                const error = localStorage.getItem("error");
-                const success = localStorage.getItem("success");
-                if (error) {
-                    this.message = error;
-                    this.type = false;
-                    localStorage.removeItem("error");
-                }
-                if (success) {
-                    this.message = success;
-                    this.type = true;
-                    localStorage.removeItem("success");
-                }
+
+                this.showNotification();
+
+
                 this.showNotification();
                 this.offer = !this.offer;
                 this.open = false;
                 this.makeOffer = !this.makeOffer;
                 this.offerProject = !this.offerProject;
                 this.acceptProject = !this.acceptProject;
-            } else {
-                this.message = "Vous changer d'avis !";
-                this.type = false;
-                this.showNotification();
             }
         },
 
@@ -883,7 +869,11 @@ export default {
 
         hideNotification() {
             this.hideTimeout = setTimeout(() => {
+                localStorage.removeItem("message");
+                localStorage.removeItem("type");
                 this.show = false;
+                this.message = "";
+                this.type = "";
             }, 5000);
         },
 
@@ -907,6 +897,8 @@ export default {
                 "cul",
                 "penis",
                 "fdp",
+                "sexe",
+                "merde",
             ];
 
             if (isNaN(this.amount)) {
@@ -972,36 +964,28 @@ export default {
             };
 
             let data = new FormData();
-            data.append("amount", this.amount);
-            data.append("information", this.information);
+            data.append("amount", this.amount ? this.amount : '');
+            data.append("information", this.information ? this.information : '');
 
             if (confirm("Etes vous sur de faire cette offre de "+this.amount+"€ pour ce projet ?")) {
+
                 axios
                     .post("/api/projet/offre/" + this.id, data, config)
-                    .then(function (res) {
-                        console.log(res);
+                    .then((res) => {
+                        localStorage.setItem("message", res.data.message);
+                        localStorage.setItem("type", res.data.type);
+                        this.message = res.data.message;
+                        this.type = res.data.type;
                     })
                     .catch((error) => {
-                        console.log("error", error);
-                        this.message = "Une erreur est survenue !";
-                        this.type = false;
-                        this.showNotification();
-                        throw new Error(
-                            "Une erreur est survenue lors de l'enregistrement de votre offre !"
-                        );
+                        console.log(error);
                     });
-
-                this.message = res.data;
-                this.type = true;
                 this.showNotification();
                 this.offer = !this.offer;
+                this.open = false;
                 this.makeOffer = !this.makeOffer;
                 this.offerProject = !this.offerProject;
-                this.open = false;
-            } else {
-                this.message = "Vous changer d'avis !";
-                this.type = false;
-                this.showNotification();
+                this.acceptProject = !this.acceptProject;
             }
         },
         removeProject(project) {
@@ -1039,10 +1023,6 @@ export default {
                 this.showNotification();
                 this.offerProject = !this.offerProject;
                 window.location.replace("/accueil");
-            } else {
-                this.message = "Vous changer d'avis !";
-                this.type = false;
-                this.showNotification();
             }
         },
         refuseProposal(offer){
@@ -1111,31 +1091,23 @@ export default {
                 axios
                     .post("/api/projet/annuler/" + this.id, config)
                     .then(function (res) {
-                        console.log(res);
+                        localStorage.setItem("message", res.data.message);
+                        localStorage.setItem("type", res.data.type);
+                        console.log(res.data.message);
                     })
                     .catch((error) => {
                         console.log("error", error);
-                        this.message = res.data;
-                        this.type = false;
-                        this.open = false;
-                        this.showNotification();
-                        throw new Error(
-                            "Une erreur est survenue lors de la suppression de votre offre"
-                        );
                     });
 
-                this.message = "Votre offre est supprimée.";
-                this.type = true;
+                this.type = "success";
+                this.message = "Votre offre a été retirée";
                 this.showNotification();
-                this.offerProject = false;
-                this.acceptProject = false;
-                this.offer = false;
-                this.makeOffer = false;
+                this.offer = !this.offer;
+                this.open = false;
+                this.makeOffer = !this.makeOffer;
+                this.offerProject = !this.offerProject;
+                this.acceptProject = !this.acceptProject;
                 //window.location.replace("/accueil");
-            } else {
-                this.message = "Vous changer d'avis !";
-                this.type = false;
-                this.showNotification();
             }
         },
     },
