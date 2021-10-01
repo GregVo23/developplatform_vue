@@ -1,4 +1,5 @@
 <template>
+<div class="lg:flex lg:mt-16">
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="overflow-hidden sm:rounded-lg">
@@ -93,13 +94,14 @@
                 src="https://assets2.lottiefiles.com/packages/lf20_NmBGIS.json"
                 background="transparent"
                 speed="1"
-                style="width: 80%"
+                style="width: 90%"
                 loop
                 autoplay
             ></lottie-player>
             <!--<lottie-player src="https://assets3.lottiefiles.com/private_files/lf30_wwq2op12.json"  background="transparent"  speed="1"  style="width: 60%;"  loop  autoplay></lottie-player>-->
         </div>
         <div class="flex-grow"></div>
+    </div>
     </div>
 </template>
 

@@ -3,10 +3,16 @@
     <div class="bg-gray-200">
         <div class="pt-12 sm:pt-16 lg:pt-24">
             <div class="max-w-7xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-                <div v-if="charged == true" class="bg-white rounded-lg px-6 py-4">
-                    <p v-if="abonnement == '5'" class="text-xl text-indigo-800">Vous n'avez toujours pas d'<b>abonnement</b>, vous disposez néanmoins de <b>5</b> actions par mois.</p>
-                    <p v-if="abonnement == '10'" class="text-xl text-indigo-800">Vous avez l'<b>abonnement 10</b>, vous disposez de <b>10</b> actions par mois.</p>
-                    <p v-if="abonnement == '25'" class="text-xl text-indigo-800">Vous avez l'<b>abonnement 25</b>, vous disposez de <b>25</b> actions par mois.</p>
+                <div v-if="charged == true" class="bg-white rounded-lg px-6 py-4 flex justify-center text-indigo-800">
+                    <svg v-if="abonnement == '5'" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <p v-if="abonnement == '5'" class="text-xl text-indigo-800"> Vous n'avez toujours pas d'<b>abonnement</b>, vous disposez néanmoins de <b>5</b> actions par mois.</p>
+                    <p v-if="abonnement == '10'" class="text-xl text-indigo-800"> Vous disposez de l'<b>abonnement 10</b>, et de <b>10</b> actions par mois.</p>
+                    <p v-if="abonnement == '25'" class="text-xl text-indigo-800"> Vous disposez de l'<b>abonnement 25</b>, et de <b>25</b> actions par mois.</p>
                 </div>
                 <div class="mt-20 max-w-3xl mx-auto space-y-2 lg:max-w-none">
                     <h2

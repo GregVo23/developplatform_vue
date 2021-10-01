@@ -1,5 +1,5 @@
 <template>
-    <section id="sidebar" aria-labelledby="section-2-title">
+    <section id="sidebar" aria-labelledby="section-2-title" class="hidden">
         <h2 class="sr-only" id="section-2-title">
             Section title
         </h2>
@@ -108,6 +108,21 @@
                             "Pas de sous-catégories"
                         </span>
                     </a>
+                    <router-link
+                        to="/accueil" class="block text-base font-medium text-gray-500 hover:text-gray-900">Accueil
+                    </router-link>
+                    <router-link
+                        to="/favoris" class="block text-base font-medium text-gray-500 hover:text-gray-900">Favoris
+                    </router-link>
+                    <router-link
+                        to="/accueil" class="block text-base font-medium text-gray-500 hover:text-gray-900">Accueil
+                    </router-link>
+                    <router-link
+                        to="/accueil" class="block text-base font-medium text-gray-500 hover:text-gray-900">Accueil
+                    </router-link>
+                    <router-link
+                        to="/accueil" class="block text-base font-medium text-gray-500 hover:text-gray-900">Accueil
+                    </router-link>
                 </nav>
             </div>
         </div>

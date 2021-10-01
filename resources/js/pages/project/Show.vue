@@ -294,11 +294,11 @@
             <p v-else class="text-indigo-800">Vous avez accepté ce projet</p>
         </div>
         <div v-else class="mt-1 px-4 py-5 sm:px-6">
-            <p class="text-indigo-800">Vous n'avez toujours fait d'offres pour ce projet</p>
+            <p v-if="user.id !== owner.id" class="text-indigo-800">Vous n'avez toujours fait d'offres pour ce projet</p>
         </div>
 
         <Rating v-model="rating" />
-
+    </div>
         <section v-if="subscription.nb_max_projet - subscription.nb_projet > 0" class="mb-6">
             <div v-if="!makeOffer" class="sm:flex sm:justify-evenly">
                 <button
@@ -751,6 +751,7 @@
                 </div>
             </form>
         </section>
+        
         <section v-else v-cloak class="mt-1 px-4 py-5 sm:px-6 text-center bg-indigo-700 text-white">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 m-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -763,7 +764,7 @@
                 >Vers les abonnements
             </router-link>
         </section>
-    </div>
+
     <Notification v-if="show" :message="message" :type="type" />
 </template>
 
