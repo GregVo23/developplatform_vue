@@ -231,6 +231,14 @@ class ProjectApiController extends Controller
         $owner = User::find($project->user_id);
         $myOffer = $project->haveOffer($user->id);
 
+        $accepted = DB::table('project_user')
+        ->join('users', 'users.id', '=', 'project_user.user_id')
+        ->where('project_user.project_id', '=', $id)
+        ->where('project_user.proposal', '<>', NULL)
+        ->where('project_user.accepted', '<>', NULL)
+        ->select('project_user.id', 'project_user.amount', 'project_user.information', 'project_user.user_id', 'users.rate')
+        ->first();
+
         $offers = DB::table('project_user')
         ->join('users', 'users.id', '=', 'project_user.user_id')
         ->where('project_user.project_id', '=', $id)
@@ -262,6 +270,7 @@ class ProjectApiController extends Controller
             $myOffer,
             $offers,
             $subscription,
+            $accepted,
         ]);
     }
 

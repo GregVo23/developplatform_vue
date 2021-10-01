@@ -51,7 +51,7 @@
               <!-- Navigation Links -->
               <ul class="mt-4 space-y-4">
                 <li><a class="text-gray-500 hover:text-indigo-500" href="/profil">
-                    {{ __('profil') }}</a>
+                    {{ __('Profil') }}</a>
                 </li>
                 <li><a class="text-gray-500 hover:text-indigo-500" href="/#contact">
                     {{ __('Contact') }}</a>
