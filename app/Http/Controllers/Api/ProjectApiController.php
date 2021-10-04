@@ -637,9 +637,11 @@ class ProjectApiController extends Controller
                         return response()->json([
                             'message' => 'Votre projet est bien enregistré',
                             'type' => 'success',
-                        ]);
+                        ], 200);
                     } else {
-                        return response()->json(['errors' => 'Un problème est survenu, veuillez réessayer plus tard.'], 500);
+                        return response()->json([
+                            'errors' => 'Un problème est survenu, veuillez réessayer plus tard.'
+                        ], 500);
                     }
                 }
             }
@@ -647,7 +649,7 @@ class ProjectApiController extends Controller
             return response()->json([
                 'message' => 'Vous n\'avez plus assez d\'action disponible',
                 'type' => 'error',
-            ]);
+            ], 200);
         }
     }
 

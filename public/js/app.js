@@ -41788,12 +41788,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           }, 1000);
         })["catch"](function (error) {
           console.log(error);
-          _this5.message = "Une erreur est survenue !";
+          console.log(error.response.data.message);
+          _this5.message = error.response.data.message;
           _this5.type = false;
 
           _this5.showNotification();
-
-          throw new Error("Une erreur est survenue lors de la suppression du projet");
         });
       }
     },

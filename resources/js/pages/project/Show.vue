@@ -1051,12 +1051,10 @@ export default {
                     })
                     .catch(error => {
                         console.log(error);
-                        this.message = "Une erreur est survenue !";
+                        console.log(error.response.data.message);
+                        this.message = error.response.data.message;
                         this.type = false;
                         this.showNotification();
-                        throw new Error(
-                            "Une erreur est survenue lors de la suppression du projet"
-                        );
                     });
             }
         },
