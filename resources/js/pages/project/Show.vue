@@ -5,7 +5,7 @@
                 <div class="flex-grow">
                     <div class="flex">
                         <h1 class="mt-4 text-xl leading-6 font-medium text-gray-900">
-                            {{ project.name }}
+                            {{ project.name }} {{ project.id }}
                         </h1>
                         <svg v-if="accepted != null || proposalAmount != null" xmlns="http://www.w3.org/2000/svg" class="text-green-600 h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7" />
@@ -144,10 +144,11 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="offer in offers" :key="offer.id" class="bg-gray-50">
+                <tr v-for="(offer, index) in offers" :key="index" class="bg-gray-50">
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                     {{ offer.amount ? offer.amount+" €" : project.price+" €" }}
                     </td>
+                    <p>{{ offer.id }}</p>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                     {{ offer.rate ? offer.rate+" /5" : "aucune" }}
                     </td>
@@ -158,7 +159,7 @@
                     <a @click="acceptProposal(offer)" class="text-indigo-600 hover:text-indigo-900">Accepter</a>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <a @click="refuseProposal(offer)" class="text-red-600 hover:text-red-900">Refuser</a>
+                    <a @click="refuseProposal(offer, index)" class="text-red-600 hover:text-red-900">Refuser</a>
                     </td>
                 </tr>
                 </tbody>
@@ -170,17 +171,17 @@
 
 
             </div>
-            <div v-else-if="user.id == project.user_id && accepted != null" class="px-6 sm:text-sm sm:font-medium text-gray-600">
+            <div v-else-if="user.id == project.user_id && accepted != null" class="px-4 py-5 sm:px-6 sm:text-sm sm:font-medium text-gray-600 text-sm font-medium">
                 <b>Offre acceptée</b>
                 <p class="pt-1">Vous avez accepter la proposition d'un montant de <b>{{ accepted.amount }} €</b> {{  accepted.amount ? "avec comme commmentaire :" : "" }} </p>
                 <p class="mt-2"><i>{{ accepted.information ? accepted.information : "" }}</i></p>
             </div>
-            <div v-else-if="user.id == project.user_id && proposalAmount != null" class="px-6 sm:text-sm sm:font-medium text-gray-600">
+            <div v-else-if="user.id == project.user_id && proposalAmount != null" class="px-4 py-5 sm:px-6 sm:text-sm sm:font-medium text-gray-600 text-sm font-medium">
                 <b>Offre acceptée</b>
                 <p class="pt-1">Vous avez accepter la proposition d'un montant de <b>{{ proposalAmount }} €</b> {{ message ? "avec comme commmentaire :" : "" }} </p>
                 <p class="mt-2"><i>{{ message ? message : '' }}</i></p>
             </div>
-            <div v-else>
+            <div v-else-if="user.id == project.user_id" class="px-4 py-5 sm:px-6 text-gray-600 text-sm font-medium">
                 <b>Offres</b>
                 <p>Aucunes offres actuellement pour ce projet</p>
             </div>
@@ -303,7 +304,7 @@
                     {{ subCategoryDescription }}
                 </p>
             </div>
-            <div v-if="makeOffer" class="mt-1 px-4 py-5 sm:px-6">
+            <div v-if="makeOffer && user.id !== owner.id" class="mt-1 px-4 py-5 sm:px-6">
                 <p v-if="!isNaN(offer) && offer != null && offer != true" class="text-indigo-800">Vous avez fait une offre pour ce projet de : {{ offer ? offer+" €" : 'Pas d\'offre' }}</p>
                 <p v-else-if="!isNaN(offer.amount) && offer.amount != null" class="text-indigo-800">Vous avez fait une offre pour ce projet de : {{ offer.amount ? offer.amount+" €" : 'Pas d\'offre' }}</p>
                 <p v-else class="text-indigo-800">Vous avez accepté ce projet</p>
@@ -780,9 +781,8 @@
                     >Vers les abonnements
                 </router-link>
             </section>
-
-            <Notification v-if="show" :message="message" :type="type" />
         </div>
+        <Notification v-if="show" :message2="message" :type="type" />
     </div>
 </template>
 
@@ -816,6 +816,7 @@ export default {
             information: "",
             message: "",
             amount: "",
+            index: null,
             proposalAmount: null,
             message: null,
             type: "",
@@ -882,8 +883,8 @@ export default {
                     .then((res) => {
                             //console.log(res.data.message);
                             //console.log(res.data.type);
-                        localStorage.setItem("message", res.data.message);
-                        localStorage.setItem("type", res.data.type);
+                        //localStorage.setItem("message", res.data.message);
+                        //localStorage.setItem("type", res.data.type);
                         this.message = res.data.message;
                         this.type = res.data.type;
                     })
@@ -894,8 +895,6 @@ export default {
 
                 this.showNotification();
 
-
-                this.showNotification();
                 this.offer = !this.offer;
                 this.open = false;
                 this.makeOffer = !this.makeOffer;
@@ -911,8 +910,8 @@ export default {
 
         hideNotification() {
             this.hideTimeout = setTimeout(() => {
-                localStorage.removeItem("message");
-                localStorage.removeItem("type");
+                //localStorage.removeItem("message");
+                //localStorage.removeItem("type");
                 this.show = false;
                 this.message = "";
                 this.type = "";
@@ -951,22 +950,20 @@ export default {
                 throw new Error("Le montant doit être un nombre !");
             }
 
-            if (this.project.price != undefined) {
-                if (this.amount.length > this.project.price / 2) {
-                    console.log(
-                        "error",
-                        "Le montant doit au moins plus grand que la moitié de ce que demande la personne !"
-                    );
+            if (this.project.price !== undefined) {
+                if (parseInt(this.amount) < parseInt(this.project.price)*2/3) {
                     this.message =
-                        "Le montant doit au moins plus grand que la moitié de ce que demande la personne ! Vous proposez seulement " +
+                        "Le montant proposé est trop faible par rapport au prix demandé, vous proposez seulement " +
                         this.amount.length +
                         " € contre " +
                         this.project.price +
-                        " € demandé ...";
+                        " € demandé par le dépositaire du projet. Aucunes offres de moins de 33% ne seront acceptées !";
                     this.type = false;
                     this.showNotification();
+                    console.log(this.message);
+                    console.log("laaaaaaa");
                     throw new Error(
-                        "Le montant doit au moins plus grand que la moitié de ce que demande la personne !"
+                        "Le montant proposé est trop faible par rapport au prix demandé !"
                     );
                 }
             }
@@ -981,14 +978,10 @@ export default {
 
             for (const element of words) {
                 if (this.information.includes(element)) {
-                    console.log(
-                        "error",
-                        "Votre texte contient un vocabulaire interdit comme : " +
-                            element
-                    );
                     this.message =
                         "Le texte contient un vocabulaire interdit comme : " +
                         element;
+                    console.log("mess" + this.message);
                     this.type = false;
                     this.showNotification();
                     throw new Error(
@@ -1014,8 +1007,8 @@ export default {
                 axios
                     .post("/api/projet/offre/" + this.id, data, config)
                     .then((res) => {
-                        localStorage.setItem("message", res.data.message);
-                        localStorage.setItem("type", res.data.type);
+                        //localStorage.setItem("message", res.data.message);
+                        //localStorage.setItem("type", res.data.type);
                         this.message = res.data.message;
                         this.type = res.data.type;
                     })
@@ -1048,11 +1041,16 @@ export default {
             ) {
                 axios
                     .post("/api/projet/" + this.id, config)
-                    .then(function (res) {
+                    .then(res => {
                         console.log(res);
+                        this.message = res.data.message;
+                        this.type = res.data.type;
+                        this.showNotification();
+                        this.offerProject = !this.offerProject;
+                        setTimeout(function(){ window.location.replace("/accueil"); }, 1000); 
                     })
-                    .catch((error) => {
-                        console.log("error", error);
+                    .catch(error => {
+                        console.log(error);
                         this.message = "Une erreur est survenue !";
                         this.type = false;
                         this.showNotification();
@@ -1060,16 +1058,14 @@ export default {
                             "Une erreur est survenue lors de la suppression du projet"
                         );
                     });
-
-                this.message = "Ce projet est supprimé.";
-                this.type = true;
-                this.showNotification();
-                this.offerProject = !this.offerProject;
-                window.location.replace("/accueil");
             }
         },
-        refuseProposal(offer){
+        refuseProposal(offer, index){
             console.log('refuse');
+            console.log(offer);
+            this.index = index;
+            console.log(this.index);
+
             const config = {
                 headers: {
                     "X-CSRF-TOKEN": document.querySelector(
@@ -1084,17 +1080,22 @@ export default {
             ) {
                 axios
                     .post("/api/offres/refuser/" + offer.id, config)
-                    .then(function (res) {
+                    .then(res => {
                         console.log(res);
+                        this.message = res.data.message;
+                        this.type = res.data.type;
+                        this.showNotification();
+                        this.open = false;
+                        this.offers.splice(this.index,1);
                     })
                     .catch((error) => {
                         console.log(error);
                     });
             }
         },
-        acceptProposal(offer){
+        acceptProposal(offer) {
             console.log('accept');
-                        const config = {
+            const config = {
                 headers: {
                     "X-CSRF-TOKEN": document.querySelector(
                         'meta[name="csrf-token"]'
@@ -1108,11 +1109,14 @@ export default {
             ) {   
                 axios
                     .post("/api/offres/accepter/" + offer.id, config)
-                    .then((res) => {
-                        this.message = offer.information;
+                    .then(res => {
+                        this.message = res.data.message;
+                        this.type = res.data.type;
                         this.proposalAmount = offer.amount;
+                        this.accepted = true;
                         console.log(this.proposalAmount);
                         console.log(this.message);
+                        this.showNotification();
                     })
                     .catch((error) => {
                         console.log(error);
@@ -1137,8 +1141,8 @@ export default {
                 axios
                     .post("/api/projet/annuler/" + this.id, config)
                     .then(function (res) {
-                        localStorage.setItem("message", res.data.message);
-                        localStorage.setItem("type", res.data.type);
+                        //localStorage.setItem("message", res.data.message);
+                        //localStorage.setItem("type", res.data.type);
                         console.log(res.data.message);
                     })
                     .catch((error) => {

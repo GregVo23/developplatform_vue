@@ -54,27 +54,47 @@
 
 <script>
     export default {
-        props: ['type', 'message'],
+        props: ['type', 'message2'],
         name: "Notification",
 
         data() {
             return {
                 show: null,
-                notification: (this.message != null) ? this.message : localStorage.getItem("message"),
-                status: (this.type != null) ? this.type : localStorage.getItem("type"),
+                /*notification: (this.message != null) ? this.message : localStorage.getItem("message"),*/
+                notification: "",
+                status: "",
                 charged: false,
             }
         },
-
-        created () {
-            this.charged = false;
-            console.log("Notification: "+this.message);
+        mounted () {
+            console.log(this);
+            console.log("Notification: "+this.message2);
             console.log("Type: "+this.type);
-            this.notification = (this.notification != null) ? this.message : localStorage.getItem("message");
-            this.status = (this.type != null) ? this.type : localStorage.getItem("type");
+            this.notification = this.message2;
+            this.status = this.type;
             console.log("composant notif: "+this.notification+" status "+this.status);
-            this.show = this.status;
+            if (this.status !== "" && this.notification !== ""){
+                this.show = (this.status == 'success') ? true : false;
+                this.charged = true;
+                console.log("ici");
+            } else {
+                this.charged = false;
+                console.log(this.status);
+                console.log(this.notification);
+                console.log("ici222");
+            }
+            console.log(this.charged);
         },
+        updated () {
+            this.charged = true;
+            console.log(this);
+            console.log("Notification2: "+this.message2);
+            console.log("Type2: "+this.type);
+            this.notification = this.message2;
+            this.status = this.type;
+            console.log("composant notif2: "+this.notification+" status2 "+this.status);
+            this.show = this.status == 'success' ? true : false;
+        },/*
         mounted() {
             if(this.notification != null && this.notification != "" && this.notification != undefined){
                 this.charged = true;
@@ -97,7 +117,7 @@
             console.log("composant notif3: "+this.notification+" status3 "+this.status);
             this.show = this.status;
             this.charged = true;
-        },
+        },*/
     }
 </script>
 

@@ -154,6 +154,17 @@ class ProjectApiController extends Controller
             ];
             Mail::to($email)->send(new EmailConfirmation($mailData));
         }
+        if ($proposal->accepted == 1){
+            return response()->json([
+                'message' => 'Cette offre est acceptée',
+                'type' => 'success',
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Une erreur est survenue lors de l\'acceptation de l\'offre',
+                'type' => 'errors',
+            ], 500);
+        }
     }
 
     /**
@@ -164,12 +175,23 @@ class ProjectApiController extends Controller
     public function refuseProposal($id)
     {
         $proposal = ProjectUser::find($id);
-        $proposal->accepted = NULL;
-        $proposal->proposal = NULL;
         if ($proposal->favorite == 1){
+            $proposal->accepted = NULL;
+            $proposal->information = NULL;
+            $proposal->document = NULL;
+            $proposal->proposal = NULL;
+            $proposal->amount = NULL;
             $proposal->save();
+            return response()->json([
+                'message' => 'Cette offre est supprimée avec succés',
+                'type' => 'success',
+            ], 200);
         } else {
             $proposal->delete();
+            return response()->json([
+                'message' => 'Cette offre est supprimée avec succés',
+                'type' => 'success',
+            ], 200);
         }
     }
 
@@ -668,15 +690,30 @@ class ProjectApiController extends Controller
                     }
                 }
                 //Projet supprimer avec succes
-                $project->delete();
+                $response = $project->delete();
+                if($response){
+                    Session::flash('success', 'Votre projet est supprimée avec succés !');
+                    return response()->json([
+                        'message' => "Votre projet est supprimée",
+                        'type' => 'success',
+                    ], 200);
+                } else {
+                    return response()->json([
+                        'message' => 'Une erreur est survenue, veuillez réessayer plus tard',
+                        'type' => 'errors',
+                    ], 500);
+                }
             } else {
-                //Seul l'auteur peut supprimer son projet
+                return response()->json([
+                    'message' => 'Seul l\'auteur peut supprimer son projet',
+                    'type' => 'error',
+                ], 405);
             }
-            //$request->session()->regenerate();
-            //Session::flash('success', $message);
-            //return Redirect::to('dashboard')->with('success', $message);
         } else {
-            //return back();
+            return response()->json([
+                'message' => 'Seul l\'auteur peut supprimer son projet',
+                'type' => 'error',
+            ], 405);
         }
     }
 }

@@ -40233,51 +40233,74 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['type', 'message'],
+  props: ['type', 'message2'],
   name: "Notification",
   data: function data() {
     return {
       show: null,
-      notification: this.message != null ? this.message : localStorage.getItem("message"),
-      status: this.type != null ? this.type : localStorage.getItem("type"),
+
+      /*notification: (this.message != null) ? this.message : localStorage.getItem("message"),*/
+      notification: "",
+      status: "",
       charged: false
     };
   },
-  created: function created() {
-    this.charged = false;
-    console.log("Notification: " + this.message);
-    console.log("Type: " + this.type);
-    this.notification = this.notification != null ? this.message : localStorage.getItem("message");
-    this.status = this.type != null ? this.type : localStorage.getItem("type");
-    console.log("composant notif: " + this.notification + " status " + this.status);
-    this.show = this.status;
-  },
   mounted: function mounted() {
-    var _this = this;
+    console.log(this);
+    console.log("Notification: " + this.message2);
+    console.log("Type: " + this.type);
+    this.notification = this.message2;
+    this.status = this.type;
+    console.log("composant notif: " + this.notification + " status " + this.status);
 
-    if (this.notification != null && this.notification != "" && this.notification != undefined) {
+    if (this.status !== "" && this.notification !== "") {
+      this.show = this.status == 'success' ? true : false;
       this.charged = true;
+      console.log("ici");
+    } else {
+      this.charged = false;
+      console.log(this.status);
+      console.log(this.notification);
+      console.log("ici222");
     }
 
-    window.addEventListener('message-localstorage-changed', function (event) {
-      _this.notification = localStorage.getItem("message"); //this.type = localStorage.getItem("type");
-
-      _this.status = localStorage.getItem("type");
-      _this.status = _this.status == "success" ? true : false;
-      _this.show = _this.status;
-      console.log("composant notif2: " + _this.notification + " status2 " + _this.status);
-    });
+    console.log(this.charged);
   },
   updated: function updated() {
-    console.log("Notification3: " + this.message);
-    console.log("Type3: " + this.type);
-    this.notification = this.notification != null ? this.message : localStorage.getItem("message");
-    this.status = this.type != null ? this.type : localStorage.getItem("type");
-    this.status = this.status == "success" ? true : false;
-    console.log("composant notif3: " + this.notification + " status3 " + this.status);
+    this.charged = true;
+    console.log(this);
+    console.log("Notification2: " + this.message2);
+    console.log("Type2: " + this.type);
+    this.notification = this.message2;
+    this.status = this.type;
+    console.log("composant notif2: " + this.notification + " status2 " + this.status);
+    this.show = this.status == 'success' ? true : false;
+  }
+  /*
+  mounted() {
+    if(this.notification != null && this.notification != "" && this.notification != undefined){
+        this.charged = true;
+    }
+    window.addEventListener('message-localstorage-changed', (event) => {
+        this.notification = localStorage.getItem("message");
+        //this.type = localStorage.getItem("type");
+        this.status = localStorage.getItem("type");
+        this.status = (this.status == "success") ? true : false;
+        this.show = this.status;
+        console.log("composant notif2: "+this.notification+" status2 "+this.status);
+    });
+  },
+  updated () {
+    console.log("Notification3: "+this.message);
+    console.log("Type3: "+this.type);
+    this.notification = (this.notification != null) ? this.message : localStorage.getItem("message");
+    this.status = (this.type != null) ? this.type : localStorage.getItem("type");
+    this.status = (this.status == "success") ? true : false;
+    console.log("composant notif3: "+this.notification+" status3 "+this.status);
     this.show = this.status;
     this.charged = true;
-  }
+  },*/
+
 });
 
 /***/ }),
@@ -41601,6 +41624,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       information: "",
       message: "",
       amount: "",
+      index: null,
       proposalAmount: null
     }, _defineProperty(_ref, "message", null), _defineProperty(_ref, "type", ""), _defineProperty(_ref, "show", false), _defineProperty(_ref, "charged", false), _defineProperty(_ref, "offer", false), _defineProperty(_ref, "offers", []), _defineProperty(_ref, "openOffer", false), _defineProperty(_ref, "accepted", null), _defineProperty(_ref, "acceptProject", false), _defineProperty(_ref, "offerProject", false), _defineProperty(_ref, "makeOffer", false), _defineProperty(_ref, "deadline", false), _defineProperty(_ref, "url", "http://localhost:8000/"), _defineProperty(_ref, "raing", 5), _defineProperty(_ref, "subscription", {}), _ref;
   },
@@ -41633,15 +41657,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/projet/accepter/" + project.id, config).then(function (res) {
           //console.log(res.data.message);
           //console.log(res.data.type);
-          localStorage.setItem("message", res.data.message);
-          localStorage.setItem("type", res.data.type);
+          //localStorage.setItem("message", res.data.message);
+          //localStorage.setItem("type", res.data.type);
           _this2.message = res.data.message;
           _this2.type = res.data.type;
         })["catch"](function (error) {
           //console.log(error.response.data.errors);
           _this2.type = false;
         });
-        this.showNotification();
         this.showNotification();
         this.offer = !this.offer;
         this.open = false;
@@ -41658,8 +41681,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this3 = this;
 
       this.hideTimeout = setTimeout(function () {
-        localStorage.removeItem("message");
-        localStorage.removeItem("type");
+        //localStorage.removeItem("message");
+        //localStorage.removeItem("type");
         _this3.show = false;
         _this3.message = "";
         _this3.type = "";
@@ -41684,13 +41707,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         throw new Error("Le montant doit être un nombre !");
       }
 
-      if (this.project.price != undefined) {
-        if (this.amount.length > this.project.price / 2) {
-          console.log("error", "Le montant doit au moins plus grand que la moitié de ce que demande la personne !");
-          this.message = "Le montant doit au moins plus grand que la moitié de ce que demande la personne ! Vous proposez seulement " + this.amount.length + " € contre " + this.project.price + " € demandé ...";
+      if (this.project.price !== undefined) {
+        if (parseInt(this.amount) < parseInt(this.project.price) * 2 / 3) {
+          this.message = "Le montant proposé est trop faible par rapport au prix demandé, vous proposez seulement " + this.amount.length + " € contre " + this.project.price + " € demandé par le dépositaire du projet. Aucunes offres de moins de 33% ne seront acceptées !";
           this.type = false;
           this.showNotification();
-          throw new Error("Le montant doit au moins plus grand que la moitié de ce que demande la personne !");
+          console.log(this.message);
+          console.log("laaaaaaa");
+          throw new Error("Le montant proposé est trop faible par rapport au prix demandé !");
         }
       }
 
@@ -41706,8 +41730,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var element = _words[_i];
 
         if (this.information.includes(element)) {
-          console.log("error", "Votre texte contient un vocabulaire interdit comme : " + element);
           this.message = "Le texte contient un vocabulaire interdit comme : " + element;
+          console.log("mess" + this.message);
           this.type = false;
           this.showNotification();
           throw new Error("Le texte contient un vocabulaire interdit !");
@@ -41725,8 +41749,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       if (confirm("Etes vous sur de faire cette offre de " + this.amount + "€ pour ce projet ?")) {
         axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/projet/offre/" + this.id, data, config).then(function (res) {
-          localStorage.setItem("message", res.data.message);
-          localStorage.setItem("type", res.data.type);
+          //localStorage.setItem("message", res.data.message);
+          //localStorage.setItem("type", res.data.type);
           _this4.message = res.data.message;
           _this4.type = res.data.type;
         })["catch"](function (error) {
@@ -41753,8 +41777,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (confirm("Etes vous sur de supprimer ce projet : " + project.name.substring(0, 25) + " ...")) {
         axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/projet/" + this.id, config).then(function (res) {
           console.log(res);
+          _this5.message = res.data.message;
+          _this5.type = res.data.type;
+
+          _this5.showNotification();
+
+          _this5.offerProject = !_this5.offerProject;
+          setTimeout(function () {
+            window.location.replace("/accueil");
+          }, 1000);
         })["catch"](function (error) {
-          console.log("error", error);
+          console.log(error);
           _this5.message = "Une erreur est survenue !";
           _this5.type = false;
 
@@ -41762,15 +41795,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
           throw new Error("Une erreur est survenue lors de la suppression du projet");
         });
-        this.message = "Ce projet est supprimé.";
-        this.type = true;
-        this.showNotification();
-        this.offerProject = !this.offerProject;
-        window.location.replace("/accueil");
       }
     },
-    refuseProposal: function refuseProposal(offer) {
+    refuseProposal: function refuseProposal(offer, index) {
+      var _this6 = this;
+
       console.log('refuse');
+      console.log(offer);
+      this.index = index;
+      console.log(this.index);
       var config = {
         headers: {
           "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
@@ -41780,13 +41813,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (confirm("Etes vous sur de refuser l'offre")) {
         axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/offres/refuser/" + offer.id, config).then(function (res) {
           console.log(res);
+          _this6.message = res.data.message;
+          _this6.type = res.data.type;
+
+          _this6.showNotification();
+
+          _this6.open = false;
+
+          _this6.offers.splice(_this6.index, 1);
         })["catch"](function (error) {
           console.log(error);
         });
       }
     },
     acceptProposal: function acceptProposal(offer) {
-      var _this6 = this;
+      var _this7 = this;
 
       console.log('accept');
       var config = {
@@ -41797,10 +41838,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       if (confirm("Etes vous sur d'accepter cette offre")) {
         axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/offres/accepter/" + offer.id, config).then(function (res) {
-          _this6.message = offer.information;
-          _this6.proposalAmount = offer.amount;
-          console.log(_this6.proposalAmount);
-          console.log(_this6.message);
+          _this7.message = res.data.message;
+          _this7.type = res.data.type;
+          _this7.proposalAmount = offer.amount;
+          _this7.accepted = true;
+          console.log(_this7.proposalAmount);
+          console.log(_this7.message);
+
+          _this7.showNotification();
         })["catch"](function (error) {
           console.log(error);
         });
@@ -41815,8 +41860,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       if (confirm("Etes vous sur de retirer vottre offre pour ce projet : " + project.name.substring(0, 25) + " ...")) {
         axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/projet/annuler/" + this.id, config).then(function (res) {
-          localStorage.setItem("message", res.data.message);
-          localStorage.setItem("type", res.data.type);
+          //localStorage.setItem("message", res.data.message);
+          //localStorage.setItem("type", res.data.type);
           console.log(res.data.message);
         })["catch"](function (error) {
           console.log("error", error);
@@ -46402,7 +46447,7 @@ var _hoisted_39 = {
 var _hoisted_40 = ["onClick"];
 var _hoisted_41 = {
   key: 1,
-  "class": "px-6 sm:text-sm sm:font-medium text-gray-600"
+  "class": "px-4 py-5 sm:px-6 sm:text-sm sm:font-medium text-gray-600 text-sm font-medium"
 };
 
 var _hoisted_42 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Offre acceptée", -1
@@ -46420,7 +46465,7 @@ var _hoisted_45 = {
 };
 var _hoisted_46 = {
   key: 2,
-  "class": "px-6 sm:text-sm sm:font-medium text-gray-600"
+  "class": "px-4 py-5 sm:px-6 sm:text-sm sm:font-medium text-gray-600 text-sm font-medium"
 };
 
 var _hoisted_47 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Offre acceptée", -1
@@ -46437,7 +46482,8 @@ var _hoisted_50 = {
   "class": "mt-2"
 };
 var _hoisted_51 = {
-  key: 3
+  key: 3,
+  "class": "px-4 py-5 sm:px-6 text-gray-600 text-sm font-medium"
 };
 
 var _hoisted_52 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Offres", -1
@@ -46778,7 +46824,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_Notification = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Notification");
 
-  return $data.charged == true ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.project.name), 1
+  return $data.charged == true ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.project.name) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.project.id), 1
   /* TEXT */
   ), $data.accepted != null || $data.proposalAmount != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("svg", _hoisted_7, _hoisted_9)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.project.about), 1
   /* TEXT */
@@ -46803,11 +46849,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $data.openOffer = !$data.openOffer;
     }),
     "class": "\r\n                                    w-64\r\n                                    flex flex-col\r\n                                    items-center\r\n                                    px-4\r\n                                    py-6\r\n                                    bg-white\r\n                                    text-gray-700\r\n                                    rounded-lg\r\n                                    shadow-lg\r\n                                    tracking-wide\r\n                                    uppercase\r\n                                    border border-blue\r\n                                    cursor-pointer\r\n                                    hover:bg-blue hover:text-gray-900\r\n                                "
-  }, _hoisted_27)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_32, [_hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.offers, function (offer) {
+  }, _hoisted_27)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_32, [_hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.offers, function (offer, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
-      key: offer.id,
+      key: index,
       "class": "bg-gray-50"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(offer.amount ? offer.amount + " €" : $data.project.price + " €"), 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(offer.id), 1
     /* TEXT */
     ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(offer.rate ? offer.rate + " /5" : "aucune"), 1
     /* TEXT */
@@ -46822,7 +46870,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     /* PROPS */
     , _hoisted_38)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       onClick: function onClick($event) {
-        return $options.refuseProposal(offer);
+        return $options.refuseProposal(offer, index);
       },
       "class": "text-red-600 hover:text-red-900"
     }, "Refuser", 8
@@ -46844,7 +46892,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* TEXT */
   )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.message ? $data.message : ''), 1
   /* TEXT */
-  )])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_51, _hoisted_54)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("dl", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [_hoisted_58, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("dd", _hoisted_59, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_60, [!$data.document ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_61, " Pas de pièce-jointe ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.document ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_62, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.document, function (doc) {
+  )])])) : $data.user.id == $data.project.user_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_51, _hoisted_54)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("dl", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [_hoisted_58, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("dd", _hoisted_59, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_60, [!$data.document ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_61, " Pas de pièce-jointe ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.document ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_62, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.document, function (doc) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: doc,
       "class": "\r\n                                            pl-3\r\n                                            pr-4\r\n                                            py-3\r\n                                            flex\r\n                                            items-center\r\n                                            justify-between\r\n                                            text-sm\r\n                                        "
@@ -46870,7 +46918,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* TEXT */
   )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_76, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.subCategoryDescription), 1
   /* TEXT */
-  )]), $data.makeOffer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_77, [!isNaN($data.offer) && $data.offer != null && $data.offer != true ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_78, "Vous avez fait une offre pour ce projet de : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.offer ? $data.offer + " €" : 'Pas d\'offre'), 1
+  )]), $data.makeOffer && $data.user.id !== $data.owner.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_77, [!isNaN($data.offer) && $data.offer != null && $data.offer != true ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_78, "Vous avez fait une offre pour ce projet de : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.offer ? $data.offer + " €" : 'Pas d\'offre'), 1
   /* TEXT */
   )) : !isNaN($data.offer.amount) && $data.offer.amount != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_79, "Vous avez fait une offre pour ce projet de : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.offer.amount ? $data.offer.amount + " €" : 'Pas d\'offre'), 1
   /* TEXT */
@@ -46970,13 +47018,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
     /* STABLE */
 
-  })])), $data.show ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Notification, {
-    key: 2,
-    message: $data.message,
+  })]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.show ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Notification, {
+    key: 1,
+    message2: $data.message,
     type: $data.type
   }, null, 8
   /* PROPS */
-  , ["message", "type"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true);
+  , ["message2", "type"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true);
 }
 
 /***/ }),
