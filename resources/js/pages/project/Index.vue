@@ -143,8 +143,9 @@
                                     <div class="flex justify-items-end">
                                         <div class="flex ml-1">
                                             <select
-                                                id="nbPage"
-                                                name="nBpage"
+                                                @change="ChangeNbPage($event)"
+                                                id="nbProjects"
+                                                name="nbProjects"
                                                 class="
                                                     w-24
                                                     mt-1
@@ -161,10 +162,11 @@
                                                     rounded-md
                                                 "
                                             >
-                                                <option value="1">1</option>
+                                                <option value="10">10</option>
+                                                <option value="20">20</option>
                                             </select>
                                             <label
-                                                for="nbPage"
+                                                for="nbProjects"
                                                 class="mt-2 ml-2"
                                             ></label>
                                         </div>
@@ -172,7 +174,7 @@
                                 </div>
 
                                 <template
-                                    v-for="project in projects"
+                                    v-for="project in projectsPaginate"
                                     :key="project.id"
                                 >
 
@@ -618,6 +620,7 @@
                                         </div>
                                     </div>
                                 </template>
+                                <Pagination @updatePaginate="updatePagination($event)" :nbPages="nbPages"/>
                             </div>
                         </div>
                     </section>
@@ -648,6 +651,7 @@ import { SearchIcon } from "@heroicons/vue/solid";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/vue/outline";
 import axios from "axios";
 import Column from "../../components/Column.vue";
+import Pagination from "../../components/Pagination.vue";
 //import scroll from "./resources/js/services/scroll.js"
 
 export default {
@@ -664,6 +668,7 @@ export default {
         SearchIcon,
         XIcon,
         Column,
+        Pagination,
     },
     setup(props, context) {
         const letters = ref();
@@ -672,17 +677,25 @@ export default {
     },
     data() {
         return {
-            projects: {},
+            projects: [],
+            projectsPaginate: [],
+            projectsBeforePaginate: [],
             categories: {},
             subcategories: {},
             user: {},
             like: false,
             filter: [],
+            firstCharge: true,
             listOfAllCategories: [],
             listOfAllProjects: [],
             listOfAllSubCategories: [],
             categoryId: "",
             loaded: false,
+            from: 0,
+            to: 10,
+            nbPages: null,
+            quantityPerPage: 10,
+            current: 1,
         };
     },
     methods: {
@@ -703,7 +716,9 @@ export default {
                         (this.categories = data[1]),
                         (this.subcategories = data[2]),
                         (this.user = data[3]),
-                        (this.loaded = true)
+                        (this.loaded = true),
+                        this.projectsPaginate = data[0]
+                        //this.projectsPaginate = this.projectsPaginate.slice(this.from-this.to)
                     )
                 )
                 .catch((error) => console.log("error", error));
@@ -745,10 +760,9 @@ export default {
 
             if (this.letters.length !== undefined) {
                 if (this.letters.length === 0) {
-                    this.projects = this.listOfAllProjects;
+                    this.projectsPaginate = this.projects; //TODO
                 } else {
-                    this.projects = this.listOfAllProjects;
-                    this.projects.forEach((element) => {
+                    this.projectsPaginate.forEach((element) => {
                         if (
                             element.name
                                 .toLowerCase()
@@ -756,11 +770,9 @@ export default {
                         ) {
                             this.filter.push(element);
                             JSON.stringify(this.filter);
-                        } else {
-                            this.projects = this.listOfAllProjects;
                         }
                     });
-                    this.projects = this.filter;
+                    this.projectsPaginate = this.filter;
                 }
             }
         },
@@ -774,10 +786,11 @@ export default {
                     this.categoryId = element.category_id;
                     this.subCategoryChange();
                 } else {
-                    this.projects = this.listOfAllProjects;
+                    this.projectsPaginate = this.listOfAllProjects;
+                    this.subcategories = [];
                 }
             });
-            this.projects = this.filter;
+            this.projectsPaginate = this.filter;
         },
         onSubCategory(event) {
             this.filter = [];
@@ -787,10 +800,10 @@ export default {
                     this.filter.push(element);
                     JSON.stringify(this.filter);
                 } else {
-                    this.projects = this.listOfAllProjects;
+                    this.projectsPaginate = this.listOfAllProjects;
                 }
             });
-            this.projects = this.filter;
+            this.projectsPaginate = this.filter;
         },
         subCategoryChange() {
             const config = {
@@ -805,10 +818,61 @@ export default {
                 .then(({ data }) => (this.subcategories = data))
                 .catch((error) => console.log("error", error));
         },
-    },
+        ChangeNbPage: function(event) {
+            if (event.target.value == 10) {
+                this.to = this.from + 10;
+            }
+            if (event.target.value == 20) {
+                this.to = this.from + 20;
+            }
+            //console.log(this.to+" + "+this.from);
+            this.Paginate();
+        },
+        Paginate() {
+            this.projectsPaginate = this.listOfAllProjects.slice();
+            this.projectsPaginate = this.projectsPaginate.slice(this.from,this.to);
+            this.nbPages = Math.ceil(this.projectsBeforePaginate.length/this.quantityPerPage);
+        },
+        updatePagination(pageChoice){
+            if (pageChoice > this.current){
 
+                this.to = this.quantityPerPage * pageChoice;
+                this.from = this.to - this.quantityPerPage;
+                console.log(this.to+" + "+this.from);
+                this.Paginate();
+                this.current = pageChoice;
+            }
+            if(pageChoice < this.current){
+                
+                this.to = this.quantityPerPage * pageChoice;
+                this.from = this.to - this.quantityPerPage;
+                console.log(this.to+" + "+this.from);
+                this.Paginate();
+                this.current = pageChoice;
+            }
+        },
+
+    },
     created() {
-        this.loadData();
+        this.loadData();        
+    },
+    beforeUpdate() {
+            //this.loadData();    
+            //this.projectsPaginate = this.listOfAllProjects;
+            //console.log("beforeup"+this.projectsPaginate+" "+this.to+" "+this.from);
+            //this.projectsPaginate = this.projectsPaginate.splice(this.from,this.to);
+            //console.log(this.nbPages);
+            //console.log("beforeup2"+this.projectsPaginate+" "+this.to+" "+this.from);
+            if(this.firstCharge === true){
+                this.projects = this.listOfAllProjects.slice();
+                this.listOfAllProjects = this.projects.slice();
+                this.projectsBeforePaginate = this.projects.slice();
+                this.projectsPaginate = this.projectsPaginate.splice(this.from,this.to);
+                this.firstCharge = false;
+            } else {
+                //this.projectsPaginate = this.projectsPaginate.splice(this.from,this.to);
+            }
+            this.nbPages = Math.ceil(this.projectsBeforePaginate.length/this.quantityPerPage);
     },
 };
 </script>
