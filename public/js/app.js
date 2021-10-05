@@ -42770,38 +42770,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "border-t border-gray-200 px-4 flex items-center justify-between sm:px-0"
+  "class": "border-t border-gray-200 px-4 flex items-center justify-center sm:px-0"
 };
-var _hoisted_2 = {
-  "class": "-mt-px w-0 flex-1 flex"
-};
-var _hoisted_3 = {
-  href: "#",
-  "class": "border-t-2 border-transparent pt-4 pr-1 inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300"
-};
-
-var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Précédent ");
-
-var _hoisted_5 = ["onClick"];
-var _hoisted_6 = {
-  "class": "-mt-px w-0 flex-1 flex justify-end"
-};
-var _hoisted_7 = {
-  href: "#",
-  "class": "border-t-2 border-transparent pt-4 pl-1 inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300"
-};
-
-var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Suivant ");
-
+var _hoisted_2 = ["onClick"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_ArrowNarrowLeftIcon = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("ArrowNarrowLeftIcon");
-
-  var _component_ArrowNarrowRightIcon = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("ArrowNarrowRightIcon");
-
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("nav", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ArrowNarrowLeftIcon, {
-    "class": "mr-3 h-5 w-5 text-gray-400",
-    "aria-hidden": "true"
-  }), _hoisted_4])]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.nbPages, function (page) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("nav", _hoisted_1, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.nbPages, function (page) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: page,
       "class": "hidden md:-mt-px md:flex"
@@ -42810,16 +42783,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return $options.updateCurrent(page);
       }, ["prevent"]),
       href: "#",
-      "class": "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium"
+      "class": "border-transparent text-gray-600 hover:text-gray-800 hover:border-indigo-700 border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium"
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 9
     /* TEXT, PROPS */
-    , _hoisted_5)]);
+    , _hoisted_2)]);
   }), 128
   /* KEYED_FRAGMENT */
-  )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_7, [_hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ArrowNarrowRightIcon, {
-    "class": "ml-3 h-5 w-5 text-gray-400",
-    "aria-hidden": "true"
-  })])])]);
+  ))]);
 }
 
 /***/ }),
@@ -45459,7 +45429,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, " Ajouter aux favoris ", 8
     /* PROPS */
     , _hoisted_52))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
-      to: '/projet/' + project.id,
+      to: '/projet/' + project.id + '#',
       "class": "\r\n                                                                    flex\r\n                                                                    items-center\r\n                                                                    ml-4\r\n                                                                    focus:outline-none\r\n                                                                    group\r\n                                                                    border\r\n                                                                    rounded-full\r\n                                                                    py-2\r\n                                                                    px-6\r\n                                                                    leading-none\r\n                                                                    border-yellow\r\n                                                                    dark:border-yellow\r\n                                                                    select-none\r\n                                                                    hover:bg-yellow\r\n                                                                    text-yellow\r\n                                                                    hover:text-white\r\n                                                                    dark-hover:text-gray-200\r\n                                                                    transition\r\n                                                                    ease-in-out\r\n                                                                    duration-200\r\n                                                                    transform\r\n                                                                    hover:-translate-y-1\r\n                                                                    hover:translate-x-0.5\r\n                                                                "
     }, {
       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {

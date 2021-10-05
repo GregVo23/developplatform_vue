@@ -538,7 +538,7 @@
                                                             <router-link
                                                                 :to="
                                                                     '/projet/' +
-                                                                    project.id
+                                                                    project.id + '#'
                                                                 "
                                                                 class="
                                                                     flex
