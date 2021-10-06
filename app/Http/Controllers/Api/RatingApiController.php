@@ -21,6 +21,9 @@ class RatingApiController extends Controller
     public function rate(Request $request, $id)
     {
       // TODO
-      return $request()->all();
+      return response()->json([
+        'message' => 'Vous avez noté la réalisation du projet.',
+        'type' => 'success',
+      ], 200);
     }
 }

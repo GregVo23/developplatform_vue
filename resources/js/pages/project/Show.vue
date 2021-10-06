@@ -312,8 +312,6 @@
             <div v-else class="mt-1 px-4 py-5 sm:px-6">
                 <p v-if="user.id !== owner.id" class="text-indigo-800">Vous n'avez toujours pas fait d'offres pour ce projet</p>
             </div>
-
-            <Rating v-model="rating" />
         </div>
         <div v-if="accepted == NULL && proposalAmount == null">
             <section v-if="subscription.nb_max_projet - subscription.nb_projet > 0" class="mb-6">
@@ -768,7 +766,6 @@
                     </div>
                 </form>
             </section>
-            
             <section v-else v-cloak class="mt-1 px-4 py-5 sm:px-6 text-center bg-indigo-700 text-white">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 m-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -782,6 +779,25 @@
                 </router-link>
             </section>
         </div>
+        <section class="sm:mx-8 md:mx-20 lg:mx-40 sm:my-2 md:my-4 lg:my-10">
+            <Rating :rate="rate" @starts="giveRating($event)"/>
+            <form name="frmRating" id="frmRating" action="#" method="post" class="sm:mt-4 lg:mt-8">
+              <div class="sm:col-span-2">
+                <div class="flex justify-between">
+                  <label for="message" class="block text-sm font-medium text-gray-900">Explication de l'appréciation :</label>
+                  <span id="message-max" class="text-sm text-gray-500">Merci de décrire en quelques ligne la qualité du service reçu.</span>
+                </div>
+                <div class="mt-1">
+                  <textarea id="message" name="message" rows="4" class="py-3 px-4 block w-full shadow-sm text-gray-900 focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md" aria-describedby="message-max" />
+                </div>
+              </div>
+              <div class="sm:col-span-2 sm:flex sm:justify-end">
+                <button type="submit" class="mt-2 w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-full shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto">
+                  Envoyer
+                </button>
+              </div>
+            </form>
+        </section>
         <Notification v-if="show" :message2="message" :type="type" />
     </div>
 </template>
@@ -831,7 +847,8 @@ export default {
             makeOffer: false,
             deadline: false,
             url: "http://localhost:8000/",
-            raing: 5,
+            rate: null,
+            rateInformation: null,
             subscription: {},
         };
     },
@@ -1156,6 +1173,41 @@ export default {
                 this.offerProject = !this.offerProject;
                 this.acceptProject = !this.acceptProject;
                 //window.location.replace("/accueil");
+            }
+        },
+        giveRating(value) {
+            this.rate = value;
+        },
+        sendRating(value) {
+            const config = {
+                headers: {
+                    "X-CSRF-TOKEN": document.querySelector(
+                        'meta[name="csrf-token"]'
+                    ).content,
+                    "Content-Type": "multipart/form-data",
+                },
+            };
+            if (
+                confirm(
+                    "Etes vous sur d'attribuer une note de " +
+                        this.rate +
+                        "/5 pour la réalisation du projet ?"
+                )
+            ) {
+                let data = {
+                    rate: this.rate ? this.rate : '',
+                    about: this.rateInformation ? this.rateInformation : ''
+                }
+
+                axios
+                    .post("/api/projet/note/" + this.id, data, config)
+                    .then(res => {
+                        console.log(res.data.message);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+
             }
         },
     },

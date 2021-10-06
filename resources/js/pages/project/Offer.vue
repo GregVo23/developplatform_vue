@@ -575,6 +575,7 @@ export default {
             categories: {},
             subCategories: {},
             user: {},
+            $userRate: null,
             loaded: false
         };
     },
@@ -595,6 +596,7 @@ export default {
                         (this.categories = data[1]),
                         (this.subCategories = data[2]),
                         (this.user = data[3]),
+                        (this.userRate = data[4]),
                         (this.loaded = true)
                     )
                 )

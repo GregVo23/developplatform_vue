@@ -52,6 +52,9 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('/abonnement', [App\Http\Controllers\Api\SubscriptionApiController::class, 'index'])->name('subscription.index');
     Route::post('/abonnement', [App\Http\Controllers\Api\SubscriptionApiController::class, 'subscribe'])->name('subscription.subscribe');
 
+    /*  RATING  */
+    Route::post('/projet/note/{id}', [App\Http\Controllers\Api\RatingApiController::class, 'rate'])->name('project.rate');
+
     /*  OTHERS  */
     Route::get('/accueil');    
     Route::get('/subcategories/{id}', [App\Http\Controllers\Api\SubCategoryApiController::class, 'subcategories'])->name('subcategories');

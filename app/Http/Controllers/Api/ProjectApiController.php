@@ -74,14 +74,16 @@ class ProjectApiController extends Controller
     {
         $categories = Category::all();
         $subCategories = SubCategory::all();
-        $user_id = auth()->user()->id;
+        $user = auth()->user();
+        $user_id = $user->id;
+        $userRate = $user->rate;
         $projects = DB::table('project_user')
             ->join('projects', 'project_user.project_id', '=', 'projects.id')
             ->where('project_user.user_id', '=', $user_id)
             ->where('project_user.proposal', '<>', NULL)
             ->get();
 
-        return json_encode([$projects, $categories, $subCategories, $user_id]);
+        return json_encode([$projects, $categories, $subCategories, $user_id, $userRate]);
     }
 
     /**
