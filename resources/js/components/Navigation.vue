@@ -203,10 +203,9 @@
                   </a>
                 </div>
                 <div class="p-5 bg-gray-50 sm:p-8">
-                  <a
-                    href="#"
-                    class="-m-3 p-3 flow-root rounded-md hover:bg-gray-100"
-                  >
+                    <router-link
+                        to="/abonnement" class="-m-3 p-3 flow-root rounded-md hover:bg-gray-100">
+
                     <div class="flex items-center">
                       <div class="text-base font-medium text-gray-900">
                         Abonnement
@@ -232,7 +231,7 @@
                     <p class="mt-1 text-sm text-gray-500">
                       L'abonnement vous permets d'éffectuer plus d'actions
                     </p>
-                  </a>
+                  </router-link>
                 </div>
               </div>
             </PopoverPanel>

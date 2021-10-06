@@ -1,8 +1,5 @@
 <template>
     <section id="sidebar" aria-labelledby="section-2-title" class="hidden">
-        <h2 class="sr-only" id="section-2-title">
-            Section title
-        </h2>
         <div
             class="rounded-lg bg-white overflow-hidden shadow"
             id="sidebar"
@@ -115,13 +112,7 @@
                         to="/favoris" class="block text-base font-medium text-gray-500 hover:text-gray-900">Favoris
                     </router-link>
                     <router-link
-                        to="/accueil" class="block text-base font-medium text-gray-500 hover:text-gray-900">Accueil
-                    </router-link>
-                    <router-link
-                        to="/accueil" class="block text-base font-medium text-gray-500 hover:text-gray-900">Accueil
-                    </router-link>
-                    <router-link
-                        to="/accueil" class="block text-base font-medium text-gray-500 hover:text-gray-900">Accueil
+                        to="/offres" class="block text-base font-medium text-gray-500 hover:text-gray-900">propositions
                     </router-link>
                 </nav>
             </div>
@@ -160,23 +151,41 @@
 
                     let position = window.pageYOffset;
 
-                    if(position > height - 500){
+                    console.log(footer);
+                    console.log(height);
+                    console.log(position);
 
-                        document.querySelector("#sidebar > div").style.width = '100%';
-                        document.querySelector('#sidebar').style.position = 'relative';
-                        document.querySelector('#sidebar').style.width = '100%';
+                    if(position > height + 200){
+
+                        //document.querySelector("#sidebar > div").style.width = '32%';
+                        document.querySelector('#sidebar').style.position = 'initial';
+                        document.querySelector('#sidebar').style.margin = "0% 0% 0% 0%";
+                        //document.querySelector('#sidebar').style.width = '32%';
                         document.querySelector('#sidebar').style.transition = 'background-color 0.3s ease';
-                        document.querySelector('#sidebar').style.backgroundColor = 'transparent';
-                        document.querySelector('#sidebar').style.display = 'flex';
+                        document.querySelector('#sidebar > div').style.backgroundColor = 'white';
+                        document.querySelector('#sidebar').style.display = 'block';
 
-                    }else{
+                    }else if(position < height + 2200){
 
-                        document.querySelector("#sidebar > div").style.width = '100%';
+                        document.querySelector("#sidebar > div").style.width = '31%';
                         document.querySelector('#sidebar').style.position = 'fixed';
+                        document.querySelector('#sidebar').style.margin = "0% 0% 0% 65%";
                         document.querySelector('#sidebar').style.width = '32%';
                         document.querySelector('#sidebar').style.transition = 'background-color 0.3s ease';
-                        document.querySelector('#sidebar').style.backgroundColor = 'white';
+                        document.querySelector('#sidebar > div').style.backgroundColor = 'white';
                         document.querySelector('#sidebar').style.display = 'flex';
+                    }
+
+                    if(position > height + 2200){
+
+                        //document.querySelector("#sidebar > div").style.width = '32%';
+                        document.querySelector('#sidebar').style.position = 'initial';
+                        document.querySelector('#sidebar').style.margin = "0% 0% 0% 0%";
+                        //document.querySelector('#sidebar').style.width = '32%';
+                        document.querySelector('#sidebar').style.transition = 'background-color 0.3s ease';
+                        document.querySelector('#sidebar > div').style.backgroundColor = 'transparent';
+                        document.querySelector('#sidebar > div').style.color = 'transparent';
+                        document.querySelector('#sidebar').style.display = 'block';
                     }
                 }
 

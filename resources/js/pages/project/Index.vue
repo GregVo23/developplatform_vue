@@ -137,7 +137,6 @@
                                                 ref=""
                                                 @keyup="search()"
                                             />
-                                            <p>{{ letters }}</p>
                                         </div>
                                     </div>
                                     <div class="flex justify-items-end">
@@ -760,8 +759,9 @@ export default {
 
             if (this.letters.length !== undefined) {
                 if (this.letters.length === 0) {
-                    this.projectsPaginate = this.projects; //TODO
+                    this.projectsPaginate = this.projects;
                 } else {
+                    this.projectsPaginate = this.projects;
                     this.projectsPaginate.forEach((element) => {
                         if (
                             element.name
@@ -773,6 +773,8 @@ export default {
                         }
                     });
                     this.projectsPaginate = this.filter;
+                    this.projectsPaginate = this.projectsPaginate.slice(0,this.quantityPerPage);
+                    this.nbPages = Math.ceil(this.projectsBeforePaginate.length/this.quantityPerPage);
                 }
             }
         },
@@ -791,6 +793,8 @@ export default {
                 }
             });
             this.projectsPaginate = this.filter;
+            this.projectsPaginate = this.projectsPaginate.slice(0,this.quantityPerPage);
+            this.nbPages = Math.ceil(this.projectsBeforePaginate.length/this.quantityPerPage);
         },
         onSubCategory(event) {
             this.filter = [];
@@ -804,6 +808,8 @@ export default {
                 }
             });
             this.projectsPaginate = this.filter;
+            this.projectsPaginate = this.projectsPaginate.slice(0,this.quantityPerPage);
+            this.nbPages = Math.ceil(this.projectsBeforePaginate.length/this.quantityPerPage);
         },
         subCategoryChange() {
             const config = {

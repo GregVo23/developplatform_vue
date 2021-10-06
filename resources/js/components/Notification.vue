@@ -12,7 +12,7 @@
                     </svg>
                 </div>
                 <div class="ml-3">
-                    <h3 class="text-sm font-medium text-green-800">
+                    <h3 class="animate-pulse text-sm font-medium text-green-800">
                     Succès
                     </h3>
                     <div class="text-sm text-green-700">
@@ -33,7 +33,7 @@
                     </svg>
                 </div>
                 <div class="ml-3">
-                    <h3 class="text-sm font-medium text-red-800">
+                    <h3 class="animate-pulse text-sm font-medium text-red-800">
                     Erreur !
                     </h3>
                     <div class="mt-2 text-sm text-red-700">

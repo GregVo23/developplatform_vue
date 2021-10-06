@@ -161,32 +161,44 @@
                                 <div class="px-4 py-2 font-semibold">
                                     <b>Prénom</b>
                                 </div>
-                                <div class="px-4 py-2">
+                                <div v-if="update == false" class="px-4 py-2">
                                     {{ user.firstname }}
+                                </div>
+                                <div v-else class="px-4 py-2 mr-4">
+                                    <input class="w-full" type="text" :placeholder="user.firstname">
                                 </div>
                             </div>
                             <div class="grid grid-cols-2">
                                 <div class="px-4 py-2 font-semibold">
                                     <b>Nom de famille</b>
                                 </div>
-                                <div class="px-4 py-2">{{ user.lastname }}</div>
+                                <div v-if="update == false" class="px-4 py-2">{{ user.lastname }}</div>
+                                <div v-else class="px-4 py-2 mr-4">
+                                    <input class="w-full" type="text" :placeholder="user.lastname">
+                                </div>
                             </div>
                             <div class="grid grid-cols-2">
                                 <div class="px-4 py-2 font-semibold">
                                     <b>Téléphone</b>
                                 </div>
-                                <div class="px-4 py-2">{{ user.phone }}</div>
+                                <div v-if="update == false" class="px-4 py-2">{{ user.phone }}</div>
+                                <div v-else class="px-4 py-2 mr-4">
+                                    <input class="w-full" type="text" :placeholder="user.phone">
+                                </div>
                             </div>
                             <div class="grid grid-cols-2">
                                 <div class="px-4 py-2 font-semibold">
                                     <b>Email</b>
                                 </div>
-                                <div class="px-4 py-2">
+                                <div v-if="update == false" class="px-4 py-2">
                                     <a
                                         class="text-blue-800"
                                         :href="'mailto:' + user.email"
                                         >{{ user.email }}</a
                                     >
+                                </div>
+                                <div v-else class="px-4 py-2 mr-4">
+                                    <input class="w-full" type="text" :placeholder="user.email">
                                 </div>
                             </div>
                         </div>
@@ -194,6 +206,7 @@
 
                     <div class="mt-8 sm:flex">
                         <button
+                            @click="updateProfil()"
                             class="
                                 flex
                                 items-center
@@ -527,6 +540,7 @@
 <script>
 import Rating from "../components/Rating";
 import axios from "axios";
+import Input from '../../../vendor/laravel/breeze/stubs/inertia-vue/resources/js/Components/Input.vue';
 
 export default {
     data() {
@@ -540,6 +554,7 @@ export default {
             avatar: '',
             avatarName: '',
             charged: false,
+            update: false,
         };
     },
 
@@ -631,6 +646,9 @@ export default {
             } else {
                 console.log="Vous changer d'avis !";
             }
+        },
+        updateProfil() {
+            this.update = !this.update;
         },
     },
 
