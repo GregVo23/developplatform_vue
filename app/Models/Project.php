@@ -162,4 +162,18 @@ class Project extends Model
 
         return $offer;
     }
+
+    /**
+     * Find the User who're making the project.
+     *
+     */
+    public function maker()
+    {
+        $maker = DB::table('project_user')
+            ->where('accepted', '=', true)
+            ->where('project_id', $this->id)
+            ->first();
+
+        return $maker->user_id;
+    }
 }

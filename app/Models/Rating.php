@@ -30,6 +30,13 @@ class Rating extends Model
     protected $table = 'ratings';
 
     /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * Relations with User.
      *
      * @return \Illuminate\Database\Eloquent\Relations\belongsTo

@@ -139,4 +139,14 @@ class User extends Authenticatable  implements MustVerifyEmail
     {
         return $this->hasMany(Report::class);
     }
+
+    /**
+     * Relations with Rating.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
 }

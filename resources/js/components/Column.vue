@@ -170,7 +170,7 @@
                         document.querySelector("#sidebar > div").style.width = '31%';
                         document.querySelector('#sidebar').style.position = 'fixed';
                         document.querySelector('#sidebar').style.margin = "0% 0% 0% 65%";
-                        document.querySelector('#sidebar').style.width = '32%';
+                        //document.querySelector('#sidebar').style.width = '32%';
                         document.querySelector('#sidebar').style.transition = 'background-color 0.3s ease';
                         document.querySelector('#sidebar > div').style.backgroundColor = 'white';
                         document.querySelector('#sidebar').style.display = 'flex';

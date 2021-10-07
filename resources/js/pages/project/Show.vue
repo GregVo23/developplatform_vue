@@ -308,6 +308,7 @@
                 <p v-if="!isNaN(offer) && offer != null && offer != true" class="text-indigo-800">Vous avez fait une offre pour ce projet de : {{ offer ? offer+" €" : 'Pas d\'offre' }}</p>
                 <p v-else-if="!isNaN(offer.amount) && offer.amount != null" class="text-indigo-800">Vous avez fait une offre pour ce projet de : {{ offer.amount ? offer.amount+" €" : 'Pas d\'offre' }}</p>
                 <p v-else class="text-indigo-800">Vous avez accepté ce projet</p>
+                <p v-if="accepted != NULL" class="text-indigo-800">L'auteur du projet vous a désigné comme prestataire</p>
             </div>
             <div v-else class="mt-1 px-4 py-5 sm:px-6">
                 <p v-if="user.id !== owner.id" class="text-indigo-800">Vous n'avez toujours pas fait d'offres pour ce projet</p>
@@ -524,54 +525,56 @@
                     </button>
                 </div>
                 <div v-else>
-                    <div v-on="charged" class="flex justify-center">
-                        <span class="flex bg-grey-lighter">
-                            <span
-                                @click="removeOffer(project)"
-                                class="
-                                    w-64
-                                    flex flex-col
-                                    items-center
-                                    px-4
-                                    py-6
-                                    bg-white
-                                    text-gray-700
-                                    rounded-lg
-                                    shadow-lg
-                                    tracking-wide
-                                    uppercase
-                                    border border-blue
-                                    cursor-pointer
-                                    hover:bg-blue hover:text-gray-900
-                                "
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    class="h-8 w-8"
-                                    viewBox="0 0 20 20"
-                                    fill="currentColor"
-                                >
-                                    <path
-                                        fill-rule="evenodd"
-                                        d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z"
-                                        clip-rule="evenodd"
-                                    />
-                                    <path
-                                        d="M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z"
-                                    />
-                                </svg>
+                    <div v-if="accepted != NULL && user.id != project.user_id">
+                        <div v-on="charged" class="flex justify-center">
+                            <span class="flex bg-grey-lighter">
                                 <span
+                                    @click="removeOffer(project)"
                                     class="
-                                        mt-2
-                                        text-base
-                                        leading-normal
-                                        text-center
+                                        w-64
+                                        flex flex-col
+                                        items-center
+                                        px-4
+                                        py-6
+                                        bg-white
+                                        text-gray-700
+                                        rounded-lg
+                                        shadow-lg
+                                        tracking-wide
+                                        uppercase
+                                        border border-blue
+                                        cursor-pointer
+                                        hover:bg-blue hover:text-gray-900
                                     "
-                                    >Retirer mon offre</span
                                 >
-                                <a href="#"></a>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="h-8 w-8"
+                                        viewBox="0 0 20 20"
+                                        fill="currentColor"
+                                    >
+                                        <path
+                                            fill-rule="evenodd"
+                                            d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z"
+                                            clip-rule="evenodd"
+                                        />
+                                        <path
+                                            d="M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z"
+                                        />
+                                    </svg>
+                                    <span
+                                        class="
+                                            mt-2
+                                            text-base
+                                            leading-normal
+                                            text-center
+                                        "
+                                        >Retirer mon offre</span
+                                    >
+                                    <a href="#"></a>
+                                </span>
                             </span>
-                        </span>
+                        </div>
                     </div>
                 </div>
                 <form
@@ -779,16 +782,16 @@
                 </router-link>
             </section>
         </div>
-        <section class="sm:mx-8 md:mx-20 lg:mx-40 sm:my-2 md:my-4 lg:my-10">
+        <section v-if="accepted != NULL && user.id == project.user_id" class="sm:mx-8 md:mx-20 lg:mx-40 sm:my-2 md:my-4 lg:my-10">
             <Rating :rate="rate" @starts="giveRating($event)"/>
-            <form name="frmRating" id="frmRating" action="#" method="post" class="sm:mt-4 lg:mt-8">
+            <form name="frmRating" id="frmRating" action="#" method="post" enctype="multipart/form-data" @submit="sendRating" class="sm:mt-4 lg:mt-8">
               <div class="sm:col-span-2">
                 <div class="flex justify-between">
                   <label for="message" class="block text-sm font-medium text-gray-900">Explication de l'appréciation :</label>
                   <span id="message-max" class="text-sm text-gray-500">Merci de décrire en quelques ligne la qualité du service reçu.</span>
                 </div>
                 <div class="mt-1">
-                  <textarea id="message" name="message" rows="4" class="py-3 px-4 block w-full shadow-sm text-gray-900 focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md" aria-describedby="message-max" />
+                  <textarea v-model="rateInformation" id="message" name="message" rows="4" class="py-3 px-4 block w-full shadow-sm text-gray-900 focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md" aria-describedby="message-max" />
                 </div>
               </div>
               <div class="sm:col-span-2 sm:flex sm:justify-end">
@@ -1178,13 +1181,13 @@ export default {
         giveRating(value) {
             this.rate = value;
         },
-        sendRating(value) {
+        sendRating(e) {
+            e.preventDefault();
             const config = {
                 headers: {
                     "X-CSRF-TOKEN": document.querySelector(
                         'meta[name="csrf-token"]'
                     ).content,
-                    "Content-Type": "multipart/form-data",
                 },
             };
             if (
@@ -1194,15 +1197,23 @@ export default {
                         "/5 pour la réalisation du projet ?"
                 )
             ) {
+                /*
                 let data = {
                     rate: this.rate ? this.rate : '',
                     about: this.rateInformation ? this.rateInformation : ''
-                }
+                }*/
+
+                let data = new FormData();
+                data.append("rate", this.rate ? this.rate : '');
+                data.append("about", this.rateInformation ? this.rateInformation : '');
 
                 axios
                     .post("/api/projet/note/" + this.id, data, config)
                     .then(res => {
                         console.log(res.data.message);
+                        this.message = res.data.message;
+                        this.type = res.data.type;
+                        this.showNotification();
                     })
                     .catch(error => {
                         console.log(error);

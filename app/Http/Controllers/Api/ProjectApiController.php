@@ -251,7 +251,8 @@ class ProjectApiController extends Controller
     {
         $user = Auth()->user();
         $project = Project::find($id);
-        $subscription = Subscription::where('user_id', $user->id)->first();
+        $subscription = Subscription::firstOrCreate(['user_id' =>  $user->id]);
+        $subscription = Subscription::where('user_id', '=', $user->id)->first();
         $owner = User::find($project->user_id);
         $myOffer = $project->haveOffer($user->id);
 
