@@ -618,7 +618,6 @@ class ProjectApiController extends Controller
                         foreach ($request->file('document') as $file) {
                             if (is_object($file) && $file->isValid()) {
 
-
                                 $filenameWithExt = $file->getClientOriginalName();
                                 // Get just filename
                                 $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
@@ -694,7 +693,6 @@ class ProjectApiController extends Controller
                         }
                     }
                 }
-                //Projet supprimer avec succes
                 $response = $project->delete();
                 if($response){
                     Session::flash('success', 'Votre projet est supprimée avec succés !');

@@ -9,9 +9,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class UserApiController extends Controller
@@ -140,17 +141,6 @@ class UserApiController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -159,7 +149,53 @@ class UserApiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
+        $idUserConnected = Auth()->user()->id;
+        $user = User::findOrFail($id);
+        if($user->id == $idUserConnected){
+
+            // validate
+            $rules = array(
+
+                'phone' => 'nullable|unique:users',
+                'email' => 'nullable|string|email|max:255|unique:users',
+                'firstname' => 'nullable|string|max:255',
+                'lastname' => 'nullable|string|max:255'
+            );
+            $validator = Validator::make($request->all(), $rules);
+
+            // process
+            if ($validator->fails()) {
+                return response()->json([
+                    'message' => $validator->errors(),
+                    'type' => 'error',
+                ]);
+            } else {
+
+                $user->firstname = $request->firstname ? $request->firstname : $user->firstname;
+                $user->lastname = $request->lastname ? $request->lastname : $user->lastname;
+                $user->phone = $request->phone ? $request->phone : $user->phone;
+                $user->email = $request->email ? $request->email : $user->email;
+                $result = $user->save();
+                if ($result){
+                    return response()->json([
+                        'message' => "Votre profil a été mis à jours.",
+                        'type'=> "success",
+                    ], 200);
+                } else {
+                    return response()->json([
+                        'message' => "Un problème est survenu lors de la mise à jours.",
+                        'type'=> "error",
+                    ], 500);
+                }
+            }
+        } else {
+            return response()->json([
+                'message' => "Seul le propriétaire peut modifier son profil.",
+                'type'=> "error",
+            ], 422);
+        }
+
     }
 
     /**
