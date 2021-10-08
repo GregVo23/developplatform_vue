@@ -25,6 +25,7 @@ class UserApiController extends Controller
     {
         $request->session()->flush();
         $request->session()->regenerate();
+        Session::flash('success', "Vous êtes déconnecté du site.");
         return redirect('/');
     }
 
@@ -215,13 +216,16 @@ class UserApiController extends Controller
             $result = $user->delete();
             if ($result){
                 session()->regenerate();
-                session()->flush();
                 Session::flash('success', "L'utilisateur est désormais supprimé avec succés.");
-                return redirect('/');
+                return response()->json(['success' => 'L\'utilisateur est désormais supprimé avec succés.'], 200);
             } else {
+                session()->regenerate();
+                Session::flash('error', "Un problème est survenu lors de la suppression.");
                 return response()->json(['errors' => 'Un problème est survenu lors de la suppression de l\'utilisateur.'], 500);
             }
         } else {
+            session()->regenerate();
+            Session::flash('error', "Impossible de supprimer un compte hors que le sien.");
             return response()->json(['errors' => 'Impossible de supprimer un compte hors que le sien.'], 422);
         }
     }

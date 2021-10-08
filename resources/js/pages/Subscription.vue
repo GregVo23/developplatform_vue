@@ -394,13 +394,7 @@ export default {
                             },
                         ],
                         mode: "subscription",
-                        /*
-                         * Do not rely on the redirect to the successUrl for fulfilling
-                         * purchases, customers may not always reach the success_url after
-                         * a successful payment.
-                         * Instead use one of the strategies described in
-                         * https://stripe.com/docs/payments/checkout/fulfill-orders
-                         */
+
                         successUrl:
                             "http://localhost:8000/abonnement?session_id={CHECKOUT_SESSION_ID}",
                         cancelUrl: "http://localhost:8000/abonnement",
@@ -441,16 +435,10 @@ export default {
                             },
                         ],
                         mode: "subscription",
-                        /*
-                         * Do not rely on the redirect to the successUrl for fulfilling
-                         * purchases, customers may not always reach the success_url after
-                         * a successful payment.
-                         * Instead use one of the strategies described in
-                         * https://stripe.com/docs/payments/checkout/fulfill-orders
-                         */
+
                         successUrl:
                             "http://localhost:8000/abonnement?session_id={CHECKOUT_SESSION_ID}",
-                        cancelUrl: "https://example.com/canceled",
+                        cancelUrl: "http://localhost:8000/abonnement",
                     })
                     .then(function (result) {
                         if (result.error) {

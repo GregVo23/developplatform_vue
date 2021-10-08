@@ -40785,14 +40785,6 @@ __webpack_require__.r(__webpack_exports__);
             quantity: 1
           }],
           mode: "subscription",
-
-          /*
-           * Do not rely on the redirect to the successUrl for fulfilling
-           * purchases, customers may not always reach the success_url after
-           * a successful payment.
-           * Instead use one of the strategies described in
-           * https://stripe.com/docs/payments/checkout/fulfill-orders
-           */
           successUrl: "http://localhost:8000/abonnement?session_id={CHECKOUT_SESSION_ID}",
           cancelUrl: "http://localhost:8000/abonnement"
         }).then(function (result) {
@@ -40821,16 +40813,8 @@ __webpack_require__.r(__webpack_exports__);
             quantity: 1
           }],
           mode: "subscription",
-
-          /*
-           * Do not rely on the redirect to the successUrl for fulfilling
-           * purchases, customers may not always reach the success_url after
-           * a successful payment.
-           * Instead use one of the strategies described in
-           * https://stripe.com/docs/payments/checkout/fulfill-orders
-           */
           successUrl: "http://localhost:8000/abonnement?session_id={CHECKOUT_SESSION_ID}",
-          cancelUrl: "https://example.com/canceled"
+          cancelUrl: "http://localhost:8000/abonnement"
         }).then(function (result) {
           if (result.error) {
             /*
@@ -41198,6 +41182,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _components_Column_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../components/Column.vue */ "./resources/js/components/Column.vue");
 /* harmony import */ var _components_Pagination_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../components/Pagination.vue */ "./resources/js/components/Pagination.vue");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 
 
 
@@ -41312,9 +41308,10 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.letters.length !== undefined) {
         if (this.letters.length === 0) {
-          this.projectsPaginate = this.projects;
+          this.projectsPaginate = _toConsumableArray(this.projects);
+          this.nbPages = Math.ceil(this.projectsPaginate.length / this.quantityPerPage);
         } else {
-          this.projectsPaginate = this.projects;
+          this.projectsPaginate = _toConsumableArray(this.projects);
           this.projectsPaginate.forEach(function (element) {
             if (element.name.toLowerCase().search(_this4.letters.toLowerCase()) > -1) {
               _this4.filter.push(element);
@@ -41322,10 +41319,11 @@ __webpack_require__.r(__webpack_exports__);
               JSON.stringify(_this4.filter);
             }
           });
-          this.projectsPaginate = this.filter;
-          this.projectsPaginate = this.projectsPaginate.slice(0, this.quantityPerPage);
+          this.projectsPaginate = _toConsumableArray(this.filter);
           this.nbPages = Math.ceil(this.projectsBeforePaginate.length / this.quantityPerPage);
         }
+
+        this.projectsPaginate = this.projectsPaginate.slice(0, this.quantityPerPage);
       }
     },
     onCategory: function onCategory(event) {
@@ -41341,11 +41339,11 @@ __webpack_require__.r(__webpack_exports__);
 
           _this5.subCategoryChange();
         } else {
-          _this5.projectsPaginate = _this5.listOfAllProjects;
+          _this5.projectsPaginate = _toConsumableArray(_this5.listOfAllProjects);
           _this5.subcategories = [];
         }
       });
-      this.projectsPaginate = this.filter;
+      this.projectsPaginate = _toConsumableArray(this.filter);
       this.projectsPaginate = this.projectsPaginate.slice(0, this.quantityPerPage);
       this.nbPages = Math.ceil(this.projectsBeforePaginate.length / this.quantityPerPage);
     },
@@ -41359,10 +41357,10 @@ __webpack_require__.r(__webpack_exports__);
 
           JSON.stringify(_this6.filter);
         } else {
-          _this6.projectsPaginate = _this6.listOfAllProjects;
+          _this6.projectsPaginate = _toConsumableArray(_this6.listOfAllProjects);
         }
       });
-      this.projectsPaginate = this.filter;
+      this.projectsPaginate = _toConsumableArray(this.filter);
       this.projectsPaginate = this.projectsPaginate.slice(0, this.quantityPerPage);
       this.nbPages = Math.ceil(this.projectsBeforePaginate.length / this.quantityPerPage);
     },
@@ -42854,7 +42852,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("nav", _hoisted_1, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.nbPages, function (page) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: page,
-      "class": "hidden md:-mt-px md:flex"
+      "class": "md:-mt-px md:flex"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
         return $options.updateCurrent(page);
@@ -44013,7 +44011,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* TEXT */
   )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.user.about), 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_13, [_hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_15, [$data.subscription != undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.subscription != false || $data.subscription != null ? $data.subscription.nb_max_projet : "non") + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.subscription != false || $data.subscription != null ? "€" : ""), 1
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_13, [_hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_15, [$data.subscription != undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.subscription != false || $data.subscription != null ? $data.subscription.nb_max_projet == 5 ? "non" : $data.subscription.nb_max_projet : "non") + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.subscription != false || $data.subscription != null ? $data.subscription.nb_max_projet == 5 ? "" : "€" : ""), 1
   /* TEXT */
   )) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_17, "non"))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_18, [_hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_20, [$data.subscription != undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.subscription != false ? $data.subscription.nb_max_projet - $data.subscription.nb_projet + " / " + $data.subscription.nb_max_projet + " actions restantes" : ""), 1
   /* TEXT */
@@ -45563,13 +45561,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $setup.letters = $event;
     }),
     ref: "",
-    onKeyup: _cache[3] || (_cache[3] = function ($event) {
+    onKeypress: _cache[3] || (_cache[3] = function ($event) {
       return $options.search();
-    })
+    }),
+    onKeyup: _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function ($event) {
+      return $options.search();
+    }, ["delete"]))
   }, null, 544
   /* HYDRATE_EVENTS, NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.letters]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    onChange: _cache[4] || (_cache[4] = function ($event) {
+    onChange: _cache[5] || (_cache[5] = function ($event) {
       return $options.ChangeNbPage($event);
     }),
     id: "nbProjects",
@@ -45640,7 +45641,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }), 128
   /* KEYED_FRAGMENT */
   )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Pagination, {
-    onUpdatePaginate: _cache[5] || (_cache[5] = function ($event) {
+    onUpdatePaginate: _cache[6] || (_cache[6] = function ($event) {
       return $options.updatePagination($event);
     }),
     nbPages: $data.nbPages

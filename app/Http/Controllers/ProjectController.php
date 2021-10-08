@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Rating;
 use App\Models\Project;
 use App\Models\Category;
 use App\Models\ProjectUser;
@@ -22,7 +23,7 @@ class ProjectController extends Controller
     /**
      * Display 3 project on the homepage.
      *
-     * @return \Illuminate\Http\Response
+     * @return view
      */
     public function welcome()
     {
@@ -37,11 +38,25 @@ class ProjectController extends Controller
         } else {
             $pourcentage = 85;
         }
+        $ratings = Rating::where('rate', '!=', NULL)->get();
+        $nbRate = $ratings->count();
+        $avgRate = [];
+        $satisfaction = "";
+
+        foreach($ratings as $rate){
+            array_push($avgRate, $rate->rate);
+        }
+        if (array_sum($avgRate) != 0 && $nbRate != 0){
+            $satisfaction = array_sum($avgRate) / $nbRate;
+        } else {
+            $satisfaction = 91;
+        }
 
         return view('welcome', [
             'projects' => $projects,
             'withoutOffer' => $nbProjects,
             'pourcentage' => $pourcentage,
+            'satisfaction' => $satisfaction,
         ]);
     }
 

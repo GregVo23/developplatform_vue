@@ -615,7 +615,7 @@ export default {
                     .catch((error) => {
                         console.log("error", error);
                     });
-                window.location.replace("/");
+                    window.location.replace("/");
             } else {
                 console.log="Vous changer d'avis !";
             }

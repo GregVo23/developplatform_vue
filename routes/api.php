@@ -47,6 +47,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::post('/avatar/{id}', [App\Http\Controllers\Api\UserApiController::class, 'saveAvatar'])->name('user.avatar');
     Route::get('/profil', [App\Http\Controllers\Api\UserApiController::class, 'show'])->name('user.show');
     Route::delete('/profil/{id}', [App\Http\Controllers\Api\UserApiController::class, 'destroy'])->name('user.destroy');
+    Route::post('/logout', [App\Http\Controllers\Api\UserApiController::class, 'logout'])->name('user.logout');
 
     /*  SUBSCRIPTION  */
     Route::get('/abonnement', [App\Http\Controllers\Api\SubscriptionApiController::class, 'index'])->name('subscription.index');

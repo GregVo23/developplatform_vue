@@ -247,7 +247,7 @@
                         <div class="md:w-1/3 pr-4 pl-4">
                             <div class="flex items-center justify-center">
                                 <div class="counter counter-xlarge text-white font-weight-bolder"><span data-from="5"
-                                        data-to="100" data-refresh-interval="30" data-speed="1200"></span></div>
+                                        data-to="{{ $satisfaction }}" data-refresh-interval="30" data-speed="1200"></span></div>
                                 <span class="text-white">% de satisfaction <br>Clients.</span>
                             </div>
                         </div>

@@ -135,7 +135,8 @@
                                                 name="FilterSearch"
                                                 v-model="letters"
                                                 ref=""
-                                                @keyup="search()"
+                                                @keypress="search()"
+                                                @keyup.delete="search()"
                                             />
                                         </div>
                                     </div>
@@ -765,9 +766,10 @@ export default {
 
             if (this.letters.length !== undefined) {
                 if (this.letters.length === 0) {
-                    this.projectsPaginate = this.projects;
+                    this.projectsPaginate = [...this.projects];
+                    this.nbPages = Math.ceil(this.projectsPaginate.length/this.quantityPerPage);
                 } else {
-                    this.projectsPaginate = this.projects;
+                    this.projectsPaginate = [...this.projects];
                     this.projectsPaginate.forEach((element) => {
                         if (
                             element.name
@@ -778,10 +780,10 @@ export default {
                             JSON.stringify(this.filter);
                         }
                     });
-                    this.projectsPaginate = this.filter;
-                    this.projectsPaginate = this.projectsPaginate.slice(0,this.quantityPerPage);
+                    this.projectsPaginate = [...this.filter];
                     this.nbPages = Math.ceil(this.projectsBeforePaginate.length/this.quantityPerPage);
                 }
+                this.projectsPaginate = this.projectsPaginate.slice(0,this.quantityPerPage);
             }
         },
         onCategory(event) {
@@ -794,11 +796,11 @@ export default {
                     this.categoryId = element.category_id;
                     this.subCategoryChange();
                 } else {
-                    this.projectsPaginate = this.listOfAllProjects;
+                    this.projectsPaginate = [...this.listOfAllProjects];
                     this.subcategories = [];
                 }
             });
-            this.projectsPaginate = this.filter;
+            this.projectsPaginate = [...this.filter];
             this.projectsPaginate = this.projectsPaginate.slice(0,this.quantityPerPage);
             this.nbPages = Math.ceil(this.projectsBeforePaginate.length/this.quantityPerPage);
         },
@@ -810,10 +812,10 @@ export default {
                     this.filter.push(element);
                     JSON.stringify(this.filter);
                 } else {
-                    this.projectsPaginate = this.listOfAllProjects;
+                    this.projectsPaginate = [...this.listOfAllProjects];
                 }
             });
-            this.projectsPaginate = this.filter;
+            this.projectsPaginate = [...this.filter];
             this.projectsPaginate = this.projectsPaginate.slice(0,this.quantityPerPage);
             this.nbPages = Math.ceil(this.projectsBeforePaginate.length/this.quantityPerPage);
         },
