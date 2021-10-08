@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class UserController extends Controller
@@ -17,8 +18,9 @@ class UserController extends Controller
      */
     public function logout(Request $request)
     {
-        $request->session()->flush();
         $request->session()->regenerate();
+        $request->session()->flush();
+        Session::flash('success', "Vous êtes déconnecté du site.");
         return redirect('/');
     }
 

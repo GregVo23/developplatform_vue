@@ -1,6 +1,6 @@
 <template>
   <nav class="border-t border-gray-200 px-4 flex items-center justify-center sm:px-0">
-    <div v-for="page in nbPages" :key="page" class="hidden md:-mt-px md:flex">
+    <div v-for="page in nbPages" :key="page" class="md:-mt-px md:flex">
       <a @click.prevent="updateCurrent(page)" href="#" class="border-transparent text-gray-600 hover:text-gray-800 hover:border-indigo-700 border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium">
         {{ page }}
       </a>

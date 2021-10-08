@@ -206,14 +206,18 @@ class UserApiController extends Controller
 
                 //Avatar
                 if (File::exists($user->avatar)) {
-                    File::delete($user->avatar);
+                    if($user->avatar != "./images/profil.png"){
+                        File::delete($user->avatar);
+                    }
                 }
             }
             $user->tokens()->delete();
             $result = $user->delete();
             if ($result){
+                session()->regenerate();
+                session()->flush();
                 Session::flash('success', "L'utilisateur est désormais supprimé avec succés.");
-                return response()->json(['success' => "L'utilisateur est désormais supprimé avec succés."], 200);
+                return redirect('/');
             } else {
                 return response()->json(['errors' => 'Un problème est survenu lors de la suppression de l\'utilisateur.'], 500);
             }

@@ -86,11 +86,11 @@
                                     "
                                     >{{
                                         (subscription != false || subscription != null)
-                                            ? subscription.nb_max_projet
+                                            ? (subscription.nb_max_projet == 5 ? "non" : subscription.nb_max_projet)
                                             : "non"
                                     }}
                                     {{
-                                        (subscription != false || subscription != null) ? "€" : ""
+                                        (subscription != false || subscription != null) ? (subscription.nb_max_projet == 5 ? "" : "€") : ""
                                     }}</span
                                 >
                                 <span
