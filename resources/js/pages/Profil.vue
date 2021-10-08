@@ -7,7 +7,7 @@
                 <div class="bg-white p-3 border-t-4 border-indigo-400">
                     <div class="hover:bg-indigo-700 cursor-pointer">
                         <form
-                            @submit="formSubmit"
+                            @submit="changeAvatar"
                             name="frmAvatar"
                             id="frmAvatar"
                             method="POST"
@@ -155,6 +155,67 @@
                 <!-- Profile tab -->
                 <!-- About Section -->
                 <div class="bg-white p-3 shadow-sm rounded-xl">
+
+
+                <div
+                    v-show="alert"
+                    id="alert"
+                    class="
+                        rounded-md
+                        bg-red-50
+                        p-4
+                        transition-opacity
+                        duration-500
+                        ease-in-out
+                    "
+                >
+                    <div class="flex justify-center">
+                        <div class="flex-shrink-0">
+                            <XCircleIcon class="h-5 w-5 text-red-400" aria-hidden="true" />
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="animate-pulse text-sm font-medium text-red-800">
+                                Il y a {{ nbErrors }} erreur{{ nbErrors > 0 ? "s" : "" }} !
+                            </h3>
+                            <div class="mt-2 text-sm text-red-700">
+                                <ul role="list" class="list-disc pl-5 space-y-1">
+                                    <li v-for="er in this.messages" :key="er">{{ er }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    v-show="success"
+                    id="success"
+                    class="
+                        rounded-md
+                        bg-green-50
+                        p-4
+                        transition-opacity
+                        duration-500
+                        ease-in-out
+                    "
+                >
+                    <div class="flex justify-center">
+                        <div class="flex-shrink-0">
+                            <XCircleIcon class="h-5 w-5 text-green-400" aria-hidden="true" />
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="animate-pulse text-sm font-medium text-green-800">
+                                Succès !
+                            </h3>
+                            <div class="mt-2 text-sm text-green-700">
+                                <ul role="list" class="list-disc pl-5 space-y-1">
+                                    <li v-for="message in this.messages" :key="message">{{ message }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
                     <div class="text-gray-700">
                         <div class="grid md:grid-cols-2 text-sm">
                             <div class="grid grid-cols-2">
@@ -165,7 +226,7 @@
                                     {{ firstname ? firstname : user.firstname }}
                                 </div>
                                 <div v-else class="px-4 py-2 mr-4">
-                                    <input v-model="firstname" class="w-full" type="text" :placeholder="user.firstname ? firstname : user.firstname">
+                                    <input v-model="firstname" class="w-full" type="text" :placeholder="firstname ? firstname : user.firstname">
                                 </div>
                             </div>
                             <div class="grid grid-cols-2">
@@ -317,6 +378,7 @@
                             </span>
                         </button>
                     </div>
+
                 </div>
                 <!-- End of about section -->
 
@@ -552,6 +614,7 @@
 import Rating from "../components/Rating";
 import axios from "axios";
 import Input from '../../../vendor/laravel/breeze/stubs/inertia-vue/resources/js/Components/Input.vue';
+import { XCircleIcon } from "@heroicons/vue/solid";
 
 export default {
     data() {
@@ -570,11 +633,16 @@ export default {
             lastname: "",
             phone: "",
             email: "",
+            success: false,
+            alert: false,
+            nbErrors: null,
+            messages: [],
         };
     },
 
     components: {
         Rating,
+        XCircleIcon,
     },
 
     methods: {
@@ -605,10 +673,10 @@ export default {
             this.avatar = e.target.files[0];
             this.avatarName = e.target.files[0].name;
             console.log("change");
-            this.formSubmit(e);
-            this.loadData();
+            this.changeAvatar(e);
+            //this.loadData();
         },
-        formSubmit(e) {
+        changeAvatar(e) {
             e.preventDefault();
 
             const config = {
@@ -623,17 +691,58 @@ export default {
             let data = new FormData();
             data.append('file', this.avatar);
 
+            this.messages = [];
+
             axios
                 .post("api/avatar/"+this.user.id, data, config)
-                .then(function (res) {
-                    console.log(res);
+                .then(res => {
+                    console.log(res.data.message);
+                    if (res.data.type == 'success'){
+                        this.alert = false;
+                        this.success = true;
+                    } else {
+                        this.success = false;
+                        this.alert = true;
+                    }
+                    if (typeof res.data.message === 'string' || res.data.message instanceof String){
+                        this.messages.push(res.data.message);      
+                    } else {
+
+                        for (const [key, values] of Object.entries(
+                            res.data.message
+                        )) {
+                                for (const [key, value] of Object.entries(
+                                values
+                            )) {
+                                this.messages.push(value);
+                            }
+                        }
+                    }
+                    this.nbErrors = this.messages.length;
                 })
-                .catch((error) => {
-                    if (error.response.status == 422) {
-                        console.log(error.response.data.errors);
-                        console.log(this.validationErrors);
+                .catch(error => {
+                    console.log(error);
+                    console.log(error.response);
+                    if (typeof error.response.data.errors === 'string' || error.response.data.errors instanceof String){
+                        this.messages.push(res.data.message);      
+                    } else {
+
+                        for (const [key, value] of Object.entries(
+                            error.response.data.errors
+                        )) {
+                            this.messages.push(value);
+                        }
+                        this.nbErrors = this.messages.length;
                     }
                 });
+                setTimeout(() => { 
+                    this.loadData(); 
+                }, 1000);
+                setTimeout(() => { 
+                    this.success = false;
+                    this.alert = false;
+                }, 6000);
+                
         },
         removeUser(user) {
 
@@ -682,17 +791,50 @@ export default {
             data.append('email', this.email);
             data.append('phone', this.phone);
 
+            this.messages = [];
+
             axios
                 .post("api/profil/modification/"+this.user.id, data, config)
-                .then(function (res) {
-                    console.log(res);
-                })
-                .catch((error) => {
-                    if (error.response.status == 422) {
-                        console.log(error.response.data.errors);
-                        console.log(this.validationErrors);
+                .then(res => {
+                    console.log(res.data.message);
+                    if (res.data.type == 'success'){
+                        this.alert = false;
+                        this.success = true;
+                    } else {
+                        this.success = false;
+                        this.alert = true;
                     }
+                    if (typeof res.data.message === 'string' || res.data.message instanceof String){
+                        this.messages.push(res.data.message);      
+                    } else {
+
+                        for (const [key, values] of Object.entries(
+                            res.data.message
+                        )) {
+                                for (const [key, value] of Object.entries(
+                                values
+                            )) {
+                                this.messages.push(value);
+                            }
+                        }
+                    }
+                    this.nbErrors = this.messages.length;
+                })
+                .catch(error => {
+                    console.log(error);
+                    //this.messages = error;
+
+                    for (const [key, value] of Object.entries(
+                        error.response.data.errors
+                    )) {
+                        this.messages.push(value);
+                    }
+                    this.nbErrors = this.messages.length;
                 });
+                setTimeout(() => { 
+                    this.success = false;
+                    this.alert = false;
+                }, 6000);
         },
     },
 

@@ -52,56 +52,62 @@ class UserApiController extends Controller
      */
     public function saveAvatar(Request $request, $id)
     {
-        $request->validate([
-            'file' => 'required|mimes:jpg,jpeg,png,csv,txt,xlx,xls,pdf|max:8000'
-        ]);
-
         $user_id = Auth()->user()->id;
 
         if ($user_id == $id){
-            $user = User::find($id);
+            $rules = array(
 
-            if ($request->file()) {
-                $file_name = time() . '_' . $request->file->getClientOriginalName();
-                $file_path = $request->file('file')->storeAs('avatar/' . $user->id, $file_name, 'public');
-                
-                if (File::exists($user->avatar)) {
-                    File::delete($user->avatar);
-                }
-                $user->avatar = '/storage/' . $file_path;
-                $result = $user->save();
-                if ( $result){
-                    return response()->json($request->all());
-                } else {
-                    return response()->json(['error' => 'Un problème est survenu !'], 500);
-                }
+                'file' => 'image|mimes:jpg,jpeg,png,PNG|max:9000'
+            );
+            $validator = Validator::make($request->all(), $rules);
+
+            // process
+            if ($validator->fails()) {
+                return response()->json([
+                    'message' => $validator->errors(),
+                    'type' => 'error',
+                ]);
             } else {
-                return response()->json(['error' => 'Un problème est survenu, absence de fichiers !'], 500);
+
+                $user_id = Auth()->user()->id;
+
+                if ($user_id == $id){
+                    $user = User::find($id);
+
+                    if ($request->file()) {
+                        $file_name = time() . '_' . $request->file->getClientOriginalName();
+                        $file_path = $request->file('file')->storeAs('avatar/' . $user->id, $file_name, 'public');
+                        
+                        if (File::exists($user->avatar)) {
+                            File::delete($user->avatar);
+                        }
+                        $user->avatar = '/storage/' . $file_path;
+                        $result = $user->save();
+                        if ( $result){
+                            return response()->json([
+                                'message' => "Votre profil a été mis à jours.",
+                                'type'=> "success",
+                            ], 200);
+                        } else {
+                            return response()->json([
+                                'message' => 'Un problème est survenu, veuillez réessayer plus tard.',
+                                'type'=> "error",
+                            ], 500);
+                        }
+                    } else {
+                        return response()->json([
+                            'message' => 'Absence de photo !',
+                            'type'=> "error",
+                        ], 500);
+                    }
+                }
             }
         } else {
-            return response()->json(['error' => 'Seul le propriétaire peut changer son avatar !'], 422);
+            return response()->json([
+                'message' => 'Seul le propriétaire peut changer son avatar !',
+                'type'=> "error",
+            ], 422);
         }
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
@@ -157,7 +163,7 @@ class UserApiController extends Controller
             // validate
             $rules = array(
 
-                'phone' => 'nullable|unique:users',
+                'phone' => 'nullable|numeric|unique:users',
                 'email' => 'nullable|string|email|max:255|unique:users',
                 'firstname' => 'nullable|string|max:255',
                 'lastname' => 'nullable|string|max:255'
