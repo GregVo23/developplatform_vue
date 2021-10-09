@@ -636,7 +636,7 @@
 
 
 
-                <Column :categories="categories" />
+                <Column :subcategories="subcategories" :subcategory="subcategory" :categoryId="categoryId" />
             </div>
         </div>
     </main>
@@ -688,6 +688,7 @@ export default {
             projectsBeforePaginate: [],
             categories: {},
             subcategories: {},
+            subcategory: null,
             user: {},
             like: false,
             filter: [],
@@ -809,6 +810,8 @@ export default {
 
             this.listOfAllProjects.forEach((element) => {
                 if (element.sub_category_id == event.target.value) {
+
+                    this.subcategory = event.target.value;
                     this.filter.push(element);
                     JSON.stringify(this.filter);
                 } else {
