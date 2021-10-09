@@ -418,7 +418,12 @@
                                                                     "
                                                                 >
                                                                     {{
-                                                                        project.deadline ? project.deadline : "Pas de deadline"
+                                                                        project.deadline !=
+                                                                        null
+                                                                            ? project.deadline.split(
+                                                                                  " "
+                                                                              )[0]
+                                                                            : "Pas de deadline"
                                                                     }}
                                                                 </span>
                                                             </div>

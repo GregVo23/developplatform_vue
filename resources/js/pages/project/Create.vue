@@ -1087,7 +1087,6 @@ export default {
                         );
                     }
                 }
-                //data.append('project', this.project);
                 data.append("picture", this.picture ? this.picture : '');
                 data.append("user_id", this.project.user_id);
                 data.append("category_id", this.project.category_id);
@@ -1134,8 +1133,6 @@ export default {
                         this.nbErrors = this.messages.length;
                     })
                     .catch((error) => {
-                        //console.log(error);
-                        //this.messages = error;
 
                         for (const [key, value] of Object.entries(
                             error.response.data.errors
@@ -1169,7 +1166,6 @@ export default {
         },
     },
     created() {
-        //console.log('created');
         this.loadFormData();
     },
 };

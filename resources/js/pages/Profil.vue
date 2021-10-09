@@ -161,6 +161,7 @@
                     v-show="alert"
                     id="alert"
                     class="
+                        transform
                         rounded-md
                         bg-red-50
                         p-4
@@ -190,6 +191,7 @@
                     v-show="success"
                     id="success"
                     class="
+                        transform
                         rounded-md
                         bg-green-50
                         p-4
@@ -786,10 +788,11 @@ export default {
             };
 
             let data = new FormData();
-            data.append('firstname', this.firstname);
-            data.append('lastname', this.lastname);
-            data.append('email', this.email);
-            data.append('phone', this.phone);
+
+            data.append('firstname', this.firstname ? this.firstname : "");
+            data.append('lastname', this.lastname ? this.lastname : "");
+            data.append('email', this.email ? this.email : "");
+            data.append('phone', this.phone ? this.phone : "");
 
             this.messages = [];
 
