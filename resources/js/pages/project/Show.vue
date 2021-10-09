@@ -974,7 +974,7 @@ export default {
                 if (parseInt(this.amount) < parseInt(this.project.price)*2/3) {
                     this.message =
                         "Le montant proposé est trop faible par rapport au prix demandé, vous proposez seulement " +
-                        this.amount.length +
+                        this.amount +
                         " € contre " +
                         this.project.price +
                         " € demandé par le dépositaire du projet. Aucunes offres de moins de 33% ne seront acceptées !";

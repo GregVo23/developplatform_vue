@@ -161,6 +161,7 @@
                     v-show="alert"
                     id="alert"
                     class="
+                        md:hidden
                         transform
                         rounded-md
                         bg-red-50
@@ -191,6 +192,7 @@
                     v-show="success"
                     id="success"
                     class="
+                        md:hidden
                         transform
                         rounded-md
                         bg-green-50
@@ -346,6 +348,8 @@
                         <button
                             @click="removeUser(user)"
                             class="
+                                mt-6
+                                sm:mt-0
                                 flex
                                 items-center
                                 ml-4
@@ -380,6 +384,70 @@
                             </span>
                         </button>
                     </div>
+
+                <div
+                    v-show="alert"
+                    id="alert"
+                    class="
+                        hidden
+                        md:flex
+                        transform
+                        rounded-md
+                        bg-red-50
+                        p-4
+                        transition-opacity
+                        duration-500
+                        ease-in-out
+                    "
+                >
+                    <div class="flex justify-center">
+                        <div class="flex-shrink-0">
+                            <XCircleIcon class="h-5 w-5 text-red-400" aria-hidden="true" />
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="animate-pulse text-sm font-medium text-red-800">
+                                Il y a {{ nbErrors }} erreur{{ nbErrors > 0 ? "s" : "" }} !
+                            </h3>
+                            <div class="mt-2 text-sm text-red-700">
+                                <ul role="list" class="list-disc pl-5 space-y-1">
+                                    <li v-for="er in this.messages" :key="er">{{ er }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    v-show="success"
+                    id="success"
+                    class="
+                        hidden
+                        md:flex
+                        transform
+                        rounded-md
+                        bg-green-50
+                        p-4
+                        transition-opacity
+                        duration-500
+                        ease-in-out
+                    "
+                >
+                    <div class="flex justify-center">
+                        <div class="flex-shrink-0">
+                            <XCircleIcon class="h-5 w-5 text-green-400" aria-hidden="true" />
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="animate-pulse text-sm font-medium text-green-800">
+                                Succès !
+                            </h3>
+                            <div class="mt-2 text-sm text-green-700">
+                                <ul role="list" class="list-disc pl-5 space-y-1">
+                                    <li v-for="message in this.messages" :key="message">{{ message }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 </div>
                 <!-- End of about section -->
