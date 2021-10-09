@@ -23,7 +23,6 @@
     },
     "dependencies": {
         "@headlessui/vue": "^1.4.1",
-        "@hennge/vue3-pagination": "^1.0.17",
         "@heroicons/vue": "^1.0.4",
         "@stripe/stripe-js": "^1.17.1",
         "vue": "^3.2.8",

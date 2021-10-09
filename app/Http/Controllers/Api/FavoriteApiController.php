@@ -14,9 +14,9 @@ use App\Http\Controllers\Controller;
 class FavoriteApiController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of all the user's favorites.
      *
-     * @return \Illuminate\Http\Response
+     * @return Json variables
      */
     public function index()
     {
@@ -51,7 +51,7 @@ class FavoriteApiController extends Controller
      * Add a project to my favorite.
      *
      * @return \Illuminate\Http\Response
-     * @param $id must be the chosen project's id
+     * @param int $id
      */
     public function add($id)
     {
@@ -74,7 +74,7 @@ class FavoriteApiController extends Controller
      * Remove a project from my favorite.
      *
      * @return \Illuminate\Http\Response
-     * @param $id must be the chosen project's id
+     * @param int $id
      */
     public function delete($id)
     {
@@ -95,7 +95,7 @@ class FavoriteApiController extends Controller
      * Return true if project is liked by connected user.
      *
      * @return \Illuminate\Http\Response
-     * @param $id must be the chosen project's id
+     * @param int $id
      */
     public function isLike($id)
     {

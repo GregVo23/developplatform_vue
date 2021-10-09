@@ -65,7 +65,6 @@ class ContactController extends Controller
                 'texte' => $texte,
                 'email' => $email,
             ];
-            //dd($admin);
             Mail::to($admin)->send(new EmailContact($mailData));
 
             $request->session()->regenerate();

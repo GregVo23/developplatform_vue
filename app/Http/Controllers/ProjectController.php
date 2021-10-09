@@ -23,14 +23,13 @@ class ProjectController extends Controller
     /**
      * Display 3 project on the homepage.
      *
-     * @return view
+     * @return \Illuminate\View
      */
     public function welcome()
     {
         // 3 examples of project
         $projects = Project::take(3)->get();
 
-        // offers/projects
         $nbProjects = Project::where('done', '=', NULL)->get()->count();
         $nbOffer = ProjectUser::where('proposal', '!=', NULL)->get()->count();
         if (!empty($nbProjects) && !empty($nbOffer)) {
@@ -63,7 +62,7 @@ class ProjectController extends Controller
     /**
      * Display 3 project on the maker's page.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View
      */
     public function maker()
     {
@@ -78,7 +77,7 @@ class ProjectController extends Controller
     /**
      * Display 3 project on the maker's page.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View
      */
     public function customer()
     {

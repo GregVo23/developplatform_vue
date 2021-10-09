@@ -36,33 +36,30 @@ class RatingApiController extends Controller
         $rate->about = $request->input('about');
         $rate->rate = $request->input('rate');
         $ratings = $user->ratings;
-        $test = ""; /////////////////////////
+
         if ($ratings){
-          $test = "111";
           $avgRating = [];
           foreach($ratings as $rating){
             array_push($avgRating, $rating->rate);
           }
           if (array_sum($avgRating) != 0 && count($avgRating) != 0){
-            $test = "222";
             $avgRating = array_sum($avgRating) / count($avgRating) + 1;
             $user->rate = $avgRating;
             $user->save();
           } else {
-            $test = "333";
             $user->rate = $request->input('rate');
             $user->save();
           }
         } else {
-          $test = "444";
           $user->rate = $request->input('rate');
           $user->save();
         }
+        
         $result = $rate->save();
 
         if ($result){
           return response()->json([
-            'message' => 'Vous avez noté la réalisation du projet.'.$test,
+            'message' => 'Vous avez noté la réalisation du projet.',
             'type' => 'success',
           ], 200);
         } else {

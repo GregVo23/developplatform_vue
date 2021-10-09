@@ -9,9 +9,9 @@ use App\Http\Controllers\Controller;
 class SubCategoryApiController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the subcategories.
      *
-     * @return \Illuminate\Http\Response
+     * @return variable
      */
     public function subcategories($id)
     {

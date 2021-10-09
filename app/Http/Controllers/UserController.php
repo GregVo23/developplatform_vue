@@ -14,7 +14,9 @@ class UserController extends Controller
     /**
      * Logout the user.
      *
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request  $request
+     * @return Redirection
+     * @return Flash message
      */
     public function logout(Request $request)
     {
@@ -24,10 +26,12 @@ class UserController extends Controller
         return redirect('/');
     }
 
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\View
      */
     public function index(Request $request)
     {
@@ -39,53 +43,14 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View
      */
     public function show($id)
-    {
-        $user = Auth()->user();
-        $myProjects = Project::where('user_id', '=', $user->id)->where('done', '=', NULL)->get();
-        $myProjectsDone = Project::where('user_id', '=', $user->id)->where('done', '!=', NULL)->get();
-
-        return view("user.show", [
-            "user" => $user,
-            "myProjects" => $myProjects,
-            "myProjectsDone" => $myProjectsDone,
-        ]);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function showMe()
     {
         $user = Auth()->user();
         $myProjects = Project::where('user_id', '=', $user->id)->where('done', '=', NULL)->get();

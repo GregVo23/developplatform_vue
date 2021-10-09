@@ -22,21 +22,23 @@ class SubscriptionApiController extends Controller
   /**
    * Display a listing of all the subscriptions
    *
-   * @return \Illuminate\Http\Response
+   * @return json
    */
   public function index()
   {
     $user = Auth()->user();
     $subscriptions = Subscription::all();
     $subscribtion = DB::table('subscriptions')->where('user_id', '=', $user->id)->first();
-    $abonnement = $subscribtion->nb_max_projet;
+    $abonnement = $subscribtion != NULL ? $subscribtion->nb_max_projet : 5;
 
     return json_encode([$user, $subscriptions, $subscribtion, $abonnement]);
   }
 
+
   /**
-   * Check if the payment is done and for wich subscribtion 10 (5 projects) or 25 for 15 projects, free is for 3 projects.
-   *
+   * Check if the payment is done and for wich subscribtion 10 (10 projects) or 25 for 25 projects, free is for 5 projects.
+   * 
+   * @param Request $request
    * @return \Illuminate\Http\Response
    */
   public function subscribe(Request $request)

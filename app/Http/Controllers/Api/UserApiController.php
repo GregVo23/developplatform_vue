@@ -20,7 +20,9 @@ class UserApiController extends Controller
     /**
      * Logout the user.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return redirection
+     * @return flash message
      */
     public function logout(Request $request)
     {
@@ -30,24 +32,12 @@ class UserApiController extends Controller
         return redirect('/');
     }
 
+    
     /**
-     * Display a listing of the resource.
+     * Upload a new avatar.
      *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
-    {
-        $user = $request->user();
-
-        return view('dashboard', [
-            'user' => $user,
-            'personalUserPage' => true,
-        ]);
-    }
-
-    /**
-     * Upload user avatar.
-     *
+     * @param Request $request
+     * @param Id $id
      * @return \Illuminate\Http\Response
      */
     public function saveAvatar(Request $request, $id)
@@ -110,11 +100,12 @@ class UserApiController extends Controller
         }
     }
 
+
     /**
-     * Display the specified resource.
+     * Display all User's datas to the profile page.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Json variables
      */
     public function show()
     {
@@ -127,27 +118,9 @@ class UserApiController extends Controller
         return json_encode([$myProjectsDone, $myProjects, $user, $sinds, $subscribtion]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function showMe()
-    {
-        $user = Auth()->user();
-        $myProjects = Project::where('user_id', '=', $user->id)->where('done', '=', NULL)->get();
-        $myProjectsDone = Project::where('user_id', '=', $user->id)->where('done', '!=', NULL)->get();
-
-        return view("user.show", [
-            "user" => $user,
-            "myProjects" => $myProjects,
-            "myProjectsDone" => $myProjectsDone,
-        ]);
-    }
 
     /**
-     * Update the specified resource in storage.
+     * Update the User's data: firstname, lastname, phone and email.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -204,11 +177,13 @@ class UserApiController extends Controller
 
     }
 
+    
     /**
-     * Remove the specified resource from storage.
+     * Remove the User and all user's files and folders from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @return flash message
      */
     public function destroy($id)
     {

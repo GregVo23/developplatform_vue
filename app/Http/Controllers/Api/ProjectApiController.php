@@ -32,7 +32,7 @@ class ProjectApiController extends Controller
     /**
      * Display a listing of the projects + categories + subcategories, and user's id
      *
-     * @return \Illuminate\Http\Response
+     * @return Json variables
      */
     public function index()
     {
@@ -68,7 +68,7 @@ class ProjectApiController extends Controller
     /**
      * Display a listing of my offers
      *
-     * @return \Illuminate\Http\Response
+     * @return Json variable
      */
     public function showProposal()
     {
@@ -89,6 +89,7 @@ class ProjectApiController extends Controller
     /**
      * Accept an offer for my project
      *
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function acceptProposal($id)
@@ -172,6 +173,7 @@ class ProjectApiController extends Controller
     /**
      * Refuse an offer for my project
      *
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function refuseProposal($id)
@@ -200,7 +202,7 @@ class ProjectApiController extends Controller
     /**
      * Display a listing of the user's projects + categories + subcategories, and user's id
      *
-     * @return \Illuminate\Http\Response
+     * @return Json variables
      */
     public function myProjects()
     {
@@ -229,7 +231,7 @@ class ProjectApiController extends Controller
     /**
      * Show the form for creating a new project.
      *
-     * @return \Illuminate\Http\Response
+     * @return Json variables
      */
     public function create()
     {
@@ -245,7 +247,7 @@ class ProjectApiController extends Controller
      * Show a project.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Json variables
      */
     public function show($id)
     {
@@ -300,7 +302,7 @@ class ProjectApiController extends Controller
     }
 
     /**
-     * Accept a specific project for the given price.
+     * Accept a specific project for the given price & send notification email to the project's owner.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -343,34 +345,29 @@ class ProjectApiController extends Controller
                             ];
                             Mail::to($email)->send(new EmailNotification($mailData));
                         }
-                        Session::flash('success', 'Votre demande pour ce projet a été envoyée, attendez maintenant la confirmation');
                         return response()->json([
                             'message' => 'Votre demande a été envoyée, attendez maintenant la confirmation',
                             'type' => 'success',
                         ], 200);
                     } else {
-                        Session::flash('message', 'Une erreur est survenue, veuillez réessayer plus tard !');
                         return response()->json([
                             'message' => 'Vous ne pouvez pas accepter ce projet',
                             'type' => 'errors',
                         ], 500);
                     }
                 } else {
-                    Session::flash('message', 'Vous ne pouvez pas accepter ce projet car vous en ête l\'auteur');
                     return response()->json([
                         'message' => 'Vous ne pouvez pas accepter ce projet car vous en ête l\'auteur',
                         'type' => 'errors',
                     ], 401);
                 }
             } else {
-                Session::flash('message', 'Vous ne disposer plus d\'action pour effectuer cette requete, modifiez votre abonnement !');
                 return response()->json([
                     'message' => "Un problème inatendu est survenu ! Désolé, revenez plus tard ...",
                     'type' => 'errors',
                 ], 200);
             }
         } else {
-            Session::flash('message', 'Vous ne disposer plus d\'action pour effectuer cette requete, modifiez votre abonnement !');
             return response()->json([
                 'message' => "Vous ne disposer plus d\'action pour effectuer cette requete, modifiez votre abonnement !",
                 'type' => 'errors',
@@ -380,7 +377,7 @@ class ProjectApiController extends Controller
 
 
     /**
-     * Make an offer for a specific project.
+     * Make an offer for a specific project & Send notification email to the project's owner.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -405,7 +402,6 @@ class ProjectApiController extends Controller
 
                 // process
                 if ($validator->fails()) {
-                    Session::flash('message', "Une erreur est survenue lors de l'enregistrement due a une validation de donnée incorrecte");
                     return response()->json([
                         'message' => "Une erreur est survenue lors de l'enregistrement due a une validation de donnée incorrecte",
                         'type'=> "errors",
@@ -454,7 +450,6 @@ class ProjectApiController extends Controller
                                     // Notification to the project's owner -> you have an new offer 
                                 }
                                 $request->session()->regenerate();
-                                Session::flash('success', "Votre proposition d'un montant de $request->amount € a été envoyée, attendez maintenant l'email de réponse");
                                 return response()->json([
                                     'message' => "Votre proposition d'un montant de $request->amount € a été envoyée, attendez maintenant l'email de réponse",
                                     'type' => "success",
@@ -463,7 +458,6 @@ class ProjectApiController extends Controller
                         }
                     } else {
                         $request->session()->regenerate();
-                        Session::flash('message', 'Une erreur est survenue, veuillez réessayer plus tard !');
                         return response()->json([
                             'message' => "Une erreur est survenue, veuillez réessayer plus tard !",
                             'type' => "errors",
@@ -473,7 +467,6 @@ class ProjectApiController extends Controller
 
         } else {
             $request->session()->regenerate();
-            Session::flash('message', 'Vous ne disposer plus d\'action pour effectuer cette requete, modifiez votre abonnement !');
             return response()->json([
                 'message' => "Vous ne disposer plus d\'action pour effectuer cette requete, modifiez votre abonnement !",
                 'type' => "errors",
@@ -483,9 +476,10 @@ class ProjectApiController extends Controller
 
 
     /**
-     * Cancel my project's offer.
+     * Cancel a project offer.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function cancel(Request $request, $id)
@@ -657,8 +651,9 @@ class ProjectApiController extends Controller
 
 
     /**
-     * Remove the specified resource from storage.
+     * Remove a project and all project's files from storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

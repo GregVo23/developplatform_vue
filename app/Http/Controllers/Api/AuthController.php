@@ -26,10 +26,8 @@ class AuthController extends Controller
       if (!Auth::attempt($credentials)) {
 
         return response()->json([
-
           'status' => 401,
           'message' => 'Unauthorized'
-
         ]);
       }
 
@@ -37,35 +35,20 @@ class AuthController extends Controller
       if (!Hash::check($credentials['password'], $user->password, [])) {
         throw new \Exception('Exception in login');
       }
-
       $tokenResult = $user->createToken('authToken')->plainTextToken;
 
       return response()->json([
-
         'status' => 200,
         'access_token' => $tokenResult,
         'token_type' => 'Bearer',
-
       ]);
     } catch (\Exception $error) {
 
       return response()->json([
-
         'status' => 500,
         'message' => 'Exception in Login',
         'error' => $error,
-
       ]);
     }
-  }
-
-  /**
-   * Find the connected User.
-   *
-   * @return \Illuminate\Http\Response
-   */
-  public function me(Request $request)
-  {
-    return $request->user();
   }
 }
