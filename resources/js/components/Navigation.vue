@@ -163,7 +163,7 @@
                       <component
                         :is="item.icon"
                         :to="item.href"
-                         @click="open = !open"
+                        @click="open = !open"
                         class="h-6 w-6"
                         aria-hidden="true"
                       />
@@ -203,9 +203,10 @@
                   </a>
                 </div>
                 <div class="p-5 bg-gray-50 sm:p-8">
-                    <router-link
-                        to="/abonnement" class="-m-3 p-3 flow-root rounded-md hover:bg-gray-100">
-
+                  <router-link
+                    to="/abonnement"
+                    class="-m-3 p-3 flow-root rounded-md hover:bg-gray-100"
+                  >
                     <div class="flex items-center">
                       <div class="text-base font-medium text-gray-900">
                         Abonnement
@@ -253,7 +254,7 @@
           >
             <img
               class="object-cover rounded-full w-20 h-20"
-              :src=user.avatar
+              :src="user.avatar"
             />
             <ChevronDownIcon
               :class="[
@@ -297,11 +298,17 @@
                 <div
                   class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8"
                 >
-                    <router-link
+                  <router-link
                     to="/profil"
-                    class="pt-8 text-base font-medium text-gray-500 hover:text-gray-900"
+                    class="
+                      pt-8
+                      text-base
+                      font-medium
+                      text-gray-500
+                      hover:text-gray-900
+                    "
                     >Profil
-                    </router-link>
+                  </router-link>
 
                   <form id="logout-form" action="/logout" method="POST">
                     <input type="hidden" name="_token" :value="csrf" />
@@ -448,26 +455,36 @@
             </div>
             <div class="mt-6">
               <form method="POST" action="/logout">
-                  <input class="w-full
-                  flex
-                  items-center
-                  justify-center
-                  px-4
-                  py-2
-                  border border-transparent
-                  rounded-md
-                  shadow-sm
-                  text-base
-                  font-medium
-                  text-white
-                  bg-indigo-600
-                  hover:bg-indigo-700 cursor-pointer" type="submit" value="Se déconnecter">
+                <input
+                  class="
+                    w-full
+                    flex
+                    items-center
+                    justify-center
+                    px-4
+                    py-2
+                    border border-transparent
+                    rounded-md
+                    shadow-sm
+                    text-base
+                    font-medium
+                    text-white
+                    bg-indigo-600
+                    hover:bg-indigo-700
+                    cursor-pointer
+                  "
+                  type="submit"
+                  value="Se déconnecter"
+                />
               </form>
 
               <p class="mt-6 text-center text-base font-medium text-gray-500">
                 Besoin de nous contacter ?
                 {{ " " }}
-                <a href="https://developplatform.com/#contact" class="text-indigo-600 hover:text-indigo-500">
+                <a
+                  href="https://developplatform.com/#contact"
+                  class="text-indigo-600 hover:text-indigo-500"
+                >
                   contact
                 </a>
               </p>
@@ -496,7 +513,7 @@ import {
   XIcon,
 } from "@heroicons/vue/outline";
 import { ChevronDownIcon } from "@heroicons/vue/solid";
-import axios from 'axios';
+import axios from "axios";
 
 const solutions = [
   {
@@ -574,7 +591,7 @@ export default {
     };
   },
   commputed() {
-      fetchApi()
+    fetchApi();
   },
   setup() {
     return {
@@ -582,27 +599,28 @@ export default {
       resources,
     };
   },
-  methods : {
-    
-    fetchApi(){
-        const config = {
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-            }
-        }
-        axios.get("api/user", config).then(({data}) => (this.user = data)).catch(error => console.log('error', error));
-      }
+  methods: {
+    fetchApi() {
+      const config = {
+        headers: {
+          "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
+            .content,
+        },
+      };
+      axios
+        .get("api/user", config)
+        .then(({ data }) => (this.user = data))
+        .catch((error) => console.log("error", error));
+    },
   },
-  created(){
-      this.fetchApi()
-  }
+  created() {
+    this.fetchApi();
+  },
 };
 </script>
 
 <style>
-
 .router-link-active {
-    font-weight: bold;
+  font-weight: bold;
 }
-
 </style>
