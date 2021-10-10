@@ -393,8 +393,8 @@ export default {
             mode: "subscription",
 
             successUrl:
-              "http://localhost:8000/abonnement?session_id={CHECKOUT_SESSION_ID}",
-            cancelUrl: "http://localhost:8000/abonnement",
+              "https://developplatform.com/abonnement?session_id={CHECKOUT_SESSION_ID}",
+            cancelUrl: "https://developplatform.com/abonnement",
           })
           .then(function (result) {
             if (result.error) {
@@ -433,8 +433,8 @@ export default {
             mode: "subscription",
 
             successUrl:
-              "http://localhost:8000/abonnement?session_id={CHECKOUT_SESSION_ID}",
-            cancelUrl: "http://localhost:8000/abonnement",
+              "https://developplatform.com/abonnement?session_id={CHECKOUT_SESSION_ID}",
+            cancelUrl: "https://developplatform.com/abonnement",
           })
           .then(function (result) {
             if (result.error) {
