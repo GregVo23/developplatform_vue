@@ -24,6 +24,6 @@ class VerifyEmail extends VerifyEmailBase
                 Lang::get('Vérification adresse email'),
                 $this->verificationUrl($notifiable)
             )
-            ->line(Lang::get('Si vous ne posséder pas de compte, vous devez en créer un.'));
+            ->line(Lang::get('Si vous ne possédez pas de compte, vous devez en créer un.'));
     }
 }

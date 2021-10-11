@@ -5,7 +5,7 @@ Bonjour <b>{{ $mailData['name'] }} </b><br>
 
 Vous avez accepté l'offre de prix !<br>
 Vous pouvez dès à présent entrer en contact avec l'auteur de l'offre en vue de la réalisation.<br>
-N'oubliez pas, une fois le projet terminé, de donner une appréciation sur le travail effectué.<br><br>
+N'oubliez pas, une fois le projet terminé, de clôturer le projet et de donner une appréciation sur le travail effectué.<br><br>
 <b>Voici les informations sur l'auteur : </b><br>
 
 <b>l'auteur de l'offre</b> : {{ $mailData['author'] }} <br>

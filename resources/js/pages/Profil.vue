@@ -632,7 +632,7 @@
               </ul>
               <ul v-else class="list-inside space-y-2">
                 <li>
-                  <div class="leading-6 text-teal-600">Aucune demandes</div>
+                  <div class="leading-6 text-teal-600">Aucune demande</div>
                 </li>
               </ul>
             </div>
