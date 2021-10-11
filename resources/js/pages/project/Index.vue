@@ -118,16 +118,13 @@
                         type="FilterSearch"
                         name="FilterSearch"
                         v-model="letters"
-                        ref=""
-                        @keypress="search()"
-                        @keyup.delete="search()"
                       />
                     </div>
                   </div>
-                  <div class="flex justify-items-end">
+                  <div class="flex">
                     <div class="flex ml-1">
                       <select
-                        @change="ChangeNbPage($event)"
+                        @change="changeNbPage($event)"
                         id="nbProjects"
                         name="nbProjects"
                         class="
@@ -151,10 +148,43 @@
                       </select>
                       <label for="nbProjects" class="mt-2 ml-2"></label>
                     </div>
+
+                    <div class="flex ml-1">
+                        <button    
+                          @click="seeAllProject()"                     
+                          class="
+                            text-base
+                            border
+                            border-gray-200
+                            sm:text-sm
+                            rounded-lg
+                            px-2
+                            py-2
+                            hover:text-white
+                            hover:bg-gray-700
+                        ">Voir tous les projets
+                        </button>
+                    </div>
+                    <div class="flex ml-1">
+                        <button    
+                          @click="sortByDeadline()"                     
+                          class="
+                            text-base
+                            border
+                            border-gray-200
+                            sm:text-sm
+                            rounded-lg
+                            px-2
+                            py-2
+                            hover:text-white
+                            hover:bg-gray-700
+                        ">Classer par deadline
+                        </button>
+                    </div>
                   </div>
                 </div>
 
-                <template v-for="project in projectsPaginate" :key="project.id">
+                <template v-for="project in filteredList" :key="project.id">
                   <div class="flex flex-col mt-2 flex-grow">
                     <div class="flex-grow mt-2">
                       <div
@@ -178,7 +208,7 @@
                         <div class="flex justify-between">
                           <a
                             :href="
-                              'http://localhost:8000/storage/project/cover/' +
+                              'https://developplatform.com/storage/project/cover/' +
                               project.id +
                               '/' +
                               project.picture
@@ -189,7 +219,7 @@
                               <img
                                 class="h-36 w-36 rounded object-cover"
                                 :src="
-                                  'http://localhost:8000/project/cover/' +
+                                  'https://developplatform.com/project/cover/' +
                                   project.picture
                                 "
                                 :alt="project.name"
@@ -493,6 +523,7 @@
                     </div>
                   </div>
                 </template>
+                <p v-if="projectsPaginate.length == 0">Pas de projets !</p>
                 <Pagination
                   @updatePaginate="updatePagination($event)"
                   :nbPages="nbPages"
@@ -546,16 +577,11 @@ export default {
     Column,
     Pagination,
   },
-  setup(props, context) {
-    const letters = ref();
 
-    return { letters };
-  },
   data() {
     return {
       projects: [],
       projectsPaginate: [],
-      projectsBeforePaginate: [],
       categories: {},
       subcategories: {},
       subcategory: null,
@@ -563,16 +589,20 @@ export default {
       like: false,
       filter: [],
       firstCharge: true,
-      listOfAllCategories: [],
       listOfAllProjects: [],
-      listOfAllSubCategories: [],
       categoryId: "",
+      subCategoryId: "",
       loaded: false,
       from: 0,
       to: 10,
-      nbPages: null,
+      nbPages: 1,
       quantityPerPage: 10,
       current: 1,
+      letters: "",
+      seeAll: false,
+      chosenPage: 1,
+      updatePage: false,
+      seeByDeadline: false,
     };
   },
   methods: {
@@ -592,9 +622,8 @@ export default {
             (this.categories = data[1]),
             (this.subcategories = data[2]),
             (this.user = data[3]),
-            (this.loaded = true),
-            (this.projectsPaginate = data[0])
-            //this.projectsPaginate = this.projectsPaginate.slice(this.from-this.to)
+            (this.projectsPaginate = data[0]),
+            (this.loaded = true)
           )
         )
         .catch((error) => console.log("error", error));
@@ -629,79 +658,26 @@ export default {
         project.nbLike--;
       }
     },
-    search() {
-      this.filter = [];
-
-      if (this.letters.length !== undefined) {
-        if (this.letters.length === 0) {
-          this.projectsPaginate = [...this.projects];
-          this.nbPages = Math.ceil(
-            this.projectsPaginate.length / this.quantityPerPage
-          );
-        } else {
-          this.projectsPaginate = [...this.projects];
-          this.projectsPaginate.forEach((element) => {
-            if (
-              element.name.toLowerCase().search(this.letters.toLowerCase()) > -1
-            ) {
-              this.filter.push(element);
-              JSON.stringify(this.filter);
-            }
-          });
-          this.projectsPaginate = [...this.filter];
-          this.nbPages = Math.ceil(
-            this.projectsBeforePaginate.length / this.quantityPerPage
-          );
-        }
-        this.projectsPaginate = this.projectsPaginate.slice(
-          0,
-          this.quantityPerPage
-        );
-      }
-    },
     onCategory(event) {
-      this.filter = [];
 
-      this.listOfAllProjects.forEach((element) => {
-        if (element.category_id == event.target.value) {
-          this.filter.push(element);
-          JSON.stringify(this.filter);
-          this.categoryId = element.category_id;
-          this.subCategoryChange();
-        } else {
-          this.projectsPaginate = [...this.listOfAllProjects];
-          this.subcategories = [];
-        }
-      });
-      this.projectsPaginate = [...this.filter];
-      this.projectsPaginate = this.projectsPaginate.slice(
-        0,
-        this.quantityPerPage
-      );
-      this.nbPages = Math.ceil(
-        this.projectsBeforePaginate.length / this.quantityPerPage
-      );
+        this.categoryId = event.target.value;
+        this.subCategoryId = "";
+        this.subCategoryChange();
     },
     onSubCategory(event) {
-      this.filter = [];
 
-      this.listOfAllProjects.forEach((element) => {
-        if (element.sub_category_id == event.target.value) {
-          this.subcategory = event.target.value;
-          this.filter.push(element);
-          JSON.stringify(this.filter);
-        } else {
-          this.projectsPaginate = [...this.listOfAllProjects];
-        }
-      });
-      this.projectsPaginate = [...this.filter];
-      this.projectsPaginate = this.projectsPaginate.slice(
-        0,
-        this.quantityPerPage
-      );
-      this.nbPages = Math.ceil(
-        this.projectsBeforePaginate.length / this.quantityPerPage
-      );
+        this.subCategoryId = event.target.value;
+
+    },
+    seeAllProject() {
+
+        this.seeAll = true;
+
+    },
+    sortByDeadline() {
+
+        this.seeByDeadline = true;
+
     },
     subCategoryChange() {
       const config = {
@@ -715,62 +691,124 @@ export default {
         .then(({ data }) => (this.subcategories = data))
         .catch((error) => console.log("error", error));
     },
-    ChangeNbPage: function (event) {
+    changeNbPage: function (event) {
       if (event.target.value == 10) {
-        this.to = this.from + 10;
+        this.quantityPerPage = event.target.value;
+        this.to = this.from + this.quantityPerPage;
       }
       if (event.target.value == 20) {
-        this.to = this.from + 20;
+        this.quantityPerPage = event.target.value;
+        this.to = this.from + this.quantityPerPage;
       }
-      //console.log(this.to+" + "+this.from);
-      this.Paginate();
-    },
-    Paginate() {
-      this.projectsPaginate = this.listOfAllProjects.slice();
-      this.projectsPaginate = this.projectsPaginate.slice(this.from, this.to);
-      this.nbPages = Math.ceil(
-        this.projectsBeforePaginate.length / this.quantityPerPage
-      );
     },
     updatePagination(pageChoice) {
-      if (pageChoice > this.current) {
-        this.to = this.quantityPerPage * pageChoice;
-        this.from = this.to - this.quantityPerPage;
-        console.log(this.to + " + " + this.from);
-        this.Paginate();
-        this.current = pageChoice;
-      }
-      if (pageChoice < this.current) {
-        this.to = this.quantityPerPage * pageChoice;
-        this.from = this.to - this.quantityPerPage;
-        console.log(this.to + " + " + this.from);
-        this.Paginate();
-        this.current = pageChoice;
-      }
+        
+      this.chosenPage = pageChoice;
+      this.updatePage = true;
+
+    },
+  },
+  computed: {
+    filteredList() {
+          
+            let filterSearch = [];
+            let filterCat = [];
+            let filterSub = [];
+
+            if (this.seeAll === true){
+                this.letters = "";
+                this.subCategoryId = "";
+                this.categoryId = "";
+                this.projectsPaginate = this.listOfAllProjects;
+                this.seeAll = false;
+            }
+
+            if (this.categoryId !== "") {
+              this.listOfAllProjects.forEach((element) => {
+
+                    if (element.category_id == this.categoryId) {
+                        filterCat.push(element);
+                        JSON.stringify(filterCat);
+                    }
+                })
+                if (filterCat.length > 0){
+                    this.projectsPaginate = [...filterCat];
+                } else {
+                    this.projectsPaginate = [];
+                }
+            }
+
+            if (this.subCategoryId !== "") {
+              this.listOfAllProjects.forEach((element) => {
+
+                    if (element.sub_category_id == this.subCategoryId) {
+                        filterSub.push(element);
+                        JSON.stringify(filterSub);
+                    }
+                })
+                if (filterSub.length > 0){
+                    this.projectsPaginate = [...filterSub];
+                } else {
+                    this.projectsPaginate = [];
+                }
+            }
+
+            if (this.letters !== "") {
+                this.projectsPaginate.forEach((element) => {
+
+                    if (element.name.toLowerCase().search(this.letters.toLowerCase()) > -1) {
+                        filterSearch.push(element);
+                        JSON.stringify(filterSearch);
+                    }
+                })
+                if (filterSearch.length > 0){
+                  this.projectsPaginate = [...filterSearch];
+                } else {
+                  this.projectsPaginate = [];
+              }
+            }
+
+            if (this.seeByDeadline === true){
+                this.seeByDeadline = false;
+                let result = this.projectsPaginate.slice().sort(function(a, b) {
+                    var c = new Date(a.deadline);
+                    var d = new Date(b.deadline);
+                    return c-d;
+                });
+
+              this.projectsPaginate = result;
+            }
+
+         if (this.updatePage === true){
+              if (this.chosenPage > this.current) {
+                  this.from = this.from + this.quantityPerPage;
+                  this.to = this.from + this.quantityPerPage;
+
+              } else if (this.chosenPage < this.current) {
+                  this.from = (this.from == 0) ? 0 : (this.from - this.quantityPerPage);
+                  this.to = this.from + this.quantityPerPage;
+
+              } else {
+                  //même page
+              }
+              this.current = this.chosenPage;
+              this.updatePage = false;
+         }
+
+          if (this.projectsPaginate.length >= this.quantityPerPage){
+              this.nbPages = Math.ceil(
+                  this.projectsPaginate.length / this.quantityPerPage
+              );
+              let projectsPaginated = this.projectsPaginate.slice(this.from, this.to);
+              return projectsPaginated;
+          } else {
+              this.nbPages = 1
+              return this.projectsPaginate;
+          }
     },
   },
   created() {
     this.loadData();
-  },
-  beforeUpdate() {
-    //this.loadData();
-    //this.projectsPaginate = this.listOfAllProjects;
-    //console.log("beforeup"+this.projectsPaginate+" "+this.to+" "+this.from);
-    //this.projectsPaginate = this.projectsPaginate.splice(this.from,this.to);
-    //console.log(this.nbPages);
-    //console.log("beforeup2"+this.projectsPaginate+" "+this.to+" "+this.from);
-    if (this.firstCharge === true) {
-      this.projects = this.listOfAllProjects.slice();
-      this.listOfAllProjects = this.projects.slice();
-      this.projectsBeforePaginate = this.projects.slice();
-      this.projectsPaginate = this.projectsPaginate.splice(this.from, this.to);
-      this.firstCharge = false;
-    } else {
-      //this.projectsPaginate = this.projectsPaginate.splice(this.from,this.to);
-    }
-    this.nbPages = Math.ceil(
-      this.projectsBeforePaginate.length / this.quantityPerPage
-    );
   },
 };
 </script>

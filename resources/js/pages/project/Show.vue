@@ -65,7 +65,7 @@
             <img
               class="md:h-100 md:w-100 lg:h-150 lg:w-150 rounded object-cover"
               title="Voir en grand"
-              :src="'http://localhost:8000/project/cover/' + project.picture"
+              :src="'https://developplatform.com/project/cover/' + project.picture"
               :alt="project.name"
             />
           </a>
@@ -1028,7 +1028,7 @@ export default {
       offerProject: false,
       makeOffer: false,
       deadline: false,
-      url: "http://localhost:8000/",
+      url: "https://developplatform.com/",
       rate: null,
       rateInformation: null,
       subscription: {},

@@ -18,7 +18,7 @@
           <span class="sr-only">Workflow</span>
           <img
             class="pl-4 h-10 w-auto sm:h-16"
-            src="http://localhost:8000/images/logo.svg"
+            src="https://developplatform.com/images/logo.svg"
             alt="Developplatform logo"
           />
         </a>
@@ -364,7 +364,7 @@
               <div>
                 <img
                   class="h-8 w-auto"
-                  src="http://localhost:8000/images/logo.svg"
+                  src="https://developplatform.com/images/logo.svg"
                   alt="logo developplatform"
                 />
               </div>

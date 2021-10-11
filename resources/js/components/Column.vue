@@ -83,7 +83,7 @@
           <div v-else>
             <img
               class="w-auto rounded-lg mb-6"
-              src="http://localhost:8000/images/1.jpeg"
+              src="https://developplatform.com/images/1.jpeg"
               alt="developplatform"
             />
           </div>
