@@ -523,7 +523,7 @@
                     </div>
                   </div>
                 </template>
-                <p v-if="projectsPaginate.length == 0">Pas de projets !</p>
+                <p class="text-center my-10 animate-bounce text-indigo-700" v-if="projectsPaginate.length == 0">Pas de projets !</p>
                 <Pagination
                   @updatePaginate="updatePagination($event)"
                   :nbPages="nbPages"
@@ -532,12 +532,13 @@
             </div>
           </section>
         </div>
-
-        <Column
-          :subcategories="subcategories"
-          :subcategory="subcategory"
-          :categoryId="categoryId"
-        />
+        <div grid grid-cols-1 gap-4 lg:col-span-2>
+          <Column
+            :subcategories="subcategories"
+            :subcategory="subcategory"
+            :categoryId="categoryId"
+          />
+        </div>
       </div>
     </div>
   </main>
@@ -733,6 +734,7 @@ export default {
                 })
                 if (filterCat.length > 0){
                     this.projectsPaginate = [...filterCat];
+                    this.subcategory = null;
                 } else {
                     this.projectsPaginate = [];
                 }
@@ -748,6 +750,7 @@ export default {
                 })
                 if (filterSub.length > 0){
                     this.projectsPaginate = [...filterSub];
+                    this.subcategory = this.subCategoryId;
                 } else {
                     this.projectsPaginate = [];
                 }

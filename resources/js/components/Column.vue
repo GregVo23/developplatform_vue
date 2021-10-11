@@ -1,13 +1,46 @@
 <template>
-  <aside id="sidebar" aria-labelledby="section-2-title" class="hidden">
-    <div class="rounded-lg bg-white overflow-hidden shadow" id="sidebar">
+  <aside id="sidebar" aria-labelledby="section-2-title" class="z-10">
+    <div class="rounded-lg bg-white overflow-hidden shadow w-1/3" id="sidebar">
       <div class="p-6">
         <!-- Column Content -->
 
-        <nav class="space-y-1" aria-label="Sidebar">
+        <nav class="space-y-1 w-auto" aria-label="Sidebar">
+          <div class="flex justify-between">
+          <router-link
+            to="/accueil"
+            class="
+              block
+              text-base
+              font-medium
+              text-gray-500
+              hover:text-gray-900
+            "
+            >Accueil
+          </router-link>
+          <router-link
+            to="/favoris"
+            class="
+              block
+              text-base
+              font-medium
+              text-gray-500
+              hover:text-gray-900
+            "
+            >Favoris
+          </router-link>
+          <router-link
+            to="/offres"
+            class="
+              block
+              text-base
+              font-medium
+              text-gray-500
+              hover:text-gray-900
+            "
+            >propositions
+          </router-link>
+          </div>
           <div v-if="categoryId !== ''" class="mb-2">
-            <h3 v-if="categoryId == 1" class="mb-2">Design</h3>
-            <h3 v-else class="mb-2">Développement</h3>
             <div v-if="subCategoryChosen.length > 0">
               <img
                 class="rounded"
@@ -83,44 +116,11 @@
           <div v-else>
             <img
               class="w-auto rounded-lg mb-6"
-              src="https://developplatform.com/images/1.jpeg"
+              src="https://developplatform.com/images/logo.svg"
               alt="developplatform"
             />
           </div>
-
-          <router-link
-            to="/accueil"
-            class="
-              block
-              text-base
-              font-medium
-              text-gray-500
-              hover:text-gray-900
-            "
-            >Accueil
-          </router-link>
-          <router-link
-            to="/favoris"
-            class="
-              block
-              text-base
-              font-medium
-              text-gray-500
-              hover:text-gray-900
-            "
-            >Favoris
-          </router-link>
-          <router-link
-            to="/offres"
-            class="
-              block
-              text-base
-              font-medium
-              text-gray-500
-              hover:text-gray-900
-            "
-            >propositions
-          </router-link>
+          
         </nav>
       </div>
     </div>
@@ -170,8 +170,8 @@ export default {
     loadFormData() {
       let lastKnownScrollPosition = 0;
       let ticking = false;
-      let footer = document.querySelector("#footer");
-      let height = document.querySelector("main").offsetHeight;
+      let footer = document.querySelector("#footer").offsetHeight;
+      let height = document.querySelector("#sidebar");
 
       /**
        *  Effect on the column when scrolling
@@ -179,43 +179,20 @@ export default {
       function changeColumn(scrollPos) {
         let position = window.pageYOffset;
 
-        console.log(footer);
-        console.log(height);
-        console.log(position);
+        //console.log(footer);
+        //console.log(height);
+        //console.log(position);
 
-        if (position > height + 200) {
-          //document.querySelector("#sidebar > div").style.width = '32%';
-          document.querySelector("#sidebar").style.position = "initial";
-          document.querySelector("#sidebar").style.margin = "0% 0% 0% 0%";
-          //document.querySelector('#sidebar').style.width = '32%';
-          document.querySelector("#sidebar").style.transition =
-            "background-color 0.3s ease";
-          document.querySelector("#sidebar > div").style.backgroundColor =
-            "white";
-          document.querySelector("#sidebar").style.display = "block";
-        } else if (position < height + 2200) {
-          document.querySelector("#sidebar > div").style.width = "31%";
-          document.querySelector("#sidebar").style.position = "fixed";
-          document.querySelector("#sidebar").style.margin = "0% 0% 0% 65%";
-          //document.querySelector('#sidebar').style.width = '32%';
-          document.querySelector("#sidebar").style.transition =
-            "background-color 0.3s ease";
-          document.querySelector("#sidebar > div").style.backgroundColor =
-            "white";
-          document.querySelector("#sidebar").style.display = "flex";
+
+
+        if (position < height + 2000) {
+
+          document.querySelector("#sidebar").style.display = "grid";
         }
 
         if (position > height + 2200) {
-          //document.querySelector("#sidebar > div").style.width = '32%';
-          document.querySelector("#sidebar").style.position = "initial";
-          document.querySelector("#sidebar").style.margin = "0% 0% 0% 0%";
-          //document.querySelector('#sidebar').style.width = '32%';
-          document.querySelector("#sidebar").style.transition =
-            "background-color 0.3s ease";
-          document.querySelector("#sidebar > div").style.backgroundColor =
-            "transparent";
-          document.querySelector("#sidebar > div").style.color = "transparent";
-          document.querySelector("#sidebar").style.display = "block";
+
+          document.querySelector("#sidebar").style.display = "none";
         }
       }
 
