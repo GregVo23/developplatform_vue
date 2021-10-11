@@ -6,7 +6,7 @@
     >
       <h1 class="text-xl">Mes favoris</h1>
       <!-- Main 3 column grid -->
-      <div class="grid grid-cols-1 gap-4 items-start lg:grid-cols-3 lg:gap-8">
+      <div class="grid grid-cols-1 gap-4 items-start">
         <!-- Left column -->
         <div class="grid grid-cols-1 gap-4 lg:col-span-2">
           <section v-if="projects.length > 0" aria-labelledby="section-1-title">
@@ -507,121 +507,7 @@
         </div>
 
         <!-- Right column -->
-        <div class="grid grid-cols-1 gap-4 wrap">
-          <section id="sidebar" aria-labelledby="section-2-title">
-            <h2 class="sr-only" id="section-2-title">Section title</h2>
-            <div
-              class="rounded-lg bg-white overflow-hidden shadow"
-              id="sidebar"
-            >
-              <div class="p-6">
-                <!-- Column Content -->
 
-                <!-- This example requires Tailwind CSS v2.0+ -->
-
-                <nav class="space-y-1" aria-label="Sidebar">
-                  <h3>Les catégories</h3>
-
-                  <ul v-for="category in categories" :key="category.id">
-                    <a
-                      href="#"
-                      class="
-                        bg-gray-100
-                        text-gray-900
-                        group
-                        flex
-                        items-center
-                        px-3
-                        py-2
-                        text-sm
-                        font-medium
-                        rounded-md
-                      "
-                      aria-current="page"
-                    >
-                      <!--
-        Heroicon name: outline/home
-
-        Current: "text-gray-500", Default: "text-gray-400 group-hover:text-gray-500"
-        -->
-                      <!-- Heroicon name: outline/folder -->
-                      <svg
-                        class="
-                          text-gray-400
-                          group-hover:text-gray-500
-                          flex-shrink-0
-                          -ml-1
-                          mr-3
-                          h-6
-                          w-6
-                        "
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        aria-hidden="true"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
-                        />
-                      </svg>
-                      <span class="truncate">
-                        {{ category.name }}
-                      </span>
-                    </a>
-                  </ul>
-
-                  <a
-                    href="#"
-                    class="
-                      text-gray-600
-                      hover:bg-gray-50
-                      hover:text-gray-900
-                      group
-                      flex
-                      items-center
-                      px-3
-                      py-2
-                      text-sm
-                      font-medium
-                      rounded-md
-                    "
-                  >
-                    <!-- Heroicon name: outline/users -->
-                    <svg
-                      class="
-                        text-gray-400
-                        group-hover:text-gray-500
-                        flex-shrink-0
-                        -ml-1
-                        mr-3
-                        h-6
-                        w-6
-                      "
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-                      />
-                    </svg>
-                    <span class="truncate"> "Pas de sous-catégories" </span>
-                  </a>
-                </nav>
-              </div>
-            </div>
-          </section>
-          <!-- Image publicity-->
-        </div>
       </div>
     </div>
   </main>
