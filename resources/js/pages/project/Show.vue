@@ -1231,7 +1231,7 @@ export default {
       };
       if (
         confirm(
-          "Etes vous sur de supprimer ce projet : " +
+          "Etes-vous sur de vouloir supprimer ce projet : " +
             project.name.substring(0, 25) +
             " ..."
         )

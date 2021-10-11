@@ -698,7 +698,7 @@
               </ul>
               <ul v-else class="list-inside space-y-2">
                 <li>
-                  <div class="text-teal-600 leading-6">Aucune réalisations</div>
+                  <div class="text-teal-600 leading-6">Aucune réalisation</div>
                 </li>
               </ul>
             </div>

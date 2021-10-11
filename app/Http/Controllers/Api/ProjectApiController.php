@@ -118,8 +118,8 @@ class ProjectApiController extends Controller
         if ($user->notification == true) {
 
             // Send notification email to the offer's owner
-            $message = "Votre offre de prix a été accepté, le titre du projet est : '$project->name'. Nous vous remercions pour votre confiance et vous souhaitons beaucoup de succès sur Developplatform.";
-            $title = "Félicitation, votre offre de prix a été accepté !";
+            $message = "Votre offre de prix a été acceptée, le titre du projet est : '$project->name'. Nous vous remercions pour votre confiance et vous souhaitons beaucoup de succès sur Developplatform.";
+            $title = "Félicitations, votre offre de prix a été acceptée !";
             $name = $user->firstname;
             $email = $user->email;
             $author = $owner->firstname;
@@ -187,13 +187,13 @@ class ProjectApiController extends Controller
             $proposal->amount = NULL;
             $proposal->save();
             return response()->json([
-                'message' => 'Cette offre est supprimée avec succés',
+                'message' => 'Cette offre a été supprimée avec succès',
                 'type' => 'success',
             ], 200);
         } else {
             $proposal->delete();
             return response()->json([
-                'message' => 'Cette offre est supprimée avec succés',
+                'message' => 'Cette offre a été supprimée avec succès',
                 'type' => 'success',
             ], 200);
         }
@@ -357,19 +357,19 @@ class ProjectApiController extends Controller
                     }
                 } else {
                     return response()->json([
-                        'message' => 'Vous ne pouvez pas accepter ce projet car vous en ête l\'auteur',
+                        'message' => 'Vous ne pouvez pas accepter ce projet car vous en êtes l\'auteur',
                         'type' => 'errors',
                     ], 401);
                 }
             } else {
                 return response()->json([
-                    'message' => "Un problème inatendu est survenu ! Désolé, revenez plus tard ...",
+                    'message' => "Un problème inattendu est survenu ! Désolé, revenez plus tard ...",
                     'type' => 'errors',
                 ], 200);
             }
         } else {
             return response()->json([
-                'message' => "Vous ne disposer plus d\'action pour effectuer cette requete, modifiez votre abonnement !",
+                'message' => "Vous ne disposez plus d\'action pour effectuer cette requête, modifiez votre abonnement !",
                 'type' => 'errors',
             ], 200);
         }
@@ -403,7 +403,7 @@ class ProjectApiController extends Controller
                 // process
                 if ($validator->fails()) {
                     return response()->json([
-                        'message' => "Une erreur est survenue lors de l'enregistrement due a une validation de donnée incorrecte",
+                        'message' => "Une erreur est survenue lors de l'enregistrement suite  une validation de données incorrecte",
                         'type'=> "errors",
                     ], 401);
                 } else {
@@ -435,7 +435,7 @@ class ProjectApiController extends Controller
                                     $owner_id =  $project->user_id;
                                     $owner = User::find($owner_id);
                                     // Send notification email to the project's owner
-                                    $message2 = "Une proposition d'un montant de $request->amount € a été reçu pour votre projet : $project->name . Vous pouvez réagir à cette offre, l'accepter ou la refuser. Nous vous remercions pour votre confiance et vous souhaitons beaucoup de succès sur Developplatform.";
+                                    $message2 = "Une proposition d'un montant de $request->amount € a été reçue pour votre projet : $project->name . Vous pouvez réagir à cette offre, l'accepter ou la refuser. Nous vous remercions pour votre confiance et vous souhaitons beaucoup de succès sur Developplatform.";
                                     $title2 = "Vous avez reçu une offre pour votre projet.";
                                     $name2 = $owner->firstname;
                                     $email2 = $owner->email;
@@ -468,7 +468,7 @@ class ProjectApiController extends Controller
         } else {
             $request->session()->regenerate();
             return response()->json([
-                'message' => "Vous ne disposer plus d\'action pour effectuer cette requete, modifiez votre abonnement !",
+                'message' => "Vous ne disposez plus d\'action pour effectuer cette requête, modifiez votre abonnement !",
                 'type' => "errors",
             ], 200);
         }
@@ -489,7 +489,7 @@ class ProjectApiController extends Controller
         $result = $offer->delete();
         if ($result) {
             return response()->json([
-                'message' => "Votre offre est supprimée",
+                'message' => "Votre offre a été supprimée",
                 'type' => 'success',
             ], 200);
         } else {
@@ -690,7 +690,7 @@ class ProjectApiController extends Controller
                 }
                 $response = $project->delete();
                 if($response){
-                    Session::flash('success', 'Votre projet est supprimée avec succés !');
+                    Session::flash('success', 'Votre projet est supprimé avec succés !');
                     return response()->json([
                         'message' => "Votre projet est supprimée",
                         'type' => 'success',
@@ -709,7 +709,7 @@ class ProjectApiController extends Controller
             }
         } else {
             return response()->json([
-                'message' => 'Seul l\'auteur peut supprimer son projet',
+                'message' => 'Il faut être connecté au site',
                 'type' => 'error',
             ], 405);
         }

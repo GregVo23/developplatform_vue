@@ -43,7 +43,7 @@
           <div v-if="categoryId !== ''" class="mb-2">
             <div v-if="subCategoryChosen.length > 0">
               <img
-                class="rounded"
+                class="rounded mb-2"
                 :src="
                   subCategoryChosen[0].image ? subCategoryChosen[0].image : ''
                 "
@@ -51,7 +51,7 @@
                   subCategoryChosen[0].name ? subCategoryChosen[0].name : ''
                 "
               />
-              <h4>
+              <h4 class="font-bold text-lg">
                 {{ subCategoryChosen[0].name ? subCategoryChosen[0].name : "" }}
               </h4>
               <p>

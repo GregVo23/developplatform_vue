@@ -158,7 +158,7 @@
                       />
                     </div>
                     <p class="ml-3 text-base text-gray-700">
-                      10 demandes de réalisation/mois
+                      Appel d'offres
                     </p>
                   </li>
                   <li class="flex items-start">
@@ -169,7 +169,7 @@
                       />
                     </div>
                     <p class="ml-3 text-base text-gray-700">
-                      10 création de projet/mois
+                      Réalisation de projet
                     </p>
                   </li>
                 </ul>
@@ -265,7 +265,7 @@
                       />
                     </div>
                     <p class="ml-3 text-base text-gray-700">
-                      25 demandes de réalisation/mois
+                      Appel d'offres
                     </p>
                   </li>
                   <li class="flex items-start">
@@ -276,7 +276,7 @@
                       />
                     </div>
                     <p class="ml-3 text-base text-gray-700">
-                      25 création de projet/mois
+                      Réalisation de projet
                     </p>
                   </li>
                 </ul>

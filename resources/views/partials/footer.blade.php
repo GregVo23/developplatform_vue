@@ -75,8 +75,8 @@
     </div>
     <div class="mt-12 border-t border-gray-200 pt-8">
       <p class="text-base text-gray-400 xl:text-center">
-        &copy; 2021 <span class="text-gray-500">Developplatform</span>, réalisé par <a class="gradient-text gradient-horizon" href="https://www.vanossel.be/">Van Ossel Grégory</a>.
-      <br><span class="text-sm">Dans le cadre d'un travail de fin d'étude en Web Développement à l' <a class="text-blue-300" href="https://www.epfc.eu/">EPFC</a></span></p>
+        &copy; 2021 <span class="text-gray-500">Developplatform</span>, réalisé par <a class="gradient-text gradient-horizon hover:text-yellow" href="https://www.vanossel.be/">Van Ossel Grégory</a>.
+      <br><span class="text-sm">Dans le cadre d'un travail de fin d'étude en Web Développement à l' <a class="text-blue-600 hover:text-yellow" href="https://www.epfc.eu/">EPFC</a></span></p>
     </div>
   </div>
 </footer>

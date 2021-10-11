@@ -45,15 +45,15 @@ class ContactController extends Controller
 
             if (!empty($request->input('contact')) && $request->input('contact') == "question") {
                 $admin = env('APP_EMAIL');
-                $message = "Votre demande à été envoyée aux administrateurs du site, nous vous répondrons dans les plus brefs délais.";
+                $message = "Votre demande a été envoyée aux administrateurs du site, nous vous répondrons dans les plus brefs délais.";
                 $title = "Question d'un membre de Developplatform";
             } elseif (!empty($request->input('contact')) && $request->input('contact') == "complaint") {
                 $admin = env('APP_POLICE_EMAIL');
-                $message = "Votre plainte à été envoyée aux personnes en charge des litiges du site, nous vous répondrons dans les plus brefs délais.";
+                $message = "Votre plainte a été envoyée aux personnes en charge des litiges du site, nous vous répondrons dans les plus brefs délais.";
                 $title = "Plainte d'un membre de Developplatform";
             } else {
                 $admin = env('APP_EMAIL');
-                $message = "Votre message à été envoyée aux administrateurs du site, nous vous répondrons dans les plus brefs délais.";
+                $message = "Votre message a été envoyée aux administrateurs du site, nous vous répondrons dans les plus brefs délais.";
                 $title = "Message d'un membre de Developplatform";
             }
             $name = ucfirst($request->input('name'));

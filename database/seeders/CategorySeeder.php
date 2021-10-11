@@ -24,11 +24,11 @@ class CategorySeeder extends Seeder
         $categories = [
             ['name'=>'Design',
              'image'=> env('APP_URL').'/images/categories/c1.jpg',
-             'description'=> 'Toutes réalisations visuelles telle que l\'impression, le web, création de logo, flyers, carte de visite ...',
+             'description'=> 'Toutes réalisations visuelles telles que la création de logo, flyers, carte de visite, dessin, peinture ...',
             ],
             ['name'=>'Développement',
              'image'=> env('APP_URL').'/images/categories/c2.jpeg',
-             'description'=> 'Toutes réalisations liées aux codes et language de programmation telles que la réalisation d\'application, site web ...',
+             'description'=> 'Toutes réalisations liées aux codes et languages de programmation telles que la réalisation d\'application, site web ...',
             ],
 
         ];

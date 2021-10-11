@@ -141,16 +141,16 @@
                             <span class="uppercase font-bold ml-3">SemiColonWeb</span>
                         </div> -->
                         <div class="mx-auto" style="max-width: 600px">
-                            <p class="text-xl font-normal text-gray-900 mb-5">Vous souhaitez faire appel d'offres à des
-                                designers ou développeurs pour la réalisation d'un projet ? Vous êtes designer ou
-                                développeur et vous rechercher des petits projets ?</p>
+                            <p class="text-xl font-normal text-gray-900 mb-5">Vous souhaitez faire un appel d'offres à des
+                                designers ou  des développeurs pour la réalisation d'un projet ? Vous êtes designer ou
+                                développeur et vous recherchez des petits projets ?</p>
                             <a href="{{ route('project.create') }}"
-                                class="button button-dark button-hero h-translatey-3 tf-ts button-reveal overflow-visible bg-gray-900 text-right"><span>Je
-                                    demande</span><i class="icon-line-arrow-right"></i></a>
+                                class="button button-dark button-hero h-translatey-3 tf-ts button-reveal overflow-visible bg-gray-900 text-right"><span>
+                                    Je demande</span><i class="icon-line-arrow-right"></i></a>
                             <a href="{{ route('projects.index') }}"
                                 class="button button-large button-light text-gray-900 bg-transparent m-0 mt-4 sm:mt-0"
-                                style="z-index: 1;"><i class="icon-line2-arrow-down font-bold"></i> <u>Chercher un
-                                    projet</u></a>
+                                style="z-index: 1;"><i class="icon-line2-arrow-down font-bold"></i> <u>
+                                    Je cherche un projet</u></a>
                         </div>
                     </div>
                 </div>
@@ -169,9 +169,9 @@
                     <div class="m-12 p-12 text-center">
                         <h3 class="font-weight-bolder h1 mb-4">Designer & Développeur, pour réaliser vos <span
                                 class="gradient-text gradient-horizon">demandes</span></h3>
-                        <p class="mb-5 text-xl font-light text-black-50 font-weight-extralight">Vous ne disposez pas de
-                            capacités pour réaliser un projet graphique ou de développement et vous rechercher quelqu'un
-                            pour mener à bien cette réalisation. Proposer votre projet, votre prix, votre délais et les
+                        <p class="mb-5 text-xl font-light text-black-50 font-weight-extralight">Vous ne disposez pas des
+                            capacités pour réaliser un projet graphique ou de développement et vous recherchez quelqu'un
+                            pour mener à bien cette réalisation. Proposez votre projet, votre prix, votre délai et les
                             offres viendront à vous.</p>
                     </div>
                     <img src="./images/right.jpg" style="float:right; max-width: 220px;">
@@ -191,9 +191,9 @@
                                     <h3 class="font-weight-bolder h1 mb-4">Envoyer ou recevoir une <span
                                             class="gradient-text gradient-horizon">offre de prix</span></h3>
                                     <p class="mb-5 text-xl font-light text-black-50 font-weight-extralight">Vous serez
-                                        notifiez des offres de la communauté par e-mail ou via le site et ce, sans
-                                        engagement. En effet nous vous mettrons juste en contact avec le prestataire et
-                                        ce, seulement si vous l'accepter.</p>
+                                        notifié des offres de la communauté par e-mail ou via le site et ce, sans
+                                        engagement. En effet, nous vous mettrons en contact avec le prestataire et
+                                        ce, seulement si vous l'acceptez.</p>
                                 </div>
                             </div>
                         </div>
@@ -240,7 +240,7 @@
                                 <div class="counter counter-xlarge text-white font-weight-bolder"><span data-from="4"
                                         data-to="{{ $pourcentage }}" data-refresh-interval="50"
                                         data-speed="1500"></span></div>
-                                <span class="text-white">% de demandes <br>Ont reçus un devis.</span>
+                                <span class="text-white">% de demandes <br>Ont reçu un devis.</span>
                             </div>
                         </div>
 
@@ -274,7 +274,7 @@
                         </h2>
                         <p class="mt-6 mb-8 max-w-2xl mx-auto text-xl text-gray-500 sm:mt-4">
                             De nombreuses demandes de <span class="gradient-text gradient-horizon">Design</span> ou de
-                            <span class="gradient-text gradient-horizon">développement</span> classées par catégories
+                            <span class="gradient-text gradient-horizon">Développement</span> classées par catégories
                             vous attendent.
                         </p>
                     </div>
@@ -325,7 +325,7 @@
                             <div class="widget">
 
                                 <h3 class="h1 mb-5">Suivez-nous sur nos réseaux sociaux</h3>
-                                <span class="text-black-50">Nous sommes actif et postons régulièrement de nouvelles
+                                <span class="text-black-50">Nous sommes actifs et postons régulièrement de nouvelles
                                     annonces.</span>
                                 <div class="flex">
                                     <a href="http://facebook.com/" target="_blank">

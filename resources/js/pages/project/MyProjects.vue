@@ -450,7 +450,7 @@
           <section v-else aria-labelledby="section-1-title">
             <div class="rounded-lg bg-white overflow-hidden shadow">
               <div class="p-4 text-center">
-                <p class="pt-6 text-xl pb-6">Vous n'avez pas de demandes</p>
+                <p class="pt-6 text-xl pb-6">Vous n'avez pas de demande</p>
                 <router-link
                   to="/nouveau"
                   class="

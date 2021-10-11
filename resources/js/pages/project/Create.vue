@@ -15,8 +15,8 @@
             Mon Nouveau Projet
           </h2>
           <p class="mt-1 text-sm text-gray-500">
-            Je rentre via le formulaire
-            <u><b>ci-dessous</b></u> toutes les information liées à ma demande
+            Je renseigne via le formulaire
+            <u><b>ci-dessous</b></u> toutes les informations liées à ma demande
             de réalisation de projet.
           </p>
         </div>
@@ -66,7 +66,7 @@
             <label
               for="subCategory"
               class="block text-sm font-medium text-gray-700"
-              >Sous catégorie</label
+              >Sous-catégorie</label
             >
             <select
               v-model="subcategoryselected"
@@ -198,7 +198,7 @@
             <label
               for="deadline"
               class="block text-sm font-medium text-gray-700"
-              >Délais</label
+              >Délai</label
             >
             <input
               v-model="project.deadline"
@@ -361,7 +361,7 @@
           Informations supplémentaires
         </h3>
         <p class="mt-1 text-sm text-gray-500 text-center">
-          Ces informations seront communiqués au prestataire de votre projet.
+          Ces informations seront communiquées au prestataire de votre projet.
         </p>
       </div>
 
@@ -613,7 +613,7 @@
                     >Offres de prix</label
                   >
                   <p class="text-gray-500">
-                    Me notifier si je recois une offre de prix pour mon projet.
+                    Me notifier si je reçois une offre de prix pour mon projet.
                   </p>
                 </div>
               </div>
@@ -624,7 +624,7 @@
 
       <div class="sm:col-span-4 pt-6 pb-10">
         <label for="email" class="block text-sm font-medium text-gray-700">
-          Les notifications seront envoyées sur votre adresse email
+          Les notifications seront envoyées à adresse email
         </label>
         <div class="mt-1">
           <input
@@ -669,7 +669,7 @@
               <div class="ml-3 text-sm">
                 <p class="text-gray-700">
                   J'accepte les Conditions
-                  <a href="#">générales d’utilisation</a>
+                  <a class="hover:text-yellow" href="./reglement/reglement.pdf">générales d’utilisation</a>
                 </p>
               </div>
             </div>

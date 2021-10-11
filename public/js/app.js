@@ -40165,7 +40165,7 @@ var solutions = [{
   name: "Rechercher",
   color: false,
   blade: true,
-  description: "Vous rechercher un projet à réaliser.",
+  description: "Vous recherchez un projet à réaliser.",
   href: "/projets",
   icon: _heroicons_vue_outline__WEBPACK_IMPORTED_MODULE_1__.SearchIcon
 }, {
@@ -42030,7 +42030,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
       };
 
-      if (confirm("Etes vous sur de supprimer ce projet : " + project.name.substring(0, 25) + " ...")) {
+      if (confirm("Etes-vous sur de vouloir supprimer ce projet : " + project.name.substring(0, 25) + " ...")) {
         axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/projet/" + this.id, config).then(function (res) {
           console.log(res);
           _this5.message = res.data.message;
@@ -42268,15 +42268,18 @@ var _hoisted_10 = {
 };
 var _hoisted_11 = ["src", "alt"];
 var _hoisted_12 = {
-  key: 1
+  "class": "font-bold text-lg"
 };
 var _hoisted_13 = {
+  key: 1
+};
+var _hoisted_14 = {
   href: "#",
   "class": "\r\n                    bg-white\r\n                    text-gray-900\r\n                    group\r\n                    flex\r\n                    items-center\r\n                    px-3\r\n                    py-2\r\n                    text-sm\r\n                    font-medium\r\n                    rounded-md\r\n                    hover:bg-gray-100\r\n                    cursor-pointer\r\n                  ",
   "aria-current": "page"
 };
 
-var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
+var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
   "class": "\r\n                      text-gray-400\r\n                      group-hover:text-gray-500\r\n                      flex-shrink-0\r\n                      -ml-1\r\n                      mr-3\r\n                      h-6\r\n                      w-6\r\n                    ",
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
@@ -42292,14 +42295,14 @@ var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_15 = {
+var _hoisted_16 = {
   "class": "truncate"
 };
-var _hoisted_16 = {
+var _hoisted_17 = {
   key: 1
 };
 
-var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
   "class": "w-auto rounded-lg mb-6",
   src: "https://developplatform.com/images/logo.svg",
   alt: "developplatform"
@@ -42307,7 +42310,7 @@ var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_18 = [_hoisted_17];
+var _hoisted_19 = [_hoisted_18];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_router_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("router-link");
 
@@ -42342,24 +42345,24 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE */
 
   })]), $props.categoryId !== '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [$data.subCategoryChosen.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    "class": "rounded",
+    "class": "rounded mb-2",
     src: $data.subCategoryChosen[0].image ? $data.subCategoryChosen[0].image : '',
     alt: $data.subCategoryChosen[0].name ? $data.subCategoryChosen[0].name : ''
   }, null, 8
   /* PROPS */
-  , _hoisted_11), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.subCategoryChosen[0].name ? $data.subCategoryChosen[0].name : ""), 1
+  , _hoisted_11), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.subCategoryChosen[0].name ? $data.subCategoryChosen[0].name : ""), 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.subCategoryChosen[0].description ? $data.subCategoryChosen[0].description : ""), 1
   /* TEXT */
-  )])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.allSubCategories, function (subcategory) {
+  )])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.allSubCategories, function (subcategory) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("ul", {
       key: subcategory.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Heroicon  "), _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(subcategory.name), 1
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Heroicon  "), _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(subcategory.name), 1
     /* TEXT */
     )])]);
   }), 128
   /* KEYED_FRAGMENT */
-  ))]))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, _hoisted_18))])])])]);
+  ))]))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, _hoisted_19))])])])]);
 }
 
 /***/ }),
@@ -42452,7 +42455,7 @@ var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 
 var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
   "class": "mt-1 text-sm text-gray-500"
-}, " L'abonnement vous permets d'éffectuer plus d'actions ", -1
+}, " L'abonnement vous permet d'effectuer plus d'actions ", -1
 /* HOISTED */
 );
 
@@ -44151,7 +44154,7 @@ var _hoisted_108 = {
 
 var _hoisted_109 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "text-teal-600 leading-6"
-}, "Aucune réalisations")], -1
+}, "Aucune réalisation")], -1
 /* HOISTED */
 );
 
@@ -44569,7 +44572,7 @@ var _hoisted_43 = {
 
 var _hoisted_44 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
   "class": "ml-3 text-base text-gray-700"
-}, " 10 demandes de réalisation/mois ", -1
+}, " Appel d'offres ", -1
 /* HOISTED */
 );
 
@@ -44582,7 +44585,7 @@ var _hoisted_46 = {
 
 var _hoisted_47 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
   "class": "ml-3 text-base text-gray-700"
-}, " 10 création de projet/mois ", -1
+}, " Réalisation de projet ", -1
 /* HOISTED */
 );
 
@@ -44619,7 +44622,7 @@ var _hoisted_54 = {
 
 var _hoisted_55 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
   "class": "ml-3 text-base text-gray-700"
-}, " 25 demandes de réalisation/mois ", -1
+}, " Appel d'offres ", -1
 /* HOISTED */
 );
 
@@ -44632,7 +44635,7 @@ var _hoisted_57 = {
 
 var _hoisted_58 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
   "class": "ml-3 text-base text-gray-700"
-}, " 25 création de projet/mois ", -1
+}, " Réalisation de projet ", -1
 /* HOISTED */
 );
 
@@ -44685,7 +44688,7 @@ var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
   "class": "pb-4 pt-2 text-xl leading-6 font-medium text-gray-900"
 }, " Mon Nouveau Projet "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
   "class": "mt-1 text-sm text-gray-500"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Je rentre via le formulaire "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("u", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "ci-dessous")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" toutes les information liées à ma demande de réalisation de projet. ")])], -1
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Je renseigne via le formulaire "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("u", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "ci-dessous")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" toutes les informations liées à ma demande de réalisation de projet. ")])], -1
 /* HOISTED */
 );
 
@@ -44718,7 +44721,7 @@ var _hoisted_7 = {
 var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "for": "subCategory",
   "class": "block text-sm font-medium text-gray-700"
-}, "Sous catégorie", -1
+}, "Sous-catégorie", -1
 /* HOISTED */
 );
 
@@ -44795,7 +44798,7 @@ var _hoisted_22 = {
 var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "for": "deadline",
   "class": "block text-sm font-medium text-gray-700"
-}, "Délais", -1
+}, "Délai", -1
 /* HOISTED */
 );
 
@@ -44875,7 +44878,7 @@ var _hoisted_36 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
   "class": "text-lg leading-6 font-medium text-gray-900 text-center"
 }, " Informations supplémentaires "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
   "class": "mt-1 text-sm text-gray-500 text-center"
-}, " Ces informations seront communiqués au prestataire de votre projet. ")], -1
+}, " Ces informations seront communiquées au prestataire de votre projet. ")], -1
 /* HOISTED */
 );
 
@@ -45052,7 +45055,7 @@ var _hoisted_72 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
   "class": "font-medium text-gray-700"
 }, "Offres de prix"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
   "class": "text-gray-500"
-}, " Me notifier si je recois une offre de prix pour mon projet. ")], -1
+}, " Me notifier si je reçois une offre de prix pour mon projet. ")], -1
 /* HOISTED */
 );
 
@@ -45063,7 +45066,7 @@ var _hoisted_73 = {
 var _hoisted_74 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "for": "email",
   "class": "block text-sm font-medium text-gray-700"
-}, " Les notifications seront envoyées sur votre adresse email ", -1
+}, " Les notifications seront envoyées à adresse email ", -1
 /* HOISTED */
 );
 
@@ -45099,7 +45102,8 @@ var _hoisted_83 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
   "class": "text-gray-700"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" J'accepte les Conditions "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-  href: "#"
+  "class": "hover:text-yellow",
+  href: "./reglement/reglement.pdf"
 }, "générales d’utilisation")])], -1
 /* HOISTED */
 );
@@ -46206,7 +46210,7 @@ var _hoisted_50 = {
 
 var _hoisted_51 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
   "class": "pt-6 text-xl pb-6"
-}, "Vous n'avez pas de demandes", -1
+}, "Vous n'avez pas de demande", -1
 /* HOISTED */
 );
 

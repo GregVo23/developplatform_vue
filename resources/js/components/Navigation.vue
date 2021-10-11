@@ -230,7 +230,7 @@
                       </span>
                     </div>
                     <p class="mt-1 text-sm text-gray-500">
-                      L'abonnement vous permets d'éffectuer plus d'actions
+                      L'abonnement vous permet d'effectuer plus d'actions
                     </p>
                   </router-link>
                 </div>
@@ -520,7 +520,7 @@ const solutions = [
     name: "Rechercher",
     color: false,
     blade: true,
-    description: "Vous rechercher un projet à réaliser.",
+    description: "Vous recherchez un projet à réaliser.",
     href: "/projets",
     icon: SearchIcon,
   },
