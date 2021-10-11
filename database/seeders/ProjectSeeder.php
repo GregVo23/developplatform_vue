@@ -158,8 +158,8 @@ class ProjectSeeder extends Seeder
                 'updated_at'=> '2021-07-05 10:20:54',
                 'deadline'=> '2021-09-05 10:20:54',
                 'done'=> NULL,
-                'category_id' =>'2',
-                'sub_category_id' =>'12',
+                'category_id' =>'1',
+                'sub_category_id' =>'5',
             ],
             [
                 'user_id' => 7,
@@ -273,8 +273,8 @@ class ProjectSeeder extends Seeder
                 'updated_at'=> '2021-07-05 10:20:54',
                 'deadline'=> '2021-09-05 10:20:54',
                 'done'=> NULL,
-                'category_id' =>'2',
-                'sub_category_id' =>'12',
+                'category_id' =>'1',
+                'sub_category_id' =>'1',
             ],
             [
                 'user_id' => 12,
