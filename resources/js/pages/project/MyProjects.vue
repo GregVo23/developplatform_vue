@@ -124,32 +124,6 @@
                       <p>{{ letters }}</p>
                     </div>
                   </div>
-                  <div class="flex justify-items-end">
-                    <div class="flex ml-1">
-                      <select
-                        id="nbPage"
-                        name="nBpage"
-                        class="
-                          w-24
-                          mt-1
-                          block
-                          pl-3
-                          pr-10
-                          py-2
-                          text-base
-                          border-gray-300
-                          focus:outline-none
-                          focus:ring-indigo-500
-                          focus:border-indigo-500
-                          sm:text-sm
-                          rounded-md
-                        "
-                      >
-                        <option value="1">1</option>
-                      </select>
-                      <label for="nbPage" class="mt-2 ml-2"></label>
-                    </div>
-                  </div>
                 </div>
 
                 <template v-for="project in projects" :key="project.id">

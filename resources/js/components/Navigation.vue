@@ -504,13 +504,13 @@ import {
   PopoverPanel,
 } from "@headlessui/vue";
 import {
-  ChartBarIcon,
-  CursorClickIcon,
-  DocumentReportIcon,
+  PlusCircleIcon,
+  FolderIcon,
+  SearchIcon,
   MenuIcon,
-  RefreshIcon,
-  ViewGridIcon,
+  CurrencyEuroIcon,
   XIcon,
+  HeartIcon,
 } from "@heroicons/vue/outline";
 import { ChevronDownIcon } from "@heroicons/vue/solid";
 import axios from "axios";
@@ -522,7 +522,7 @@ const solutions = [
     blade: true,
     description: "Vous rechercher un projet à réaliser.",
     href: "/projets",
-    icon: ChartBarIcon,
+    icon: SearchIcon,
   },
   {
     name: "Publier",
@@ -530,7 +530,7 @@ const solutions = [
     blade: true,
     description: "Vous publiez une demande de devis.",
     href: "/nouveau",
-    icon: CursorClickIcon,
+    icon: PlusCircleIcon,
   },
   {
     name: "Mes propositions",
@@ -538,7 +538,7 @@ const solutions = [
     blade: true,
     description: "La liste des offres que vous avez soumises.",
     href: "/offres",
-    icon: ViewGridIcon,
+    icon: CurrencyEuroIcon,
   },
   {
     name: "Mes projets",
@@ -546,7 +546,7 @@ const solutions = [
     blade: true,
     description: "La liste de vos demandes de réalisations.",
     href: "/demandes",
-    icon: RefreshIcon,
+    icon: FolderIcon,
   },
   {
     name: "Mes favoris",
@@ -554,7 +554,7 @@ const solutions = [
     blade: true,
     description: "Les projets pour lesquels vous marquez un intérêt.",
     href: "/favoris",
-    icon: DocumentReportIcon,
+    icon: HeartIcon,
   },
 ];
 
