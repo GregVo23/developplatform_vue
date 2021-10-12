@@ -126,7 +126,6 @@ export default {
       };
 
       axios.get("api/user", config).then(({ data }) => (this.user = data));
-      console.log("mounted");
     },
   },
   created() {

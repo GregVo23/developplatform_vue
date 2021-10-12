@@ -378,8 +378,6 @@ export default {
           if (error.response) {
             // Request made and server responded
             console.log(error.response.data);
-            console.log(error.response.status);
-            console.log(error.response.headers);
           } else if (error.request) {
             // The request was made but no response was received
             console.log(error.request);
@@ -389,11 +387,7 @@ export default {
           }
         });
     },
-    check() {
-      console.log(this.projects);
-    },
   },
-
   created() {
     console.log("created");
     this.loadData();

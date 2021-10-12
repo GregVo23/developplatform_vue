@@ -885,7 +885,6 @@ export default {
     },
     getFiles(e) {
       this.document = e.target.files;
-      //console.log(this.document);
     },
     checkForm(e) {
       this.messages = [];
@@ -1055,7 +1054,6 @@ export default {
             this.nbErrors = this.messages.length;
           });
       } else {
-        console.log("pas valide");
         this.success = false;
         this.alert = true;
       }

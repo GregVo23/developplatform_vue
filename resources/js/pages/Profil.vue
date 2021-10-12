@@ -773,9 +773,7 @@ export default {
     onChange(e) {
       this.avatar = e.target.files[0];
       this.avatarName = e.target.files[0].name;
-      console.log("change");
       this.changeAvatar(e);
-      //this.loadData();
     },
     changeAvatar(e) {
       e.preventDefault();
@@ -866,8 +864,6 @@ export default {
             console.log("error", error);
           });
         window.location.replace("/");
-      } else {
-        console.log = "Vous changer d'avis !";
       }
     },
     updateProfil() {
@@ -918,7 +914,6 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-          //this.messages = error;
 
           for (const [key, value] of Object.entries(
             error.response.data.errors

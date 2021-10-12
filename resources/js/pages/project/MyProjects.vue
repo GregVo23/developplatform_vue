@@ -9,127 +9,133 @@
       <!-- Main 3 column grid -->
       <div class="grid grid-cols-1 gap-4 items-start">
         <!-- Left column -->
-        <div class="grid grid-cols-1 gap-4 lg:col-span-2 rounded-lg bg-white overflow-hidden shadow mb-10">
+        <div
+          class="
+            grid grid-cols-1
+            gap-4
+            lg:col-span-2
+            rounded-lg
+            bg-white
+            overflow-hidden
+            shadow
+            mb-10
+          "
+        >
+          <div class="flex mt-2 flex-col p-4">
+            <div class="lg:flex lg:justify-items-stretch">
+              <div class="block lg:flex-col lg:w-1/3 mx-1">
+                <select
+                  @change="onCategory($event)"
+                  id="Selectcategory"
+                  name="Selectcategory"
+                  class="
+                    w-full
+                    mt-1
+                    block
+                    pl-3
+                    pr-10
+                    py-2
+                    text-base
+                    border-gray-300
+                    focus:outline-none
+                    focus:ring-indigo-500
+                    focus:border-indigo-500
+                    sm:text-sm
+                    rounded-md
+                  "
+                >
+                  <option value="" disabled selected hidden>
+                    Filtre par catégorie
+                  </option>
 
+                  <option
+                    v-for="category in categories"
+                    :key="category.id"
+                    :value="category.id"
+                  >
+                    {{ category.name }}
+                  </option>
+                </select>
+              </div>
 
- <div class="flex mt-2 flex-col p-4">
-                  <div class="lg:flex lg:justify-items-stretch">
-                    <div class="block lg:flex-col lg:w-1/3 mx-1">
-                      <select
-                        @change="onCategory($event)"
-                        id="Selectcategory"
-                        name="Selectcategory"
-                        class="
-                          w-full
-                          mt-1
-                          block
-                          pl-3
-                          pr-10
-                          py-2
-                          text-base
-                          border-gray-300
-                          focus:outline-none
-                          focus:ring-indigo-500
-                          focus:border-indigo-500
-                          sm:text-sm
-                          rounded-md
-                        "
-                      >
-                        <option value="" disabled selected hidden>
-                          Filtre par catégorie
-                        </option>
+              <div class="block lg:flex-col lg:w-1/3 mx-1">
+                <select
+                  @change="onSubCategory($event)"
+                  id="SelectSubCategory"
+                  name="SelectSubCategory"
+                  class="
+                    w-full
+                    mt-1
+                    block
+                    pl-3
+                    pr-10
+                    py-2
+                    text-base
+                    border-gray-300
+                    focus:outline-none
+                    focus:ring-indigo-500
+                    focus:border-indigo-500
+                    sm:text-sm
+                    rounded-md
+                  "
+                >
+                  <option value="" disabled selected hidden>
+                    Filtre par sous-catégorie
+                  </option>
 
-                        <option
-                          v-for="category in categories"
-                          :key="category.id"
-                          :value="category.id"
-                        >
-                          {{ category.name }}
-                        </option>
-                      </select>
-                    </div>
+                  <option
+                    v-for="subcategory in subcategories"
+                    :key="subcategory.id"
+                    :value="subcategory.id"
+                  >
+                    {{ subcategory.name }}
+                  </option>
+                </select>
+              </div>
 
-                    <div class="block lg:flex-col lg:w-1/3 mx-1">
-                      <select
-                        @change="onSubCategory($event)"
-                        id="SelectSubCategory"
-                        name="SelectSubCategory"
-                        class="
-                          w-full
-                          mt-1
-                          block
-                          pl-3
-                          pr-10
-                          py-2
-                          text-base
-                          border-gray-300
-                          focus:outline-none
-                          focus:ring-indigo-500
-                          focus:border-indigo-500
-                          sm:text-sm
-                          rounded-md
-                        "
-                      >
-                        <option value="" disabled selected hidden>
-                          Filtre par sous-catégorie
-                        </option>
-
-                        <option
-                          v-for="subcategory in subcategories"
-                          :key="subcategory.id"
-                          :value="subcategory.id"
-                        >
-                          {{ subcategory.name }}
-                        </option>
-                      </select>
-                    </div>
-
-                    <div class="block lg:flex-col lg:w-1/3 mx-1">
-                      <input
-                        class="
-                          mt-1
-                          relative
-                          border
-                          leading-none
-                          border-gray-500
-                          dark:border-gray-600
-                          select-none
-                          block
-                          w-full
-                          bg-white bg-opacity-20
-                          py-2
-                          pl-10
-                          pr-3
-                          rounded-md
-                          mb-6
-                          text-gray-900
-                          placeholder-gray-400
-                          focus:outline-none
-                          focus:bg-opacity-100
-                          focus:border-transparent
-                          focus:placeholder-gray-700
-                          focus:ring-0
-                          sm:text-sm
-                        "
-                        placeholder="Filtre par mot clé"
-                        type="FilterSearch"
-                        name="FilterSearch"
-                        v-model="letters"
-                        ref=""
-                        @keyup="search()"
-                      />
-                      <p>{{ letters }}</p>
-                    </div>
-                  </div>
-                </div>
-
+              <div class="block lg:flex-col lg:w-1/3 mx-1">
+                <input
+                  class="
+                    mt-1
+                    relative
+                    border
+                    leading-none
+                    border-gray-500
+                    dark:border-gray-600
+                    select-none
+                    block
+                    w-full
+                    bg-white bg-opacity-20
+                    py-2
+                    pl-10
+                    pr-3
+                    rounded-md
+                    mb-6
+                    text-gray-900
+                    placeholder-gray-400
+                    focus:outline-none
+                    focus:bg-opacity-100
+                    focus:border-transparent
+                    focus:placeholder-gray-700
+                    focus:ring-0
+                    sm:text-sm
+                  "
+                  placeholder="Filtre par mot clé"
+                  type="FilterSearch"
+                  name="FilterSearch"
+                  v-model="letters"
+                  ref=""
+                  @keyup="search()"
+                />
+                <p>{{ letters }}</p>
+              </div>
+            </div>
+          </div>
 
           <section v-if="projects.length > 0" aria-labelledby="section-1-title">
             <div>
               <div class="p-4">
                 <!-- Content -->
-
-               
 
                 <template v-for="project in projects" :key="project.id">
                   <div class="flex flex-col mt-2 flex-grow">
@@ -155,7 +161,7 @@
                         <div class="flex justify-between">
                           <a
                             :href="
-                              'https://developplatform.com/storage/project/cover/' +
+                              'http://localhost:8000/storage/project/cover/' +
                               project.id +
                               '/' +
                               project.picture
@@ -166,7 +172,7 @@
                               <img
                                 class="h-36 w-36 rounded object-cover"
                                 :src="
-                                  'https://developplatform.com/project/cover/' +
+                                  'http://localhost:8000/project/cover/' +
                                   project.picture
                                 "
                                 :alt="project.name"
@@ -325,7 +331,15 @@
                                 </span>
                               </div>
                             </div>
-                            <p v-if="(new Date(project.deadline) < today) && project.deadline != null" class="mt-2 text-md text-red-700 font-semibold">La deadline de ce projet est passée !</p>
+                            <p
+                              v-if="
+                                new Date(project.deadline) < today &&
+                                project.deadline != null
+                              "
+                              class="mt-2 text-md text-red-700 font-semibold"
+                            >
+                              La deadline de ce projet est passée !
+                            </p>
 
                             <div class="mt-4 flex justify-end flex-grow">
                               <button
@@ -507,7 +521,7 @@
                 <div class="flex">
                   <div class="flex-shrink sm-w-3/4 xl-w-2/4 -mb-50 -pb-50">
                     <img
-                      src="https://developplatform.com/images/no-demands.jpg"
+                      src="http://localhost:8000/images/no-demands.jpg"
                       alt="no demands made"
                       class="mt-6"
                     />
@@ -570,7 +584,7 @@ export default {
       listOfAllSubCategories: [],
       categoryId: "",
       loaded: false,
-      today: new Date,
+      today: new Date(),
     };
   },
   methods: {
