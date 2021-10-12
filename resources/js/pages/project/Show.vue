@@ -1,8 +1,13 @@
 <template>
   <div v-if="charged == true">
-      <div v-if="(new Date(project.deadline) < new Date)  && project.deadline != null" class="bg-red-700 py-2">
-            <p class="my-2 text-xl text-white font-semibold text-center">La deadline de ce projet est passée !</p>
-      </div>
+    <div
+      v-if="new Date(project.deadline) < new Date() && project.deadline != null"
+      class="bg-red-700 py-2"
+    >
+      <p class="my-2 text-xl text-white font-semibold text-center">
+        La deadline de ce projet est passée !
+      </p>
+    </div>
     <div class="sm:mx-8 md:mx-20 lg:mx-40">
       <div class="px-4 py-5 sm:px-6 xl:flex">
         <div class="flex-grow">
@@ -212,7 +217,9 @@
                         {{
                           offer.amount
                             ? offer.amount + " €"
-                            : project.price ? project.price + " €" : "Pas d'offre"
+                            : project.price
+                            ? project.price + " €"
+                            : "Pas d'offre"
                         }}
                       </td>
                       <td
@@ -604,50 +611,50 @@
               </span>
             </span>
           </div>
-<div class="flex mx-auto justify-center">
-          <button
-            v-cloak
-            v-if="user.id === owner.id"
-            class="flex justify-center"
-            @click="removeProject(project)"
-          >
-            <span class="flex bg-grey-lighter">
-              <span
-                class="
-                  w-64
-                  flex flex-col
-                  items-center
-                  px-4
-                  py-6
-                  bg-white
-                  text-gray-700
-                  rounded-lg
-                  shadow-lg
-                  uppercase
-                  border border-blue
-                  cursor-pointer
-                  hover:bg-blue
-                  hover:text-gray-900
-                "
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-8 w-8"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
+          <div class="flex justify-center">
+            <button
+              v-cloak
+              v-if="user.id === owner.id"
+              class="flex justify-center"
+              @click="removeProject(project)"
+            >
+              <span class="flex bg-grey-lighter">
+                <span
+                  class="
+                    w-64
+                    flex flex-col
+                    items-center
+                    px-4
+                    py-6
+                    bg-white
+                    text-gray-700
+                    rounded-lg
+                    shadow-lg
+                    uppercase
+                    border border-blue
+                    cursor-pointer
+                    hover:bg-blue
+                    hover:text-gray-900
+                  "
                 >
-                  <path
-                    fill-rule="evenodd"
-                    d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-                <span class="mt-2 text-base leading-normal text-center"
-                  >Supprimer mon projet</span
-                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-8 w-8"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  <span class="mt-2 text-base leading-normal text-center"
+                    >Supprimer mon projet</span
+                  >
+                </span>
               </span>
-            </span>
-          </button>
+            </button>
           </div>
         </div>
         <div v-else>
@@ -1081,15 +1088,10 @@ export default {
         axios
           .post("/api/projet/accepter/" + project.id, config)
           .then((res) => {
-            //console.log(res.data.message);
-            //console.log(res.data.type);
-            //localStorage.setItem("message", res.data.message);
-            //localStorage.setItem("type", res.data.type);
             this.message = res.data.message;
             this.type = res.data.type;
           })
           .catch((error) => {
-            //console.log(error.response.data.errors);
             this.type = false;
           });
 
@@ -1110,8 +1112,6 @@ export default {
 
     hideNotification() {
       this.hideTimeout = setTimeout(() => {
-        //localStorage.removeItem("message");
-        //localStorage.removeItem("type");
         this.show = false;
         this.message = "";
         this.type = "";
@@ -1208,8 +1208,6 @@ export default {
         axios
           .post("/api/projet/offre/" + this.id, data, config)
           .then((res) => {
-            //localStorage.setItem("message", res.data.message);
-            //localStorage.setItem("type", res.data.type);
             this.message = res.data.message;
             this.type = res.data.type;
           })
@@ -1261,11 +1259,8 @@ export default {
       }
     },
     refuseProposal(offer, index) {
-      console.log("refuse");
-      console.log(offer);
-      this.index = index;
-      console.log(this.index);
 
+      this.index = index;
       const config = {
         headers: {
           "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
@@ -1289,7 +1284,6 @@ export default {
       }
     },
     acceptProposal(offer) {
-      console.log("accept");
       const config = {
         headers: {
           "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
@@ -1304,8 +1298,6 @@ export default {
             this.type = res.data.type;
             this.proposalAmount = offer.amount;
             this.accepted = true;
-            console.log(this.proposalAmount);
-            console.log(this.message);
             this.showNotification();
           })
           .catch((error) => {
@@ -1330,8 +1322,6 @@ export default {
         axios
           .post("/api/projet/annuler/" + this.id, config)
           .then(function (res) {
-            //localStorage.setItem("message", res.data.message);
-            //localStorage.setItem("type", res.data.type);
             console.log(res.data.message);
           })
           .catch((error) => {
@@ -1346,7 +1336,6 @@ export default {
         this.makeOffer = !this.makeOffer;
         this.offerProject = !this.offerProject;
         this.acceptProject = !this.acceptProject;
-        //window.location.replace("/accueil");
       }
     },
     giveRating(value) {
@@ -1367,11 +1356,6 @@ export default {
             "/5 pour la réalisation du projet ?"
         )
       ) {
-        /*
-                let data = {
-                    rate: this.rate ? this.rate : '',
-                    about: this.rateInformation ? this.rateInformation : ''
-                }*/
 
         let data = new FormData();
         data.append("rate", this.rate ? this.rate : "");
