@@ -537,6 +537,7 @@
             :subcategories="subcategories"
             :subcategory="subcategory"
             :categoryId="categoryId"
+            :subCategoryId="subCategoryId"
           />
         </div>
       </div>
@@ -784,11 +785,11 @@ export default {
 
          if (this.updatePage === true){
               if (this.chosenPage > this.current) {
-                  this.from = this.from + this.quantityPerPage;
+                  this.from = this.from + this.quantityPerPage * (this.chosenPage - this.current);
                   this.to = this.from + this.quantityPerPage;
 
               } else if (this.chosenPage < this.current) {
-                  this.from = (this.from == 0) ? 0 : (this.from - this.quantityPerPage);
+                  this.from = (this.from == 0) ? 0 : (this.from - this.quantityPerPage * (this.current - this.chosenPage));
                   this.to = this.from + this.quantityPerPage;
 
               } else {

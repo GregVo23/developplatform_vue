@@ -163,7 +163,7 @@
                           >
                             <div class="flex-none">
                               <img
-                                class="h-36 w-36 rounded object-cover"
+                                class="h-36 w-36 xl:h-42 xl:w-42 rounded object-cover"
                                 :src="
                                   'https://developplatform.com/project/cover/' +
                                   project.picture
@@ -174,17 +174,17 @@
                           </a>
 
                           <div class="flex-grow ml-2 lg:ml-6">
-                            <span class="text-lg font-bold"> </span>
-                            <span class="text-lg font-bold"
+                            <h4 class="text-lg font-bold mb-2"
                               >{{ project.name }}
-                            </span>
+                            </h4>
                             <p>
-                              {{ project.about.substring(0, 100) + " ..." }}
+                              {{ project.about.substring(0, 120) + " ..." }}
                             </p>
 
                             <div
                               class="
-                                mt-1
+                                mt-2
+                                xl:mt-4
                                 flex flex-col
                                 sm:flex-row sm:flex-wrap
                                 sm:mt-0
