@@ -30,12 +30,12 @@ class RatingApiController extends Controller
         $maker_id = $project->maker();
         $user = User::find($maker_id);
         $rate = Rating::create([
-          'user_id' => $user_id,
+          'user_id' => $maker_id,
           'project_id' => $project->id,
         ]);
         $rate->about = $request->input('about');
         $rate->rate = $request->input('rate');
-        $ratings = $user->ratings;
+        $ratings = Rating::where('user_id', $maker_id)->get();
 
         if ($ratings){
           $avgRating = [];

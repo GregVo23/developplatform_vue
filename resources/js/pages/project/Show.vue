@@ -8,7 +8,7 @@
         <div class="flex-grow">
           <div class="flex">
             <h1 class="mt-4 text-xl leading-6 font-medium text-gray-900">
-              {{ project.name }} {{ project.id }}
+              {{ project.name }}
             </h1>
             <svg
               v-if="accepted != null || proposalAmount != null"
@@ -212,10 +212,9 @@
                         {{
                           offer.amount
                             ? offer.amount + " €"
-                            : project.price + " €"
+                            : project.price ? project.price + " €" : "Pas d'offre"
                         }}
                       </td>
-                      <p>{{ offer.id }}</p>
                       <td
                         class="
                           px-6
@@ -910,7 +909,7 @@
       </section>
     </div>
     <section
-      v-if="accepted != NULL && user.id == project.user_id"
+      v-if="accepted != NULL && user.id == project.user_id && rate != null"
       class="sm:mx-8 md:mx-20 lg:mx-40 sm:my-2 md:my-4 lg:my-10"
     >
       <Rating :rate="rate" @starts="giveRating($event)" />
