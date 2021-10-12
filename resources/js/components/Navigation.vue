@@ -18,7 +18,7 @@
           <span class="sr-only">Workflow</span>
           <img
             class="pl-4 h-10 w-auto sm:h-16"
-            src="https://developplatform.com/images/logo.svg"
+            src="http://localhost:8000/images/logo.svg"
             alt="Developplatform logo"
           />
         </a>
@@ -347,7 +347,7 @@
               <div>
                 <img
                   class="h-8 w-auto"
-                  src="https://developplatform.com/images/logo.svg"
+                  src="http://localhost:8000/images/logo.svg"
                   alt="logo developplatform"
                 />
               </div>
@@ -465,7 +465,7 @@
                 Besoin de nous contacter ?
                 {{ " " }}
                 <a
-                  href="https://developplatform.com/#contact"
+                  href="http://localhost:8000/#contact"
                   class="text-indigo-600 hover:text-indigo-500"
                 >
                   contact
