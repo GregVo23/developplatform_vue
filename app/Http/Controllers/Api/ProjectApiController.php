@@ -81,6 +81,8 @@ class ProjectApiController extends Controller
             ->join('projects', 'project_user.project_id', '=', 'projects.id')
             ->where('project_user.user_id', '=', $user_id)
             ->where('project_user.proposal', '<>', NULL)
+            ->whereDate('deadline', '>', Carbon::today()->toDateString())
+            ->orWhere('deadline', '=', NULL)
             ->get();
 
         return json_encode([$projects, $categories, $subCategories, $user_id, $userRate]);

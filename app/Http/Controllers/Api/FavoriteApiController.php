@@ -22,7 +22,7 @@ class FavoriteApiController extends Controller
     {
         $projects = [];
         $user_id = ['user_id' => auth()->user()->id];
-        $listOfProjects = Project::all();
+        $listOfProjects = DB::table('projects')->whereDate('deadline', '>', Carbon::today()->toDateString())->orWhere('deadline', '=', NULL)->get();
         $categories = Category::all();
         $subCategories = SubCategory::all();
         foreach ($listOfProjects as $project) {

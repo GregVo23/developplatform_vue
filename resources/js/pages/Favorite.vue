@@ -8,13 +8,8 @@
       <!-- Main 3 column grid -->
       <div class="grid grid-cols-1 gap-4 items-start">
         <!-- Left column -->
-        <div class="grid grid-cols-1 gap-4 lg:col-span-2">
-          <section v-if="projects.length > 0" aria-labelledby="section-1-title">
-            <div class="rounded-lg bg-white overflow-hidden shadow">
-              <div class="p-4">
-                <!-- Content -->
-
-                <div class="flex mt-2 flex-col">
+        <div class="grid grid-cols-1 gap-4 lg:col-span-2 rounded-lg bg-white overflow-hidden shadow">
+                <div class="flex mt-2 flex-col p-4">
                   <div class="lg:flex lg:justify-items-stretch">
                     <div class="block lg:flex-col lg:w-1/3 mx-1">
                       <select
@@ -124,6 +119,14 @@
                     </div>
                   </div>
                 </div>
+
+
+          <section v-if="projects.length > 0" aria-labelledby="section-1-title">
+            <div>
+              <div class="p-4">
+                <!-- Content -->
+
+
 
                 <template v-for="project in projects" :key="project.id">
                   <div
