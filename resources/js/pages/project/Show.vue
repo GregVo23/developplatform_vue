@@ -1,6 +1,6 @@
 <template>
   <div v-if="charged == true">
-      <div v-if="(new Date(project.deadline) < new Date)" class="bg-red-700 py-2">
+      <div v-if="(new Date(project.deadline) < new Date)  && project.deadline != null" class="bg-red-700 py-2">
             <p class="my-2 text-xl text-white font-semibold text-center">La deadline de ce projet est passée !</p>
       </div>
     <div class="sm:mx-8 md:mx-20 lg:mx-40">

@@ -325,7 +325,7 @@
                                 </span>
                               </div>
                             </div>
-                            <p v-if="(new Date(project.deadline) < today)" class="mt-2 text-md text-red-700 font-semibold">La deadline de ce projet est passée !</p>
+                            <p v-if="(new Date(project.deadline) < today) && project.deadline != null" class="mt-2 text-md text-red-700 font-semibold">La deadline de ce projet est passée !</p>
 
                             <div class="mt-4 flex justify-end flex-grow">
                               <button
