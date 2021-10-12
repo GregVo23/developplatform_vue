@@ -18,7 +18,7 @@
           <svg
             v-if="abonnement == '5'"
             xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6 mr-2"
+            class="h-14 w-14 md:h-8 md:w-8 mr-2"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -33,7 +33,7 @@
           <svg
             v-else
             xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6 mr-2"
+            class="h-14 w-14 md:h-8 md:w-8 mr-2"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"

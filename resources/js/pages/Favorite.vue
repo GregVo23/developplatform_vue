@@ -8,7 +8,7 @@
       <!-- Main 3 column grid -->
       <div class="grid grid-cols-1 gap-4 items-start">
         <!-- Left column -->
-        <div class="grid grid-cols-1 gap-4 lg:col-span-2 rounded-lg bg-white overflow-hidden shadow">
+        <div class="grid grid-cols-1 gap-4 lg:col-span-2 rounded-lg bg-white overflow-hidden shadow mb-10">
                 <div class="flex mt-2 flex-col p-4">
                   <div class="lg:flex lg:justify-items-stretch">
                     <div class="block lg:flex-col lg:w-1/3 mx-1">

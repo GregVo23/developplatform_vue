@@ -10,7 +10,7 @@
         <!-- Left column -->
         <div class="grid grid-cols-1 gap-4 lg:col-span-2">
           <section v-if="projects.length > 0" aria-labelledby="section-1-title">
-            <div class="rounded-lg bg-white overflow-hidden shadow">
+            <div class="rounded-lg bg-white overflow-hidden shadow mb-10">
               <div class="p-4">
                 <!-- Content -->
 

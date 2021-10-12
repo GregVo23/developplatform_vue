@@ -211,23 +211,6 @@
                       <div class="text-base font-medium text-gray-900">
                         Abonnement
                       </div>
-                      <span
-                        class="
-                          ml-3
-                          inline-flex
-                          items-center
-                          px-3
-                          py-0.5
-                          rounded-full
-                          text-xs
-                          font-medium
-                          leading-5
-                          bg-indigo-100
-                          text-indigo-800
-                        "
-                      >
-                        Aucun
-                      </span>
                     </div>
                     <p class="mt-1 text-sm text-gray-500">
                       L'abonnement vous permet d'effectuer plus d'actions

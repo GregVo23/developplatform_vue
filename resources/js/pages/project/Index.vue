@@ -11,7 +11,7 @@
         <div class="grid grid-cols-1 gap-4 lg:col-span-2">
           <section aria-labelledby="section-1-title">
             <h2 class="sr-only" id="section-1-title">Section title</h2>
-            <div class="rounded-lg bg-white overflow-hidden shadow">
+            <div class="rounded-lg bg-white overflow-hidden shadow mb-10 xl:mb-48">
               <div class="p-4">
                 <!-- Content -->
 

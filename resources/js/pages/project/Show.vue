@@ -1,5 +1,8 @@
 <template>
   <div v-if="charged == true">
+      <div v-if="(new Date(project.deadline) < new Date)" class="bg-red-700 py-2">
+            <p class="my-2 text-xl text-white font-semibold text-center">La deadline de ce projet est passée !</p>
+      </div>
     <div class="sm:mx-8 md:mx-20 lg:mx-40">
       <div class="px-4 py-5 sm:px-6 xl:flex">
         <div class="flex-grow">
@@ -602,7 +605,7 @@
               </span>
             </span>
           </div>
-
+<div class="flex mx-auto justify-center">
           <button
             v-cloak
             v-if="user.id === owner.id"
@@ -646,6 +649,7 @@
               </span>
             </span>
           </button>
+          </div>
         </div>
         <div v-else>
           <div v-if="accepted != NULL && user.id != project.user_id">

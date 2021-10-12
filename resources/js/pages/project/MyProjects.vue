@@ -9,7 +9,7 @@
       <!-- Main 3 column grid -->
       <div class="grid grid-cols-1 gap-4 items-start">
         <!-- Left column -->
-        <div class="grid grid-cols-1 gap-4 lg:col-span-2 rounded-lg bg-white overflow-hidden shadow">
+        <div class="grid grid-cols-1 gap-4 lg:col-span-2 rounded-lg bg-white overflow-hidden shadow mb-10">
 
 
  <div class="flex mt-2 flex-col p-4">
@@ -325,7 +325,7 @@
                                 </span>
                               </div>
                             </div>
-                            <div class="mt-1 text-sm"></div>
+                            <p v-if="(new Date(project.deadline) < today)" class="mt-2 text-md text-red-700 font-semibold">La deadline de ce projet est passée !</p>
 
                             <div class="mt-4 flex justify-end flex-grow">
                               <button
@@ -570,6 +570,7 @@ export default {
       listOfAllSubCategories: [],
       categoryId: "",
       loaded: false,
+      today: new Date,
     };
   },
   methods: {
