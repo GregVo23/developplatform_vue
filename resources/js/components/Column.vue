@@ -84,7 +84,7 @@
 
             <img
               class="w-auto rounded-lg mb-6"
-              src="https://developplatform.com/images/logo.svg"
+              src="http://localhost:8000/images/logo.svg"
               alt="developplatform"
             />
 

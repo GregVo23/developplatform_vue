@@ -38,7 +38,7 @@
                         <div class="flex justify-between">
                           <a
                             :href="
-                              'https://developplatform.com/storage/project/cover/' +
+                              'http://localhost:8000/storage/project/cover/' +
                               project.id +
                               '/' +
                               project.picture
@@ -49,7 +49,7 @@
                               <img
                                 class="h-36 w-36 rounded object-cover"
                                 :src="
-                                  'https://developplatform.com/project/cover/' +
+                                  'http://localhost:8000/project/cover/' +
                                   project.picture
                                 "
                                 :alt="project.name"
@@ -325,7 +325,7 @@
                 <div class="flex">
                   <div class="flex-shrink sm-w-3/4 xl-w-2/4 -mb-50 -pb-50">
                     <img
-                      src="https://developplatform.com/images/no-projects.jpg"
+                      src="http://localhost:8000/images/no-projects.jpg"
                       alt="no projects to do"
                     />
                   </div>

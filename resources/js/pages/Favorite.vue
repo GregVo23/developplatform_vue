@@ -155,7 +155,7 @@
                         <div class="flex justify-between">
                           <a
                             :href="
-                              'https://developplatform.com/project/cover/' +
+                              'http://localhost:8000/project/cover/' +
                               this.user +
                               '/' +
                               project.id +
@@ -168,7 +168,7 @@
                               <img
                                 class="h-36 w-36 xl:h-42 xl:w-42 rounded object-cover"
                                 :src="
-                                  'https://developplatform.com/project/cover/' +
+                                  'http://localhost:8000/project/cover/' +
                                   project.picture
                                 "
                                 :alt="project.name"
@@ -498,7 +498,7 @@
                 <div class="flex">
                   <div class="flex-shrink sm-w-3/4 xl-w-2/4 -mb-50 -pb-50">
                     <img
-                      src="https://developplatform.com/images/no-favorite.jpg"
+                      src="http://localhost:8000/images/no-favorite.jpg"
                       alt="no favorites projects"
                     />
                   </div>

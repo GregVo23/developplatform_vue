@@ -40935,8 +40935,8 @@ __webpack_require__.r(__webpack_exports__);
             quantity: 1
           }],
           mode: "subscription",
-          successUrl: "https://developplatform.com/abonnement?session_id={CHECKOUT_SESSION_ID}",
-          cancelUrl: "https://developplatform.com/abonnement"
+          successUrl: "http://localhost:8000/abonnement?session_id={CHECKOUT_SESSION_ID}",
+          cancelUrl: "http://localhost:8000/abonnement"
         }).then(function (result) {
           if (result.error) {
             /*
@@ -40963,8 +40963,8 @@ __webpack_require__.r(__webpack_exports__);
             quantity: 1
           }],
           mode: "subscription",
-          successUrl: "https://developplatform.com/abonnement?session_id={CHECKOUT_SESSION_ID}",
-          cancelUrl: "https://developplatform.com/abonnement"
+          successUrl: "http://localhost:8000/abonnement?session_id={CHECKOUT_SESSION_ID}",
+          cancelUrl: "http://localhost:8000/abonnement"
         }).then(function (result) {
           if (result.error) {
             /*
@@ -41883,7 +41883,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       amount: "",
       index: null,
       proposalAmount: null
-    }, _defineProperty(_ref, "message", null), _defineProperty(_ref, "type", ""), _defineProperty(_ref, "show", false), _defineProperty(_ref, "charged", false), _defineProperty(_ref, "offer", false), _defineProperty(_ref, "offers", []), _defineProperty(_ref, "openOffer", false), _defineProperty(_ref, "accepted", null), _defineProperty(_ref, "acceptProject", false), _defineProperty(_ref, "offerProject", false), _defineProperty(_ref, "makeOffer", false), _defineProperty(_ref, "deadline", false), _defineProperty(_ref, "url", "https://developplatform.com/"), _defineProperty(_ref, "rate", null), _defineProperty(_ref, "rateInformation", null), _defineProperty(_ref, "subscription", {}), _ref;
+    }, _defineProperty(_ref, "message", null), _defineProperty(_ref, "type", ""), _defineProperty(_ref, "show", false), _defineProperty(_ref, "charged", false), _defineProperty(_ref, "offer", false), _defineProperty(_ref, "offers", []), _defineProperty(_ref, "openOffer", false), _defineProperty(_ref, "accepted", null), _defineProperty(_ref, "acceptProject", false), _defineProperty(_ref, "offerProject", false), _defineProperty(_ref, "makeOffer", false), _defineProperty(_ref, "deadline", false), _defineProperty(_ref, "url", "http://localhost:8000/"), _defineProperty(_ref, "rate", null), _defineProperty(_ref, "rateInformation", null), _defineProperty(_ref, "subscription", {}), _ref;
   },
   methods: {
     loadFormData: function loadFormData() {
@@ -42288,7 +42288,7 @@ var _hoisted_11 = {
 
 var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
   "class": "w-auto rounded-lg mb-6",
-  src: "https://developplatform.com/images/logo.svg",
+  src: "http://localhost:8000/images/logo.svg",
   alt: "developplatform"
 }, null, -1
 /* HOISTED */
@@ -43357,7 +43357,7 @@ var _hoisted_51 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "flex-shrink sm-w-3/4 xl-w-2/4 -mb-50 -pb-50"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-  src: "https://developplatform.com/images/no-favorite.jpg",
+  src: "http://localhost:8000/images/no-favorite.jpg",
   alt: "no favorites projects"
 })]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "flex-grow"
@@ -43429,11 +43429,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([project.user_id != $data.user.user_id, "\r\n                          flex-grow\r\n                          w-full\r\n                          items-center\r\n                          justify-between\r\n                          bg-white\r\n                          dark:bg-gray-800\r\n                          px-6\r\n                          py-4\r\n                          lg:px-8\r\n                          lg:py-6\r\n                          border-l-2 border-indigo-700\r\n                          dark:border-indigo-300\r\n                        "])
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" card "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-      href: 'https://developplatform.com/project/cover/' + _this.user + '/' + project.id + '/' + project.picture,
+      href: 'http://localhost:8000/project/cover/' + _this.user + '/' + project.id + '/' + project.picture,
       "class": "hidden md:block"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
       "class": "h-36 w-36 xl:h-42 xl:w-42 rounded object-cover",
-      src: 'https://developplatform.com/project/cover/' + project.picture,
+      src: 'http://localhost:8000/project/cover/' + project.picture,
       alt: project.name
     }, null, 8
     /* PROPS */
@@ -46591,7 +46591,7 @@ var _hoisted_39 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "flex-shrink sm-w-3/4 xl-w-2/4 -mb-50 -pb-50"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-  src: "https://developplatform.com/images/no-projects.jpg",
+  src: "http://localhost:8000/images/no-projects.jpg",
   alt: "no projects to do"
 })]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "flex-grow"
@@ -46609,11 +46609,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([project.user_id != $data.user.user_id, "\r\n                          flex-grow\r\n                          w-full\r\n                          items-center\r\n                          justify-between\r\n                          bg-white\r\n                          dark:bg-gray-800\r\n                          px-6\r\n                          py-4\r\n                          lg:px-8\r\n                          lg:py-6\r\n                          border-l-2 border-indigo-700\r\n                          dark:border-indigo-300\r\n                        "])
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" card "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-      href: 'https://developplatform.com/storage/project/cover/' + project.id + '/' + project.picture,
+      href: 'http://localhost:8000/storage/project/cover/' + project.id + '/' + project.picture,
       "class": "hidden md:block"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
       "class": "h-36 w-36 rounded object-cover",
-      src: 'https://developplatform.com/project/cover/' + project.picture,
+      src: 'http://localhost:8000/project/cover/' + project.picture,
       alt: project.name
     }, null, 8
     /* PROPS */
@@ -47276,7 +47276,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     "class": "md:h-100 md:w-100 lg:h-150 lg:w-150 rounded object-cover",
     title: "Voir en grand",
-    src: 'https://developplatform.com/project/cover/' + $data.project.picture,
+    src: 'http://localhost:8000/project/cover/' + $data.project.picture,
     alt: $data.project.name
   }, null, 8
   /* PROPS */
