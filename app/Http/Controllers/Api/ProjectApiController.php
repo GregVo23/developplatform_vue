@@ -38,7 +38,7 @@ class ProjectApiController extends Controller
     {
         $projects = [];
         $user_id = ['user_id' => auth()->user()->id];
-        $listOfProjects = DB::table('projects')->whereDate('deadline', '>', Carbon::today()->toDateString())->orWhere('deadline', '=', NULL)->get();
+        $listOfProjects = DB::table('projects')->where('done', '=', null)->whereDate('deadline', '>', Carbon::today()->toDateString())->orWhere('deadline', '=', NULL)->get();
         $categories = Category::all();
         $subCategories = SubCategory::all();
         foreach ($listOfProjects as $project) {
@@ -210,7 +210,7 @@ class ProjectApiController extends Controller
     {
         $projects = [];
         $user_id = ['user_id' => auth()->user()->id];
-        $listOfProjects = Project::where('user_id', $user_id)->get();
+        $listOfProjects = Project::where('user_id', $user_id)->where('done', '=', null)->get();
         $categories = Category::all();
         $subCategories = SubCategory::all();
         foreach ($listOfProjects as $project) {

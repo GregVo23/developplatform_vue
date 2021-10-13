@@ -916,7 +916,7 @@
       </section>
     </div>
     <section
-      v-if="accepted != NULL && user.id == project.user_id && rate != null"
+      v-if="accepted != NULL && user.id == project.user_id && rating == null"
       class="sm:mx-8 md:mx-20 lg:mx-40 sm:my-2 md:my-4 lg:my-10"
     >
       <Rating :rate="rate" @starts="giveRating($event)" />
@@ -942,8 +942,8 @@
           <div class="mt-1">
             <textarea
               v-model="rateInformation"
-              id="message"
-              name="message"
+              id="message2"
+              name="message2"
               rows="4"
               class="
                 py-3
@@ -990,8 +990,8 @@
         </div>
       </form>
     </section>
-    <Notification v-if="show" :message2="message" :type="type" />
   </div>
+    <Notification v-if="show" :message2="message" :type="type" />
 </template>
 
 <script>
@@ -1040,6 +1040,7 @@ export default {
       deadline: false,
       url: "http://localhost:8000/",
       rate: null,
+      rating: null,
       rateInformation: null,
       subscription: {},
     };
@@ -1367,6 +1368,7 @@ export default {
             console.log(res.data.message);
             this.message = res.data.message;
             this.type = res.data.type;
+            this.rating = true;
             this.showNotification();
           })
           .catch((error) => {

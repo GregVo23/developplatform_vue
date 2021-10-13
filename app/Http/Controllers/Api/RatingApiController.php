@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Rating;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -55,6 +56,8 @@ class RatingApiController extends Controller
           $user->save();
         }
         
+        $project->done = today();
+        $project->save();
         $result = $rate->save();
 
         if ($result){
